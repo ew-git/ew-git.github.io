@@ -1,8 +1,8 @@
 ---
 layout: post
 title:  "Robust standard errors for Poisson regression with fixed effects"
-date:   2019-01-10 19:00:00 -0500
-categories: jekyll update
+date:   2019-01-10 12:00:00 -0500
+categories: coding r
 ---
 
 Last year I released an R package, [poisFErobust](https://cran.r-project.org/package=poisFErobust), which provides a function to compute standard errors for Poisson regression with fixed effects.
@@ -54,7 +54,7 @@ $p.value
 [1] 0.02213269
 ```
 
-The results should match those of Stat's `xtpoisson y x, fe vce(r)`.
+The results should match those of Stata's `xtpoisson y x, fe vce(r)`.
 
 The source code is available at [https://bitbucket.org/ew-btb/poisson-fe-robust](https://bitbucket.org/ew-btb/poisson-fe-robust).
 Pull requests are welcome.
