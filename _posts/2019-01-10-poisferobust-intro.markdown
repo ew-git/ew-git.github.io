@@ -4,8 +4,12 @@ title:  "Robust standard errors for Poisson regression with fixed effects"
 date:   2019-01-10 12:00:00 -0500
 categories: coding r
 ---
-<link rel="stylesheet" href="/assets/css/prism.css">
-<script type="text/javascript" src="/assets/js/prism.js"></script>
+<link rel="stylesheet" href="/assets/css/hljs-default.css">
+<script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML">
+</script>
+<script type="text/javascript" src="/assets/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
 
 Last year I released an R package, [poisFErobust](https://cran.r-project.org/package=poisFErobust), which provides a function to compute standard errors for Poisson regression with fixed effects.
 The standard errors are derived in [Wooldridge (1999)](https://doi.org/10.1016/S0304-4076%2898%2900033-5) and are robust to conditional serial correlation of errors within groups.

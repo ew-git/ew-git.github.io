@@ -10,10 +10,6 @@ categories: coding julia
 </script>
 <script type="text/javascript" src="/assets/js/highlight.pack.js"></script>
 <script>hljs.initHighlightingOnLoad();</script>
-Highlight.js test again:
-<pre><code class="language-julia">function f(x,y)
-  return x + y
-end</code></pre>
 
 *Notice: this post relies on Unicode characters which may not be included in the font(s) on your current platform, especially mobile. Therefore, you may see empty boxes or question marks for certain characters.*
 
