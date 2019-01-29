@@ -10,7 +10,7 @@ categories: coding julia
 </script>
 <script type="text/javascript" src="/assets/js/highlight.pack.js"></script>
 <script>hljs.initHighlightingOnLoad();</script>
-Highlight.js test:
+Highlight.js test again:
 <pre><code class="language-julia">function f(x,y)
   return x + y
 end</code></pre>
@@ -30,7 +30,7 @@ Now, I don't recommend replacing all your descriptive variable and function name
 The Julia code below demonstrates this point by defining a function to compute standard errors and a hypothesis test from [Wooldridge (1999)](https://doi.org/10.1016/S0304-4076%2898%2900033-5).
 The comments provide a mapping to definitions in the paper which share notation with the code.
 
-{% highlight Julia %}
+```julia
 import StatsFuns.chisqcdf;
 using LinearAlgebra;
 poisfe_test = function(y, id, X, qcmle_coefs)
@@ -107,10 +107,10 @@ poisfe_test = function(y, id, X, qcmle_coefs)
     p_value = 1 - chisqcdf(K, N - ssr) # p.86
     return se_rob, p_value
 end
-{% endhighlight %}
+```
 
 The function may be tested with some synthetic data like the example below.
-{% highlight Julia %}
+```julia
 y = [1.0, 0.0, 0.0, 0.0, 7.0, 1.0, 0.0, 1.0, 0.0, 0.0, 6.0,
      2.0, 3.0, 0.0, 1.0, 6.0, 0.0, 7.0, 0.0, 21.0]
 id = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
@@ -123,7 +123,7 @@ X = [0.398106 0.496961; -0.612026 -0.224875; 0.34112 -1.11714;
      2.17261 0.900435]
 qcmle_coefs = [0.924499; 0.869371]
 show(poisfe_test(y, id, X, qcmle_coefs))
-{% endhighlight %}
+```
 ```
 ([0.013508, 0.12758], 0.36787944117144233)
 ```
