@@ -4,24 +4,26 @@ title:  "Robust standard errors for Poisson regression with fixed effects"
 date:   2019-01-10 12:00:00 -0500
 categories: coding r
 ---
+<link rel="stylesheet" href="/assets/css/prism.css">
+<script type="text/javascript" src="/assets/js/prism.js"></script>
 
 Last year I released an R package, [poisFErobust](https://cran.r-project.org/package=poisFErobust), which provides a function to compute standard errors for Poisson regression with fixed effects.
 The standard errors are derived in [Wooldridge (1999)](https://doi.org/10.1016/S0304-4076%2898%2900033-5) and are robust to conditional serial correlation of errors within groups.
 The function also returns the p-value of the hypothesis test of the conditional mean assumption (3.1) as described in the paper, Section 3.3.
 
 The package is on CRAN, so it may be installed with
-{% highlight R %}
+```r
 install.packages("poisFErobust")
-{% endhighlight %}
+```
 
 The examples below show output when the assumption (3.1) is satisfied and when it is not satisfied.
-{% highlight R %}
+```r
 require(poisFErobust)
 # ex.dt.good satisfies the conditional mean assumption
 data("ex.dt.good")
 pois.fe.robust(outcome = "y", xvars = c("x1", "x2"), group.name = "id",
 index.name = "day", data = ex.dt.good)
-{% endhighlight %}
+```
 
 ```
 $coefficients
@@ -35,12 +37,12 @@ $se.robust
 $p.value
 [1] 0.6996001
 ```
-{% highlight R %}
+```r
 # ex.dt.bad violates the conditional mean assumption
 data("ex.dt.bad")
 pois.fe.robust(outcome = "y", xvars = c("x1", "x2"), group.name = "id",
 index.name = "day", data = ex.dt.bad)
-{% endhighlight %}
+```
 ```
 $coefficients
        x1        x2
