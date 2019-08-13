@@ -11,6 +11,30 @@ categories: coding julia
 <script type="text/javascript" src="/assets/js/highlight.pack.js"></script>
 <script>hljs.initHighlightingOnLoad();</script>
 
+<style type="text/css">
+  @font-face {
+    font-family: "DejaVuMin";
+    src: url("/assets/fonts/dejavu-merged-lite.woff") format('woff');
+  }
+  @font-face {
+    font-family: "DejaVuMin";
+    src: url("/assets/fonts/dejavu-merged-lite.woff") format('woff');
+    font-weight: bold;
+  }
+  @font-face {
+    font-family: "DejaVuMin";
+    src: url("/assets/fonts/dejavu-merged-lite.woff") format('woff');
+    font-weight: bold;
+    font-style: italic;
+  }
+  code {
+    font-family: monospace, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, "DejaVuMin";
+    }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, "DejaVuMin", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  }
+</style>
+
 *Notice: this post relies on Unicode characters which may not be included in the font(s) on your current platform, especially mobile. Therefore, you may see empty boxes or question marks for certain characters.*
 
 A key benefit of [Julia](https://julialang.org/) is the ability to write code which looks similar to the mathematical representation of an algorithm, with simple and expressive syntax, while still being performant.
