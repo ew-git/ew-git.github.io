@@ -16,7 +16,7 @@
 title: Evan Wright
 email: enwright@umich.edu
 description: >- # this means to ignore newlines until "baseurl:"
-  The personal website of Evan Wright. [![Creative Commons License](https://i.creativecommons.org/l/by-nc-sa/4.0/80x15.png)](http://creativecommons.org/licenses/by-nc-sa/4.0/)
+  The personal website of Evan Wright.
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
 github_username:  ew-git
