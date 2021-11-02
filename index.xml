@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Evan Wright</title>
+    <link>/</link>
+    <description>Recent content on Evan Wright</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 02 Jun 2020 12:00:00 -0500</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Julia PoissonFE.jl Package</title>
+      <link>/2020/06/02/julia-poissonfe.jl-package/</link>
+      <pubDate>Tue, 02 Jun 2020 12:00:00 -0500</pubDate>
+      
+      <guid>/2020/06/02/julia-poissonfe.jl-package/</guid>
+      <description>I’ve released a Julia package, PoissonFE.jl, to estimate Poisson regression with fixed effects.Similar to my R package, poisFErobust, it computes robust standard errors from Wooldridge (1999).
+The Julia package is quite a bit faster than R.Aside from the raw speed improvement of Julia, it implements the likelihood function without the fixed effects parameters, so it should be faster than GLM.jl for models with many fixed effect levels (thousands).</description>
+    </item>
+    
+    <item>
+      <title>Some R-related gists</title>
+      <link>/2019/03/05/some-r-related-gists/</link>
+      <pubDate>Tue, 05 Mar 2019 12:00:00 -0500</pubDate>
+      
+      <guid>/2019/03/05/some-r-related-gists/</guid>
+      <description>Here are some miscellaneous gists related to R. Click through to Github for additional explanation.
+pdf-merge-text.rA common problem when scanning using a one-sided scanner with a document feeder is ending up with two PDFs: one for the front of each page and one for the back. This script writes LaTeX which combines those two PDFs, so that you end up with front1, back1, front2, back2, etc.
+image-greyer.</description>
+    </item>
+    
+    <item>
+      <title>A key benefit of Julia</title>
+      <link>/2019/01/15/a-key-benefit-of-julia/</link>
+      <pubDate>Tue, 15 Jan 2019 12:00:00 -0500</pubDate>
+      
+      <guid>/2019/01/15/a-key-benefit-of-julia/</guid>
+      <description>hljs.initHighlightingOnLoad();@font-face {font-family: &#34;DejaVuMin&#34;;src: url(&#34;/assets/fonts/dejavu-merged-lite.woff&#34;) format(&#39;woff&#39;);}@font-face {font-family: &#34;DejaVuMin&#34;;src: url(&#34;/assets/fonts/dejavu-merged-lite.woff&#34;) format(&#39;woff&#39;);font-weight: bold;}@font-face {font-family: &#34;DejaVuMin&#34;;src: url(&#34;/assets/fonts/dejavu-merged-lite.woff&#34;) format(&#39;woff&#39;);font-weight: bold;font-style: italic;}code {font-family: monospace, -apple-system, BlinkMacSystemFont, &#34;Segoe UI&#34;, Roboto, Helvetica, Arial, &#34;DejaVuMin&#34;;}body {font-family: -apple-system, BlinkMacSystemFont, &#34;Segoe UI&#34;, Roboto, Helvetica, Arial, &#34;DejaVuMin&#34;, sans-serif, &#34;Apple Color Emoji&#34;, &#34;Segoe UI Emoji&#34;, &#34;Segoe UI Symbol&#34;;}Notice: this post relies on Unicode characters which may not be included in the font(s) on your current platform, especially mobile.</description>
+    </item>
+    
+    <item>
+      <title>Robust standard errors for Poisson regression with fixed effects</title>
+      <link>/2019/01/10/robust-standard-errors-for-poisson-regression-with-fixed-effects/</link>
+      <pubDate>Thu, 10 Jan 2019 12:00:00 -0500</pubDate>
+      
+      <guid>/2019/01/10/robust-standard-errors-for-poisson-regression-with-fixed-effects/</guid>
+      <description>hljs.initHighlightingOnLoad();Last year I released an R package, poisFErobust, which provides a function to compute standard errors for Poisson regression with fixed effects.The standard errors are derived in Wooldridge (1999) and are robust to conditional serial correlation of errors within groups.The function also returns the p-value of the hypothesis test of the conditional mean assumption (3.1) as described in the paper, Section 3.3.
+The package is on CRAN, so it may be installed with</description>
+    </item>
+    
+    <item>
+      <title>About</title>
+      <link>/about/</link>
+      <pubDate>Thu, 05 May 2016 21:48:51 -0700</pubDate>
+      
+      <guid>/about/</guid>
+      <description>This website contains some commentary on side projects. You can learn more about my professional work at linkedin.com/in/enwright. The posts are licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.
+Projects  poisFErobust (R package) PoissonFE.jl (Julia package) node-waterrower (Node.js/Plotly interface to the Waterrower rowing machine)  Contact Email: enwright@umich.edu
+GitHub: https://github.com/ew-git
+Bitbucket: https://bitbucket.org/ew-btb/
+LinkedIn: https://www.linkedin.com/in/enwright</description>
+    </item>
+    
+  </channel>
+</rss>

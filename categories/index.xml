@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Categories on Evan Wright</title>
+    <link>/categories/</link>
+    <description>Recent content in Categories on Evan Wright</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 02 Jun 2020 12:00:00 -0500</lastBuildDate><atom:link href="/categories/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>coding julia</title>
+      <link>/categories/coding-julia/</link>
+      <pubDate>Tue, 02 Jun 2020 12:00:00 -0500</pubDate>
+      
+      <guid>/categories/coding-julia/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>coding r</title>
+      <link>/categories/coding-r/</link>
+      <pubDate>Tue, 05 Mar 2019 12:00:00 -0500</pubDate>
+      
+      <guid>/categories/coding-r/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

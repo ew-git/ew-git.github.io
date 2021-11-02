@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>coding julia on Evan Wright</title>
+    <link>/categories/coding-julia/</link>
+    <description>Recent content in coding julia on Evan Wright</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 02 Jun 2020 12:00:00 -0500</lastBuildDate><atom:link href="/categories/coding-julia/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Julia PoissonFE.jl Package</title>
+      <link>/2020/06/02/julia-poissonfe.jl-package/</link>
+      <pubDate>Tue, 02 Jun 2020 12:00:00 -0500</pubDate>
+      
+      <guid>/2020/06/02/julia-poissonfe.jl-package/</guid>
+      <description>I’ve released a Julia package, PoissonFE.jl, to estimate Poisson regression with fixed effects.Similar to my R package, poisFErobust, it computes robust standard errors from Wooldridge (1999).
+The Julia package is quite a bit faster than R.Aside from the raw speed improvement of Julia, it implements the likelihood function without the fixed effects parameters, so it should be faster than GLM.jl for models with many fixed effect levels (thousands).</description>
+    </item>
+    
+    <item>
+      <title>A key benefit of Julia</title>
+      <link>/2019/01/15/a-key-benefit-of-julia/</link>
+      <pubDate>Tue, 15 Jan 2019 12:00:00 -0500</pubDate>
+      
+      <guid>/2019/01/15/a-key-benefit-of-julia/</guid>
+      <description>hljs.initHighlightingOnLoad();@font-face {font-family: &#34;DejaVuMin&#34;;src: url(&#34;/assets/fonts/dejavu-merged-lite.woff&#34;) format(&#39;woff&#39;);}@font-face {font-family: &#34;DejaVuMin&#34;;src: url(&#34;/assets/fonts/dejavu-merged-lite.woff&#34;) format(&#39;woff&#39;);font-weight: bold;}@font-face {font-family: &#34;DejaVuMin&#34;;src: url(&#34;/assets/fonts/dejavu-merged-lite.woff&#34;) format(&#39;woff&#39;);font-weight: bold;font-style: italic;}code {font-family: monospace, -apple-system, BlinkMacSystemFont, &#34;Segoe UI&#34;, Roboto, Helvetica, Arial, &#34;DejaVuMin&#34;;}body {font-family: -apple-system, BlinkMacSystemFont, &#34;Segoe UI&#34;, Roboto, Helvetica, Arial, &#34;DejaVuMin&#34;, sans-serif, &#34;Apple Color Emoji&#34;, &#34;Segoe UI Emoji&#34;, &#34;Segoe UI Symbol&#34;;}Notice: this post relies on Unicode characters which may not be included in the font(s) on your current platform, especially mobile.</description>
+    </item>
+    
+  </channel>
+</rss>

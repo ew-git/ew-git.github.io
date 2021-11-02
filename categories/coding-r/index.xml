@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>coding r on Evan Wright</title>
+    <link>/categories/coding-r/</link>
+    <description>Recent content in coding r on Evan Wright</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 05 Mar 2019 12:00:00 -0500</lastBuildDate><atom:link href="/categories/coding-r/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Some R-related gists</title>
+      <link>/2019/03/05/some-r-related-gists/</link>
+      <pubDate>Tue, 05 Mar 2019 12:00:00 -0500</pubDate>
+      
+      <guid>/2019/03/05/some-r-related-gists/</guid>
+      <description>Here are some miscellaneous gists related to R. Click through to Github for additional explanation.
+pdf-merge-text.rA common problem when scanning using a one-sided scanner with a document feeder is ending up with two PDFs: one for the front of each page and one for the back. This script writes LaTeX which combines those two PDFs, so that you end up with front1, back1, front2, back2, etc.
+image-greyer.</description>
+    </item>
+    
+    <item>
+      <title>Robust standard errors for Poisson regression with fixed effects</title>
+      <link>/2019/01/10/robust-standard-errors-for-poisson-regression-with-fixed-effects/</link>
+      <pubDate>Thu, 10 Jan 2019 12:00:00 -0500</pubDate>
+      
+      <guid>/2019/01/10/robust-standard-errors-for-poisson-regression-with-fixed-effects/</guid>
+      <description>hljs.initHighlightingOnLoad();Last year I released an R package, poisFErobust, which provides a function to compute standard errors for Poisson regression with fixed effects.The standard errors are derived in Wooldridge (1999) and are robust to conditional serial correlation of errors within groups.The function also returns the p-value of the hypothesis test of the conditional mean assumption (3.1) as described in the paper, Section 3.3.
+The package is on CRAN, so it may be installed with</description>
+    </item>
+    
+  </channel>
+</rss>
