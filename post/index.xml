@@ -34,7 +34,8 @@ pdf-merge-text.rA common problem when scanning using a one-sided scanner with a
       <pubDate>Tue, 15 Jan 2019 12:00:00 -0500</pubDate>
       
       <guid>/2019/01/15/a-key-benefit-of-julia/</guid>
-      <description>hljs.initHighlightingOnLoad();@font-face {font-family: &#34;DejaVuMin&#34;;src: url(&#34;/assets/fonts/dejavu-merged-lite.woff&#34;) format(&#39;woff&#39;);}@font-face {font-family: &#34;DejaVuMin&#34;;src: url(&#34;/assets/fonts/dejavu-merged-lite.woff&#34;) format(&#39;woff&#39;);font-weight: bold;}@font-face {font-family: &#34;DejaVuMin&#34;;src: url(&#34;/assets/fonts/dejavu-merged-lite.woff&#34;) format(&#39;woff&#39;);font-weight: bold;font-style: italic;}code {font-family: monospace, -apple-system, BlinkMacSystemFont, &#34;Segoe UI&#34;, Roboto, Helvetica, Arial, &#34;DejaVuMin&#34;;}body {font-family: -apple-system, BlinkMacSystemFont, &#34;Segoe UI&#34;, Roboto, Helvetica, Arial, &#34;DejaVuMin&#34;, sans-serif, &#34;Apple Color Emoji&#34;, &#34;Segoe UI Emoji&#34;, &#34;Segoe UI Symbol&#34;;}Notice: this post relies on Unicode characters which may not be included in the font(s) on your current platform, especially mobile.</description>
+      <description>Notice: this post relies on Unicode characters which may not be included in the font(s) on your current platform, especially mobile. Therefore, you may see empty boxes or question marks for certain characters.
+A key benefit of Julia is the ability to write code which looks similar to the mathematical representation of an algorithm, with simple and expressive syntax, while still being performant.Additionally, Julia accepts UTF-8 encoded Unicode characters as variable names, so if a paper defines some quantity,\(\boldsymbol{\mu}_i\), then essentially the same Unicode representation, 𝛍ᵢ, could be used in the code.</description>
     </item>
     
     <item>
@@ -43,7 +44,7 @@ pdf-merge-text.rA common problem when scanning using a one-sided scanner with a
       <pubDate>Thu, 10 Jan 2019 12:00:00 -0500</pubDate>
       
       <guid>/2019/01/10/robust-standard-errors-for-poisson-regression-with-fixed-effects/</guid>
-      <description>hljs.initHighlightingOnLoad();Last year I released an R package, poisFErobust, which provides a function to compute standard errors for Poisson regression with fixed effects.The standard errors are derived in Wooldridge (1999) and are robust to conditional serial correlation of errors within groups.The function also returns the p-value of the hypothesis test of the conditional mean assumption (3.1) as described in the paper, Section 3.3.
+      <description>Last year I released an R package, poisFErobust, which provides a function to compute standard errors for Poisson regression with fixed effects.The standard errors are derived in Wooldridge (1999) and are robust to conditional serial correlation of errors within groups.The function also returns the p-value of the hypothesis test of the conditional mean assumption (3.1) as described in the paper, Section 3.3.
 The package is on CRAN, so it may be installed with</description>
     </item>
     
