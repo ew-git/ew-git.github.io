@@ -6,7 +6,16 @@
     <description>Recent content in coding r on Evan Wright</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 05 Mar 2019 12:00:00 -0500</lastBuildDate><atom:link href="/categories/coding-r/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 02 Nov 2021 12:00:00 -0500</lastBuildDate><atom:link href="/categories/coding-r/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Derivation of the H-model dividend discount formula</title>
+      <link>/2021/11/02/derivation-of-the-h-model-dividend-discount-formula/</link>
+      <pubDate>Tue, 02 Nov 2021 12:00:00 -0500</pubDate>
+      
+      <guid>/2021/11/02/derivation-of-the-h-model-dividend-discount-formula/</guid>
+      <description>IntroductionThe H-modelDerivationTwo-step approximationThe H-model formulaThree-step approximationApproximation errorTwo-stepThree-stepH-model versus “exact” linear decline in growth rateWhy did I write this post?ReferencesIntroductionDividend discount models (DDM) provide a basic mechanism to value companies by discounting expected dividend cash flows back to the current period.Practitioners typically assume a series of dividend growth rates over a short horizon along with a constant terminal growth rate.</description>
+    </item>
+    
     <item>
       <title>Some R-related gists</title>
       <link>/2019/03/05/some-r-related-gists/</link>
