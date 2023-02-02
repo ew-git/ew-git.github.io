@@ -6,7 +6,17 @@
     <description>Recent content on Evan Wright</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 18 Jun 2022 12:00:00 -0500</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 01 Feb 2023 00:00:00 +0000</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Scraping Discord pins</title>
+      <link>/2023/02/01/scraping-discord-pins/</link>
+      <pubDate>Wed, 01 Feb 2023 00:00:00 +0000</pubDate>
+      
+      <guid>/2023/02/01/scraping-discord-pins/</guid>
+      <description>As more online communities move to Discord, it&amp;rsquo;s becoming increasingly difficult to find coherent information within those communities. Often, important findings and frequently asked questions are scattered in pinned messages throughout channels in the server. Discord search is not great, and navigating through pins is tiresome, so I wrote a hacky script to scrape all pinned messages in a server to a single Markdown file.
+The script grabs the user&amp;rsquo;s authentication token from the browser to call Discord&amp;rsquo;s API.</description>
+    </item>
+    
     <item>
       <title>Solving Peg Solitaire with Julia</title>
       <link>/2022/06/18/solving-peg-solitaire-with-julia/</link>

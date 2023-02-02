@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.88.1" />
+
+
+<title>Scraping Discord pins - Evan Wright</title>
+<meta property="og:title" content="Scraping Discord pins - Evan Wright">
+
+
+  <link href='/favicon.ico' rel='icon' type='image/x-icon'/>
+
+
+
+  
+
+
+
+
+
+
+
+
+<link href='//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css' rel='stylesheet' type='text/css' />
+
+
+
+<link rel="stylesheet" href="/css/fonts.css" media="all">
+<link rel="stylesheet" href="/css/main.css" media="all">
+
+
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <nav class="nav">
+  <a href="/" class="nav-logo">
+    <img src="/images/logo.png"
+         width="50"
+         height="50"
+         alt="Logo">
+  </a>
+
+  <ul class="nav-links">
+    
+    <li><a href="/">Posts</a></li>
+    
+    <li><a href="/about/">About</a></li>
+    
+  </ul>
+</nav>
+
+      </header>
+
+
+<main class="content" role="main">
+
+  <article class="article">
+    
+    <span class="article-duration">4 min read</span>
+    
+
+    <h1 class="article-title">Scraping Discord pins</h1>
+
+    
+    <span class="article-date">2023-02-01</span>
+    
+
+    <div class="article-content">
+      <p>As more online communities move to Discord, it&rsquo;s becoming increasingly 
+difficult to find coherent information within those communities. 
+Often, important findings and frequently asked questions are scattered in
+pinned messages throughout channels in the server. 
+Discord search is not great, and navigating through pins is tiresome, so I
+wrote a hacky script to scrape all pinned messages in a server to 
+a single Markdown file.</p>
+<p>The script grabs the user&rsquo;s authentication token from the browser to
+call Discord&rsquo;s API. A bot would be more convenient and maintainable,
+but bots need approval by server admins, which is yet another step of friction. 
+Instead, we may run this script directly in Chrome&rsquo;s JavaScript console, for example, which is 
+good enough for my purposes. <em>If you don&rsquo;t know what it means to use the JS console,
+you shouldn&rsquo;t be copying and pasting code you found on the internet. Please do some
+searching to learn before coming back here; <a href="https://developer.chrome.com/docs/devtools/console/">this</a> is
+a good resource from the Chrome team.</em></p>
+<p>The only manual input for the script is the guild ID (guilds are also called servers). 
+To get the ID, open Discord, go to Settings &gt; Advanced and enable developer mode. Then, right-click on the server title and select &ldquo;Copy ID&rdquo; to get the guild ID.</p>
+<p>The script grabs the user authentication token from the app&rsquo;s storage. 
+The code here is copied from Stack Overflow; refer to the linked question if it stops working. 
+Maybe someone has found a new method. 
+Next, we use the API endpoint <a href="https://discord.com/developers/docs/resources/guild#get-guild-channels"><code>/guilds/{guild.id}/channels</code></a> to get a list of
+channels in the server and sort by display position. 
+Then, we loop through the channels to get pinned message content with 
+<a href="https://discord.com/developers/docs/resources/channel#get-pinned-messages"><code>/channels/{channel.id}/pins</code></a>. 
+Images are attachments to messages, so they require some special handling. 
+Instead of downloading the images, we create hotlinks to the Discord CDN&mdash;which, by the way, requires no authentication. 
+This may or may not work for your use case; one could manually download the images instead.</p>
+<p>Finally, we stuff the channel content and image links into a single <code>&lt;pre&gt;</code> tag, which we
+then display in a new window. 
+The Markdown structure is an H1 header of the channel name followed by all pinned message contents.
+The content of the pop-up should be copiable as Markdown. 
+Formatting errors aside, one may render the Markdown however one chooses for a single easily searchable and browseable help file.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#75715e">// To get the server ID, open Discord, go to Settings &gt; Advanced and enable developer mode. Then, right-click on the server title and select &#34;Copy ID&#34; to get the guild ID.
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">let</span> <span style="color:#a6e22e">GUILDID</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;1111&#34;</span>; <span style="color:#75715e">// CHANGE ME
+</span><span style="color:#75715e"></span>
+<span style="color:#75715e">// See https://stackoverflow.com/a/69868564
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">let</span> <span style="color:#a6e22e">TOKEN</span> <span style="color:#f92672">=</span> (<span style="color:#a6e22e">webpackChunkdiscord_app</span>.<span style="color:#a6e22e">push</span>([[<span style="color:#e6db74">&#39;&#39;</span>],{},<span style="color:#a6e22e">e</span>=&gt;{<span style="color:#a6e22e">m</span><span style="color:#f92672">=</span>[];<span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">let</span> <span style="color:#a6e22e">c</span> <span style="color:#66d9ef">in</span> <span style="color:#a6e22e">e</span>.<span style="color:#a6e22e">c</span>)<span style="color:#a6e22e">m</span>.<span style="color:#a6e22e">push</span>(<span style="color:#a6e22e">e</span>.<span style="color:#a6e22e">c</span>[<span style="color:#a6e22e">c</span>])}]),<span style="color:#a6e22e">m</span>).<span style="color:#a6e22e">find</span>(<span style="color:#a6e22e">m</span>=&gt;<span style="color:#a6e22e">m</span><span style="color:#f92672">?</span>.<span style="color:#a6e22e">exports</span><span style="color:#f92672">?</span>.<span style="color:#66d9ef">default</span><span style="color:#f92672">?</span>.<span style="color:#a6e22e">getToken</span><span style="color:#f92672">!==</span><span style="color:#66d9ef">void</span> <span style="color:#ae81ff">0</span>).<span style="color:#a6e22e">exports</span>.<span style="color:#66d9ef">default</span>.<span style="color:#a6e22e">getToken</span>();
+
+<span style="color:#66d9ef">let</span> <span style="color:#a6e22e">textchannels</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">fetch</span>(<span style="color:#e6db74">&#34;https://discord.com/api/v9/guilds/&#34;</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">GUILDID</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;/channels&#34;</span>, {
+  <span style="color:#e6db74">&#34;headers&#34;</span><span style="color:#f92672">:</span> {
+    <span style="color:#e6db74">&#34;accept&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;*/*&#34;</span>,
+    <span style="color:#e6db74">&#34;authorization&#34;</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">TOKEN</span>,
+ },
+  <span style="color:#e6db74">&#34;body&#34;</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">null</span>,
+  <span style="color:#e6db74">&#34;method&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;GET&#34;</span>,
+  <span style="color:#e6db74">&#34;mode&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;cors&#34;</span>,
+  <span style="color:#e6db74">&#34;credentials&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;include&#34;</span>
+})
+  .<span style="color:#a6e22e">then</span>(<span style="color:#a6e22e">response</span> =&gt; <span style="color:#a6e22e">response</span>.<span style="color:#a6e22e">json</span>())
+  .<span style="color:#a6e22e">then</span>(<span style="color:#a6e22e">channels</span> =&gt; {
+        <span style="color:#66d9ef">let</span> <span style="color:#a6e22e">result</span> <span style="color:#f92672">=</span> [];
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">let</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> <span style="color:#f92672">&lt;</span> <span style="color:#a6e22e">channels</span>.<span style="color:#a6e22e">length</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span>) {
+            <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">channels</span>[<span style="color:#a6e22e">i</span>].<span style="color:#a6e22e">type</span> <span style="color:#f92672">===</span> <span style="color:#ae81ff">0</span>){
+            <span style="color:#a6e22e">result</span>.<span style="color:#a6e22e">push</span>(<span style="color:#a6e22e">channels</span>[<span style="color:#a6e22e">i</span>]);
+            }
+        }
+        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">result</span>;
+    }
+);
+
+<span style="color:#75715e">// https://stackoverflow.com/a/69026789
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">textchannels</span>.<span style="color:#a6e22e">sort</span>((<span style="color:#a6e22e">a</span>, <span style="color:#a6e22e">b</span>) =&gt; {
+    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">ret</span>;
+    <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">a</span>.<span style="color:#a6e22e">position</span> <span style="color:#f92672">&lt;</span> <span style="color:#a6e22e">b</span>.<span style="color:#a6e22e">position</span>) {
+        <span style="color:#a6e22e">ret</span> <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>;
+    } <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">a</span>.<span style="color:#a6e22e">position</span> <span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">b</span>.<span style="color:#a6e22e">position</span>) {
+        <span style="color:#a6e22e">ret</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+    } <span style="color:#66d9ef">else</span> {
+        <span style="color:#a6e22e">ret</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    }
+    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">ret</span>
+});
+
+<span style="color:#66d9ef">let</span> <span style="color:#a6e22e">pincontents</span> <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#39;&lt;pre&gt;&#39;</span>];
+
+<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">let</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> <span style="color:#f92672">&lt;</span> <span style="color:#a6e22e">textchannels</span>.<span style="color:#a6e22e">length</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span>){
+    <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">&#34;Getting pins for channel = &#34;</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">JSON</span>.<span style="color:#a6e22e">stringify</span>(<span style="color:#a6e22e">textchannels</span>[<span style="color:#a6e22e">i</span>]));
+    <span style="color:#a6e22e">pincontents</span>.<span style="color:#a6e22e">push</span>(<span style="color:#e6db74">&#34;[//]: # (COMMENT: channel = &#34;</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">JSON</span>.<span style="color:#a6e22e">stringify</span>(<span style="color:#a6e22e">textchannels</span>[<span style="color:#a6e22e">i</span>]) <span style="color:#f92672">+</span> <span style="color:#e6db74">&#39;)&#39;</span>);
+    <span style="color:#a6e22e">pincontents</span>.<span style="color:#a6e22e">push</span>(<span style="color:#e6db74">&#34;# &#34;</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">textchannels</span>[<span style="color:#a6e22e">i</span>][<span style="color:#e6db74">&#39;name&#39;</span>]);
+    <span style="color:#75715e">// https://stackoverflow.com/a/51939030
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">// Need to avoid 429
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">await</span> <span style="color:#66d9ef">new</span> Promise(<span style="color:#a6e22e">resolve</span> =&gt; <span style="color:#a6e22e">setTimeout</span>(<span style="color:#a6e22e">resolve</span>, <span style="color:#ae81ff">2000</span>));
+    <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">fetch</span>(<span style="color:#e6db74">&#34;https://discord.com/api/v9/channels/&#34;</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">textchannels</span>[<span style="color:#a6e22e">i</span>][<span style="color:#e6db74">&#39;id&#39;</span>] <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;/pins&#34;</span>, {
+        <span style="color:#e6db74">&#34;headers&#34;</span><span style="color:#f92672">:</span> {
+            <span style="color:#e6db74">&#34;accept&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;*/*&#34;</span>,
+            <span style="color:#e6db74">&#34;authorization&#34;</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">TOKEN</span>,
+        },
+        <span style="color:#e6db74">&#34;body&#34;</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">null</span>,
+        <span style="color:#e6db74">&#34;method&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;GET&#34;</span>,
+        <span style="color:#e6db74">&#34;mode&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;cors&#34;</span>,
+        <span style="color:#e6db74">&#34;credentials&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;include&#34;</span>
+        })
+        .<span style="color:#a6e22e">then</span>(<span style="color:#a6e22e">response</span> =&gt; <span style="color:#a6e22e">response</span>.<span style="color:#a6e22e">json</span>())
+        .<span style="color:#a6e22e">then</span>(<span style="color:#a6e22e">pins</span> =&gt; {
+                <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">let</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> <span style="color:#f92672">&lt;</span> <span style="color:#a6e22e">pins</span>.<span style="color:#a6e22e">length</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span>) {
+                    <span style="color:#a6e22e">pincontents</span>.<span style="color:#a6e22e">push</span>(<span style="color:#a6e22e">pins</span>[<span style="color:#a6e22e">i</span>][<span style="color:#e6db74">&#39;content&#39;</span>]);
+                    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">let</span> <span style="color:#a6e22e">j</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">j</span> <span style="color:#f92672">&lt;</span> <span style="color:#a6e22e">pins</span>[<span style="color:#a6e22e">i</span>][<span style="color:#e6db74">&#39;attachments&#39;</span>].<span style="color:#a6e22e">length</span>; <span style="color:#a6e22e">j</span><span style="color:#f92672">++</span>) {
+                        <span style="color:#a6e22e">pincontents</span>.<span style="color:#a6e22e">push</span>(<span style="color:#e6db74">&#39;\n![Image](&#39;</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">pins</span>[<span style="color:#a6e22e">i</span>][<span style="color:#e6db74">&#39;attachments&#39;</span>][<span style="color:#a6e22e">j</span>][<span style="color:#e6db74">&#39;url&#39;</span>] <span style="color:#f92672">+</span> <span style="color:#e6db74">&#39;)\n&#39;</span>);
+                    }
+                    
+                }
+            }
+        );
+}
+<span style="color:#a6e22e">pincontents</span>.<span style="color:#a6e22e">push</span>(<span style="color:#e6db74">&#39;&lt;/pre&gt;&#39;</span>);
+
+<span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#a6e22e">pincontents</span>.<span style="color:#a6e22e">join</span>(<span style="color:#e6db74">&#34;\n\n&#34;</span>));
+
+<span style="color:#75715e">// May need to allow pop-ups. If it fails, just run these lines again.
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">win</span> <span style="color:#f92672">=</span> window.<span style="color:#a6e22e">open</span>(<span style="color:#e6db74">&#34;&#34;</span>, <span style="color:#e6db74">&#34;Pins&#34;</span>, <span style="color:#e6db74">&#34;toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=780,height=200,top=&#34;</span><span style="color:#f92672">+</span>(<span style="color:#a6e22e">screen</span>.<span style="color:#a6e22e">height</span><span style="color:#f92672">-</span><span style="color:#ae81ff">400</span>)<span style="color:#f92672">+</span><span style="color:#e6db74">&#34;,left=&#34;</span><span style="color:#f92672">+</span>(<span style="color:#a6e22e">screen</span>.<span style="color:#a6e22e">width</span><span style="color:#f92672">-</span><span style="color:#ae81ff">840</span>));
+<span style="color:#a6e22e">win</span>.document.<span style="color:#a6e22e">body</span>.<span style="color:#a6e22e">innerHTML</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">pincontents</span>.<span style="color:#a6e22e">join</span>(<span style="color:#e6db74">&#34;\n\n&#34;</span>);
+</code></pre></div><p>Sample output (redacted):</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-md" data-lang="md">
+[//]: # (COMMENT: channel = {...&#34;name&#34;:&#34;displayedfirst&#34;,&#34;position&#34;:0,...})
+
+# displayedfirst
+
+asdf
+
+[//]: # (COMMENT: channel = {...&#34;name&#34;:&#34;general&#34;,&#34;position&#34;:1...})
+
+# general
+
+longer message 
+😀 
+maybe
+
+
+![<span style="color:#f92672">Image</span>](<span style="color:#a6e22e">https://cdn.discordapp.com/attachments/....png</span>)
+
+
+![<span style="color:#f92672">Image</span>](<span style="color:#a6e22e">https://cdn.discordapp.com/attachments/....png</span>)
+
+
+Another pin with bold <span style="font-style:italic">*asdf*</span> <span style="font-style:italic">_bold_</span>
+<span style="color:#66d9ef">1.</span> 3
+<span style="color:#66d9ef">2.</span> 6
+
+test pinned
+
+[//]: # (COMMENT: channel = {...&#34;name&#34;:&#34;otherchannel&#34;,&#34;position&#34;:2,...)
+
+# otherchannel
+
+other chan pin
+</code></pre></div><p>One nagging issue is 429 (Too Many Requests) 
+responses when querying each channel. The script simply waits 2 seconds between 
+requests to avoid them. For large servers, this may be annoyingly long, but
+retry logic just complicates the script.</p>
+
+    </div>
+  </article>
+
+  
+
+
+</main>
+
+      <footer class="footer">
+        <ul class="footer-links">
+          <li>
+            <a href="/index.xml" type="application/rss+xml" target="_blank">RSS feed</a>
+          </li>
+          <li>
+            <a href="https://gohugo.io/" class="footer-links-kudos">Made with <img src="/images/hugo-logo.png" alt="Img link to Hugo website" width="22" height="22"></a>
+          </li>
+        </ul>
+      </footer>
+
+    </div>
+    
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/julia.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+    
+<script src="/js/math-code.js"></script>
+<script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+
+    
+  </body>
+</html>
+
