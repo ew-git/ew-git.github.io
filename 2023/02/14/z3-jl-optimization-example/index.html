@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.88.1" />
+
+
+<title>Z3.jl Optimization Example - Evan Wright</title>
+<meta property="og:title" content="Z3.jl Optimization Example - Evan Wright">
+
+
+  <link href='/favicon.ico' rel='icon' type='image/x-icon'/>
+
+
+
+  
+
+
+
+
+
+
+
+
+<link href='//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css' rel='stylesheet' type='text/css' />
+
+
+
+<link rel="stylesheet" href="/css/fonts.css" media="all">
+<link rel="stylesheet" href="/css/main.css" media="all">
+
+
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <nav class="nav">
+  <a href="/" class="nav-logo">
+    <img src="/images/logo.png"
+         width="50"
+         height="50"
+         alt="Logo">
+  </a>
+
+  <ul class="nav-links">
+    
+    <li><a href="/">Posts</a></li>
+    
+    <li><a href="/about/">About</a></li>
+    
+  </ul>
+</nav>
+
+      </header>
+
+
+<main class="content" role="main">
+
+  <article class="article">
+    
+    <span class="article-duration">5 min read</span>
+    
+
+    <h1 class="article-title">Z3.jl Optimization Example</h1>
+
+    
+    <span class="article-date">2023-02-14</span>
+    
+
+    <div class="article-content">
+      <p><a href="https://en.wikipedia.org/wiki/Z3_Theorem_Prover">Z3</a> is a satisfiability modulo
+theories (SMT) solver callable from Julia with <a href="https://github.com/ahumenberger/Z3.jl">Z3.jl</a>. 
+Documentation is somewhat lacking, so I&rsquo;d like to share a worked example
+of optimizing an integer programming problem with Z3.jl.</p>
+<p>We will solve <a href="https://adventofcode.com/2018/day/23">Advent of Code 2018 day 23</a>, so if you&rsquo;d like to avoid spoilers, 
+stop reading. 
+The problem provides a list of nanobots defined by a center point in 3d space and
+radius, measured by Manhattan distance. 
+For part 2 of the problem, we must find the (integer) point that lies within range of the largest number of nanobots. 
+If there are multiple such points, we must find the one closest to the origin (0, 0, 0).</p>
+<p>First, we&rsquo;ll define a struct to hold the nanobot data and process the input 
+file.<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#66d9ef">using</span> Z3
+
+<span style="color:#66d9ef">struct</span> <span style="color:#66d9ef">Nanobot</span>
+    x<span style="color:#f92672">::</span><span style="color:#66d9ef">Int</span>
+    y<span style="color:#f92672">::</span><span style="color:#66d9ef">Int</span>
+    z<span style="color:#f92672">::</span><span style="color:#66d9ef">Int</span>
+    radius<span style="color:#f92672">::</span><span style="color:#66d9ef">Int</span>
+<span style="color:#66d9ef">end</span>
+
+<span style="color:#66d9ef">function</span> processinput(filename)
+    puzin <span style="color:#f92672">=</span> [[parse(<span style="color:#66d9ef">Int</span>, m<span style="color:#f92672">.</span>match) <span style="color:#66d9ef">for</span> m <span style="color:#66d9ef">in</span> eachmatch(<span style="color:#e6db74">r</span><span style="color:#e6db74">&#34;(</span><span style="color:#960050;background-color:#1e0010">\</span><span style="color:#e6db74">-?</span><span style="color:#960050;background-color:#1e0010">\</span><span style="color:#e6db74">d+)&#34;</span>, line)]
+             <span style="color:#66d9ef">for</span> line <span style="color:#66d9ef">in</span> readlines(filename)]
+    bots <span style="color:#f92672">=</span> [Nanobot(l<span style="color:#f92672">...</span>) <span style="color:#66d9ef">for</span> l <span style="color:#66d9ef">in</span> puzin]
+    <span style="color:#66d9ef">return</span> bots
+<span style="color:#66d9ef">end</span>
+
+bots <span style="color:#f92672">=</span> processinput(<span style="color:#e6db74">&#34;input201823.txt&#34;</span>)
+</code></pre></div><p>Let&rsquo;s think about how we may define the problem as an integer optimization 
+that Z3 can understand. 
+Consider a potential solution point <code>(x, y, z)</code>. 
+The point is outside the radius of nanobot <code>bot</code> if and only if
+<code>abs(bot.x - x) + abs(bot.y - y) + abs(bot.z - z) &gt; bot.radius</code>. 
+We want to <em>minimize</em> the number bots for which that statement is true. 
+We can collect the statements in an array, and sum the boolean values (1 = true). 
+The resulting sum (call it <code>noutofrange</code>) will be our objective to minimize.</p>
+<p>Finally, conditional on minimizing <code>noutofrange</code>, we want to choose the 
+point closest to the origin, or minimize <code>abs(x) + abs(y) + abs(z)</code> (call this value <code>cost</code>). 
+Z3 uses by default a lexicographic priority of objectives. 
+It solves first for the objective that is declared first, so this should be easy.</p>
+<p>Define the Z3 context and necessary variables. 
+We&rsquo;ll see why we need <code>z3zero</code> and <code>z3one</code> in a moment.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia">ctx <span style="color:#f92672">=</span> Context()
+x <span style="color:#f92672">=</span> int_const(ctx, <span style="color:#e6db74">&#34;x&#34;</span>)
+y <span style="color:#f92672">=</span> int_const(ctx, <span style="color:#e6db74">&#34;y&#34;</span>)
+z <span style="color:#f92672">=</span> int_const(ctx, <span style="color:#e6db74">&#34;z&#34;</span>)
+z3zero <span style="color:#f92672">=</span> int_val(ctx, <span style="color:#ae81ff">0</span>)
+z3one <span style="color:#f92672">=</span> int_val(ctx, <span style="color:#ae81ff">1</span>)
+noutofrange <span style="color:#f92672">=</span> int_const(ctx, <span style="color:#e6db74">&#34;noutofrange&#34;</span>)
+cost <span style="color:#f92672">=</span> int_const(ctx, <span style="color:#e6db74">&#34;cost&#34;</span>)
+</code></pre></div><p>The array of boolean values (converted to integer 1 or 0) measuring whether the point is within range of each bot
+may now be defined as</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia">botsoutofrange <span style="color:#f92672">=</span> [ite(abs(b<span style="color:#f92672">.</span>x <span style="color:#f92672">-</span> x) <span style="color:#f92672">+</span> abs(b<span style="color:#f92672">.</span>y <span style="color:#f92672">-</span> y) <span style="color:#f92672">+</span> abs(b<span style="color:#f92672">.</span>z <span style="color:#f92672">-</span> z) <span style="color:#f92672">&gt;</span> b<span style="color:#f92672">.</span>radius,
+                      z3one, z3zero) <span style="color:#66d9ef">for</span> b <span style="color:#66d9ef">in</span> bots]
+</code></pre></div><p><code>ite(a, b, c)</code> (if then else) is a Z3 method that means</p>
+<pre tabindex="0"><code>if a
+    return b
+else
+    return c
+end
+</code></pre><p>We need <code>b</code> and <code>c</code> to be Z3 expressions, hence the use of our previously defined 
+<code>z3one</code> and <code>z3zero</code>.</p>
+<p>Now, we initialize the optimization problem with the &ldquo;constraints&rdquo; that
+define our objective variables,</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia">opt <span style="color:#f92672">=</span> Optimize(ctx)
+add(opt, noutofrange <span style="color:#f92672">==</span> sum(botsoutofrange))
+add(opt, cost <span style="color:#f92672">==</span> abs(x) <span style="color:#f92672">+</span> abs(y) <span style="color:#f92672">+</span> abs(z))
+</code></pre></div><p>and finally optimize each of the objectives in order.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia">minimize(opt, noutofrange)
+minimize(opt, cost)
+res <span style="color:#f92672">=</span> check(opt)
+</code></pre></div><p>Confirm that the problem is satisfiable and print the optimal point.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#a6e22e">@assert</span> res <span style="color:#f92672">==</span> Z3<span style="color:#f92672">.</span>sat
+m <span style="color:#f92672">=</span> get_model(opt)
+<span style="color:#66d9ef">for</span> (k, v) <span style="color:#66d9ef">in</span> consts(m)
+    println(<span style="color:#e6db74">&#34;</span><span style="color:#e6db74">$k</span><span style="color:#e6db74"> = </span><span style="color:#e6db74">$v</span><span style="color:#e6db74">&#34;</span>)
+<span style="color:#66d9ef">end</span>
+</code></pre></div><p>For my input, this prints</p>
+<pre tabindex="0"><code>noutofrange = 28
+cost = 126233088
+z = 38585775
+y = 43480550
+x = 44166763
+</code></pre><p>It takes about a minute to solve on my PC. That may seem slow, but the human
+time required to code a faster algorithm is a lot longer than a minute!<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup> 
+Z3 is one of those tools that isn&rsquo;t often applicable, but when it is, it feels like magic.</p>
+<h2 id="full-julia-script">Full Julia script</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#66d9ef">using</span> Z3
+
+<span style="color:#66d9ef">struct</span> <span style="color:#66d9ef">Nanobot</span>
+    x<span style="color:#f92672">::</span><span style="color:#66d9ef">Int</span>
+    y<span style="color:#f92672">::</span><span style="color:#66d9ef">Int</span>
+    z<span style="color:#f92672">::</span><span style="color:#66d9ef">Int</span>
+    radius<span style="color:#f92672">::</span><span style="color:#66d9ef">Int</span>
+<span style="color:#66d9ef">end</span>
+
+<span style="color:#66d9ef">function</span> processinput(filename)
+    puzin <span style="color:#f92672">=</span> [[parse(<span style="color:#66d9ef">Int</span>, m<span style="color:#f92672">.</span>match) <span style="color:#66d9ef">for</span> m <span style="color:#66d9ef">in</span> eachmatch(<span style="color:#e6db74">r</span><span style="color:#e6db74">&#34;(</span><span style="color:#960050;background-color:#1e0010">\</span><span style="color:#e6db74">-?</span><span style="color:#960050;background-color:#1e0010">\</span><span style="color:#e6db74">d+)&#34;</span>, line)]
+             <span style="color:#66d9ef">for</span> line <span style="color:#66d9ef">in</span> readlines(filename)]
+    bots <span style="color:#f92672">=</span> [Nanobot(l<span style="color:#f92672">...</span>) <span style="color:#66d9ef">for</span> l <span style="color:#66d9ef">in</span> puzin]
+    <span style="color:#66d9ef">return</span> bots
+<span style="color:#66d9ef">end</span>
+
+<span style="color:#66d9ef">function</span> main(filename)
+    bots <span style="color:#f92672">=</span> processinput(filename)
+    ctx <span style="color:#f92672">=</span> Context()
+    x <span style="color:#f92672">=</span> int_const(ctx, <span style="color:#e6db74">&#34;x&#34;</span>)
+    y <span style="color:#f92672">=</span> int_const(ctx, <span style="color:#e6db74">&#34;y&#34;</span>)
+    z <span style="color:#f92672">=</span> int_const(ctx, <span style="color:#e6db74">&#34;z&#34;</span>)
+    z3zero <span style="color:#f92672">=</span> int_val(ctx, <span style="color:#ae81ff">0</span>)
+    z3one <span style="color:#f92672">=</span> int_val(ctx, <span style="color:#ae81ff">1</span>)
+    noutofrange <span style="color:#f92672">=</span> int_const(ctx, <span style="color:#e6db74">&#34;noutofrange&#34;</span>)
+    cost <span style="color:#f92672">=</span> int_const(ctx, <span style="color:#e6db74">&#34;cost&#34;</span>)
+    botsoutofrange <span style="color:#f92672">=</span> [ite(abs(b<span style="color:#f92672">.</span>x <span style="color:#f92672">-</span> x) <span style="color:#f92672">+</span> abs(b<span style="color:#f92672">.</span>y <span style="color:#f92672">-</span> y) <span style="color:#f92672">+</span> abs(b<span style="color:#f92672">.</span>z <span style="color:#f92672">-</span> z) <span style="color:#f92672">&gt;</span> b<span style="color:#f92672">.</span>radius, z3one, z3zero)
+                      <span style="color:#66d9ef">for</span> b <span style="color:#66d9ef">in</span> bots]
+    opt <span style="color:#f92672">=</span> Optimize(ctx)
+    add(opt, noutofrange <span style="color:#f92672">==</span> sum(botsoutofrange))
+    add(opt, cost <span style="color:#f92672">==</span> abs(x) <span style="color:#f92672">+</span> abs(y) <span style="color:#f92672">+</span> abs(z))
+    minimize(opt, noutofrange)
+    minimize(opt, cost)
+    res <span style="color:#f92672">=</span> check(opt)
+    <span style="color:#a6e22e">@assert</span> res <span style="color:#f92672">==</span> Z3<span style="color:#f92672">.</span>sat
+    m <span style="color:#f92672">=</span> get_model(opt)
+    <span style="color:#66d9ef">for</span> (k, v) <span style="color:#66d9ef">in</span> consts(m)
+        println(<span style="color:#e6db74">&#34;</span><span style="color:#e6db74">$k</span><span style="color:#e6db74"> = </span><span style="color:#e6db74">$v</span><span style="color:#e6db74">&#34;</span>)
+    <span style="color:#66d9ef">end</span>
+    <span style="color:#66d9ef">return</span> nothing
+<span style="color:#66d9ef">end</span>
+
+<span style="color:#a6e22e">@time</span> main(<span style="color:#e6db74">&#34;input201823.txt&#34;</span>)
+</code></pre></div><p>Output:</p>
+<pre tabindex="0"><code>noutofrange = 28
+cost = 126233088
+z = 38585775
+y = 43480550
+x = 44166763
+ 52.030344 seconds (71.38 k allocations: 3.053 MiB, 0.07% compilation time)
+</code></pre><h2 id="comparison-with-python">Comparison with Python</h2>
+<p>The script below is the same problem solved with the Python package <code>z3-solver</code>. 
+I had to manually define <code>abs</code> to work with Z3 in Python, but Python didn&rsquo;t require <code>ite</code> or
+definition of the 0 and 1 Z3 expressions like Julia. 
+I also had occasional segfaults in the Julia version, although 
+it wasn&rsquo;t reproducible when executing the file in a fresh REPL. 
+It may be related to this issue: <a href="https://github.com/ahumenberger/Z3.jl/issues/12">https://github.com/ahumenberger/Z3.jl/issues/12</a>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> z3
+<span style="color:#f92672">import</span> re
+<span style="color:#f92672">import</span> time
+
+<span style="color:#66d9ef">with</span> open(<span style="color:#e6db74">&#39;input/input201823.txt&#39;</span>, <span style="color:#e6db74">&#39;r&#39;</span>) <span style="color:#66d9ef">as</span> f:
+    actualinput <span style="color:#f92672">=</span> f<span style="color:#f92672">.</span>read()
+
+bots <span style="color:#f92672">=</span> [list(map(int, re<span style="color:#f92672">.</span>findall(<span style="color:#e6db74">&#39;(\-?\d+)&#39;</span>, row))) <span style="color:#66d9ef">for</span> row <span style="color:#f92672">in</span> actualinput<span style="color:#f92672">.</span>splitlines()]
+
+<span style="color:#75715e"># https://stackoverflow.com/questions/22547988/how-to-calculate-absolute-value-in-z3-or-z3py</span>
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">z3abs</span>(x):
+    <span style="color:#66d9ef">return</span> z3<span style="color:#f92672">.</span>If(x <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>,x,<span style="color:#f92672">-</span>x)
+
+x <span style="color:#f92672">=</span> z3<span style="color:#f92672">.</span>Int(<span style="color:#e6db74">&#39;x&#39;</span>)
+y <span style="color:#f92672">=</span> z3<span style="color:#f92672">.</span>Int(<span style="color:#e6db74">&#39;y&#39;</span>)
+z <span style="color:#f92672">=</span> z3<span style="color:#f92672">.</span>Int(<span style="color:#e6db74">&#39;z&#39;</span>)
+noutofrange <span style="color:#f92672">=</span> z3<span style="color:#f92672">.</span>Int(<span style="color:#e6db74">&#39;noutofrange&#39;</span>)
+cost <span style="color:#f92672">=</span> z3<span style="color:#f92672">.</span>Int(<span style="color:#e6db74">&#39;cost&#39;</span>)
+
+botsoutofrange <span style="color:#f92672">=</span> [z3abs(b[<span style="color:#ae81ff">0</span>]<span style="color:#f92672">-</span>x) <span style="color:#f92672">+</span> z3abs(b[<span style="color:#ae81ff">1</span>]<span style="color:#f92672">-</span>y) <span style="color:#f92672">+</span> z3abs(b[<span style="color:#ae81ff">2</span>]<span style="color:#f92672">-</span>z) <span style="color:#f92672">&gt;</span> b[<span style="color:#ae81ff">3</span>] <span style="color:#66d9ef">for</span> b <span style="color:#f92672">in</span> bots]
+
+opt <span style="color:#f92672">=</span> z3<span style="color:#f92672">.</span>Optimize()
+opt<span style="color:#f92672">.</span>add(noutofrange <span style="color:#f92672">==</span> z3<span style="color:#f92672">.</span>Sum(botsoutofrange))
+opt<span style="color:#f92672">.</span>add(cost <span style="color:#f92672">==</span> z3abs(x) <span style="color:#f92672">+</span> z3abs(y) <span style="color:#f92672">+</span> z3abs(z))
+<span style="color:#75715e"># Z3 uses by default a lexicographic priority of objectives. It solves first for the objective that is declared first.</span>
+lowestoutofrange <span style="color:#f92672">=</span> opt<span style="color:#f92672">.</span>minimize(noutofrange)
+closesttoorigin <span style="color:#f92672">=</span> opt<span style="color:#f92672">.</span>minimize(cost)
+print(<span style="color:#e6db74">&#34;Checking optimization...&#34;</span>)
+start_time <span style="color:#f92672">=</span> time<span style="color:#f92672">.</span>time()
+opt<span style="color:#f92672">.</span>check()
+print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Found solution in </span><span style="color:#e6db74">{</span>time<span style="color:#f92672">.</span>time() <span style="color:#f92672">-</span> start_time<span style="color:#e6db74">:</span><span style="color:#e6db74">.2f</span><span style="color:#e6db74">}</span><span style="color:#e6db74">s&#34;</span>)
+print(opt<span style="color:#f92672">.</span>model())
+</code></pre></div><section class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1" role="doc-endnote">
+<p>You can use the following example input if you don&rsquo;t want to log in to Advent of Code.<br>
+<code>pos=&lt;10,12,12&gt;, r=2</code><br>
+<code>pos=&lt;12,14,12&gt;, r=2</code><br>
+<code>pos=&lt;16,12,12&gt;, r=4</code><br>
+<code>pos=&lt;14,14,14&gt;, r=6</code><br>
+<code>pos=&lt;50,50,50&gt;, r=200</code><br>
+<code>pos=&lt;10,10,10&gt;, r=5</code>&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:2" role="doc-endnote">
+<p>The problem can be reformulated as a mixed-integer linear program, which is
+solvable nearly instantly by an optimizer like <a href="https://highs.dev/">HiGHS</a>, but that still 
+requires some human effort to think through and implement the reformulation.&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</section>
+
+    </div>
+  </article>
+
+  
+
+
+</main>
+
+      <footer class="footer">
+        <ul class="footer-links">
+          <li>
+            <a href="/index.xml" type="application/rss+xml" target="_blank">RSS feed</a>
+          </li>
+          <li>
+            <a href="https://gohugo.io/" class="footer-links-kudos">Made with <img src="/images/hugo-logo.png" alt="Img link to Hugo website" width="22" height="22"></a>
+          </li>
+        </ul>
+      </footer>
+
+    </div>
+    
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/julia.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+    
+<script src="/js/math-code.js"></script>
+<script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+
+    
+  </body>
+</html>
+
