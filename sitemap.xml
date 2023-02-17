@@ -3,16 +3,28 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>/</loc>
-    <lastmod>2023-02-14T00:00:00+00:00</lastmod>
+    <lastmod>2023-02-16T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>/tags/highs/</loc>
+    <lastmod>2023-02-16T00:00:00+00:00</lastmod>
   </url><url>
     <loc>/tags/julia/</loc>
-    <lastmod>2023-02-14T00:00:00+00:00</lastmod>
+    <lastmod>2023-02-16T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>/tags/jump/</loc>
+    <lastmod>2023-02-16T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>/tags/milp/</loc>
+    <lastmod>2023-02-16T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>/2023/02/16/milp-example-with-jump-and-highs/</loc>
+    <lastmod>2023-02-16T00:00:00+00:00</lastmod>
   </url><url>
     <loc>/post/</loc>
-    <lastmod>2023-02-14T00:00:00+00:00</lastmod>
+    <lastmod>2023-02-16T00:00:00+00:00</lastmod>
   </url><url>
     <loc>/tags/</loc>
-    <lastmod>2023-02-14T00:00:00+00:00</lastmod>
+    <lastmod>2023-02-16T00:00:00+00:00</lastmod>
   </url><url>
     <loc>/2023/02/14/z3-jl-optimization-example/</loc>
     <lastmod>2023-02-14T00:00:00+00:00</lastmod>

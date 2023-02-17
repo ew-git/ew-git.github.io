@@ -6,7 +6,17 @@
     <description>Recent content in julia on Evan Wright</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 14 Feb 2023 00:00:00 +0000</lastBuildDate><atom:link href="/tags/julia/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 16 Feb 2023 00:00:00 +0000</lastBuildDate><atom:link href="/tags/julia/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>MILP Example with JuMP and HiGHS</title>
+      <link>/2023/02/16/milp-example-with-jump-and-highs/</link>
+      <pubDate>Thu, 16 Feb 2023 00:00:00 +0000</pubDate>
+      
+      <guid>/2023/02/16/milp-example-with-jump-and-highs/</guid>
+      <description>In my previous post, I mentioned that the problem (Advent of Code 2018 day 23) can be reformulated as a mixed-integer linear program (MILP). In this post, we&amp;rsquo;ll walk through a solution using JuMP.jl and HiGHS.jl. The formulation is based on this Reddit comment.
+Input parsing is the same as last time. We set up the JuMP problem by defining variables x, y, and z as integers and the vector variable botsinrange as binary.</description>
+    </item>
+    
     <item>
       <title>Z3.jl Optimization Example</title>
       <link>/2023/02/14/z3-jl-optimization-example/</link>

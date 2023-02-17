@@ -6,13 +6,40 @@
     <description>Recent content in Tags on Evan Wright</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 14 Feb 2023 00:00:00 +0000</lastBuildDate><atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 16 Feb 2023 00:00:00 +0000</lastBuildDate><atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>highs</title>
+      <link>/tags/highs/</link>
+      <pubDate>Thu, 16 Feb 2023 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/highs/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>julia</title>
       <link>/tags/julia/</link>
-      <pubDate>Tue, 14 Feb 2023 00:00:00 +0000</pubDate>
+      <pubDate>Thu, 16 Feb 2023 00:00:00 +0000</pubDate>
       
       <guid>/tags/julia/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>jump</title>
+      <link>/tags/jump/</link>
+      <pubDate>Thu, 16 Feb 2023 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/jump/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>milp</title>
+      <link>/tags/milp/</link>
+      <pubDate>Thu, 16 Feb 2023 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/milp/</guid>
       <description></description>
     </item>
     

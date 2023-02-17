@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.88.1" />
+
+
+<title>MILP Example with JuMP and HiGHS - Evan Wright</title>
+<meta property="og:title" content="MILP Example with JuMP and HiGHS - Evan Wright">
+
+
+  <link href='/favicon.ico' rel='icon' type='image/x-icon'/>
+
+
+
+  
+
+
+
+
+
+
+
+
+<link href='//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css' rel='stylesheet' type='text/css' />
+
+
+
+<link rel="stylesheet" href="/css/fonts.css" media="all">
+<link rel="stylesheet" href="/css/main.css" media="all">
+
+
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <nav class="nav">
+  <a href="/" class="nav-logo">
+    <img src="/images/logo.png"
+         width="50"
+         height="50"
+         alt="Logo">
+  </a>
+
+  <ul class="nav-links">
+    
+    <li><a href="/">Posts</a></li>
+    
+    <li><a href="/about/">About</a></li>
+    
+  </ul>
+</nav>
+
+      </header>
+
+
+<main class="content" role="main">
+
+  <article class="article">
+    
+    <span class="article-duration">7 min read</span>
+    
+
+    <h1 class="article-title">MILP Example with JuMP and HiGHS</h1>
+
+    
+    <span class="article-date">2023-02-16</span>
+    
+
+    <div class="article-content">
+      <p>In my <a href="/2023/02/14/z3-jl-optimization-example">previous post</a>, I mentioned that the problem (<a href="https://adventofcode.com/2018/day/23">Advent of Code 2018 day 23</a>) can be reformulated as a mixed-integer linear program (MILP). In this post, we&rsquo;ll walk through a solution using <a href="https://github.com/jump-dev/JuMP.jl">JuMP.jl</a> and <a href="https://github.com/jump-dev/HiGHS.jl">HiGHS.jl</a>. The formulation is based on <a href="https://old.reddit.com/r/adventofcode/comments/a8sqov/help_day_23_part_2_any_provably_correct_fast/ecdnimh/">this</a> Reddit comment.</p>
+<p>Input parsing is the same as last time. We set up the JuMP problem by defining variables 
+x, y, and z as integers and the vector variable <code>botsinrange</code> as binary. This time, the value of <code>botsinrange[i]</code> is 1 if the point (x, y, z) is in range of bot i, otherwise 0.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#66d9ef">using</span> JuMP
+<span style="color:#66d9ef">using</span> HiGHS
+
+<span style="color:#66d9ef">struct</span> <span style="color:#66d9ef">Nanobot</span>
+    x<span style="color:#f92672">::</span><span style="color:#66d9ef">Int</span>
+    y<span style="color:#f92672">::</span><span style="color:#66d9ef">Int</span>
+    z<span style="color:#f92672">::</span><span style="color:#66d9ef">Int</span>
+    radius<span style="color:#f92672">::</span><span style="color:#66d9ef">Int</span>
+<span style="color:#66d9ef">end</span>
+<span style="color:#66d9ef">function</span> processinput(filename)
+    puzin <span style="color:#f92672">=</span> [[parse(<span style="color:#66d9ef">Int</span>, m<span style="color:#f92672">.</span>match) <span style="color:#66d9ef">for</span> m <span style="color:#66d9ef">in</span> eachmatch(<span style="color:#e6db74">r</span><span style="color:#e6db74">&#34;(</span><span style="color:#960050;background-color:#1e0010">\</span><span style="color:#e6db74">-?</span><span style="color:#960050;background-color:#1e0010">\</span><span style="color:#e6db74">d+)&#34;</span>, line)]
+             <span style="color:#66d9ef">for</span> line <span style="color:#66d9ef">in</span> readlines(filename)]
+    bots <span style="color:#f92672">=</span> [Nanobot(l<span style="color:#f92672">...</span>) <span style="color:#66d9ef">for</span> l <span style="color:#66d9ef">in</span> puzin]
+    <span style="color:#66d9ef">return</span> bots
+<span style="color:#66d9ef">end</span>
+bots <span style="color:#f92672">=</span> processinput(<span style="color:#e6db74">&#34;input201823.txt&#34;</span>)
+
+model <span style="color:#f92672">=</span> Model(HiGHS<span style="color:#f92672">.</span>Optimizer)
+set_silent(model)
+<span style="color:#a6e22e">@variable</span>(model, x, <span style="color:#66d9ef">Int</span>)
+<span style="color:#a6e22e">@variable</span>(model, y, <span style="color:#66d9ef">Int</span>)
+<span style="color:#a6e22e">@variable</span>(model, z, <span style="color:#66d9ef">Int</span>)
+<span style="color:#a6e22e">@variable</span>(model, botsinrange[<span style="color:#ae81ff">1</span><span style="color:#f92672">:</span>length(bots)], Bin)
+</code></pre></div><p>Next, define constraints of the form</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia">abs(b<span style="color:#f92672">.</span>x <span style="color:#f92672">-</span> x) <span style="color:#f92672">+</span> abs(b<span style="color:#f92672">.</span>y <span style="color:#f92672">-</span> y) <span style="color:#f92672">+</span> abs(b<span style="color:#f92672">.</span>z <span style="color:#f92672">-</span> z) <span style="color:#f92672">&lt;=</span> b<span style="color:#f92672">.</span>radius <span style="color:#f92672">+</span> (<span style="color:#ae81ff">1</span> <span style="color:#f92672">-</span> botsinrange[i])<span style="color:#f92672">*</span>slack
+</code></pre></div><p>where i is the index of bot b. For the moment, assume slack is infinity. Then if we think bot i is out of range (<code>botsinrange[i] = 0</code>), the constraint holds (right hand side is Inf). Otherwise, if we think bot i is in range (<code>botsinrange[i] = 1</code>), the constraint holds if and only if <code>abs(b.x - x) + abs(b.y - y) + abs(b.z - z) &lt;= b.radius</code>, i.e. the bot has to <em>actually</em> be in range. We will maximize the sum of <code>botsinrange</code>, so the optimizer will try to set <code>botsinrange[i] = 1</code> for as many i as possible, and in those cases, it must also ensure the corresponding constraint holds.</p>
+<p>So far so good, but there are two minor complications. First, the abs function is non-linear, so we can&rsquo;t have it in the constraint definition. However, note that if -x &lt; c and x &lt; c, then abs(x) &lt; c. If x + y &lt; c and -x + y &lt; c and x - y &lt; c and -x - y &lt; c, then abs(x) + abs(y) &lt; c. A similar argument holds for 3 variables, so we just need to create several linear constraints that imply the constraint defined above.</p>
+<p>Second, we can&rsquo;t actually use Inf for the slack for numerical stability reasons; we&rsquo;ll have to use a large finite number. The slack can&rsquo;t be too low because we need the constraint to be relaxed if <code>botsinrange[i] = 0</code>. Consider the worst case, where the left hand side of the constraint is as large as possible. This may occur when (x, y, z) is at the &ldquo;opposite&rdquo; corner of 3d space from a bot i.  The largest coordinate or radius in our puzzle input is</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia">maxcoord <span style="color:#f92672">=</span> maximum(b <span style="color:#f92672">-&gt;</span> max(abs(b<span style="color:#f92672">.</span>x), abs(b<span style="color:#f92672">.</span>y), abs(b<span style="color:#f92672">.</span>z), b<span style="color:#f92672">.</span>radius), bots)
+</code></pre></div><p>In the worst case, we are comparing a point like (maxcoord, maxcoord, maxcoord) to (-maxcoord, -maxcoord, -maxcoord), so the distance between those points is 2*3*maxcoord. We have additional distance for the bots' sensor radius, so we may use <code>slack = 2*4*maxcoord</code>.</p>
+<p>Putting it all together, our constraints are</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia">slack <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span><span style="color:#f92672">*</span><span style="color:#ae81ff">4</span><span style="color:#f92672">*</span>maximum(b <span style="color:#f92672">-&gt;</span> max(abs(b<span style="color:#f92672">.</span>x), abs(b<span style="color:#f92672">.</span>y), abs(b<span style="color:#f92672">.</span>z), b<span style="color:#f92672">.</span>radius), bots)
+<span style="color:#66d9ef">for</span> (i,b) <span style="color:#66d9ef">in</span> enumerate(bots)
+    <span style="color:#66d9ef">for</span> absmult <span style="color:#66d9ef">in</span> Iterators<span style="color:#f92672">.</span>product((<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">1</span>),(<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">1</span>),(<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">1</span>))
+        <span style="color:#a6e22e">@constraint</span>(model, absmult[<span style="color:#ae81ff">1</span>]<span style="color:#f92672">*</span>(b<span style="color:#f92672">.</span>x <span style="color:#f92672">-</span> x) <span style="color:#f92672">+</span> absmult[<span style="color:#ae81ff">2</span>]<span style="color:#f92672">*</span>(b<span style="color:#f92672">.</span>y <span style="color:#f92672">-</span> y) <span style="color:#f92672">+</span>
+                            absmult[<span style="color:#ae81ff">3</span>]<span style="color:#f92672">*</span>(b<span style="color:#f92672">.</span>z <span style="color:#f92672">-</span> z) <span style="color:#f92672">&lt;=</span> b<span style="color:#f92672">.</span>radius <span style="color:#f92672">+</span> (<span style="color:#ae81ff">1</span><span style="color:#f92672">-</span>botsinrange[i])<span style="color:#f92672">*</span>slack)
+    <span style="color:#66d9ef">end</span>
+<span style="color:#66d9ef">end</span>
+</code></pre></div><p>Finally, we can optimize the model.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#a6e22e">@objective</span>(model, Max, sum(botsinrange))
+optimize!(model)
+println(<span style="color:#e6db74">&#34;&#34;&#34;x=</span><span style="color:#e6db74">$</span>(round(<span style="color:#66d9ef">Int</span>, value(x)))<span style="color:#e6db74">, y=</span><span style="color:#e6db74">$</span>(round(<span style="color:#66d9ef">Int</span>, value(y)))<span style="color:#e6db74">, z=</span><span style="color:#e6db74">$</span>(round(<span style="color:#66d9ef">Int</span>, value(z)))<span style="color:#e6db74">
+</span><span style="color:#e6db74">ans=</span><span style="color:#e6db74">$</span>(round(<span style="color:#66d9ef">Int</span>, value(x)) <span style="color:#f92672">+</span> round(<span style="color:#66d9ef">Int</span>, value(y)) <span style="color:#f92672">+</span> round(<span style="color:#66d9ef">Int</span>, value(z)))<span style="color:#e6db74">&#34;&#34;&#34;</span>)
+</code></pre></div><p>For my input, we find the correct answer, but recall the problem statement asked if there are multiple points with maximum nanobot coverage, then we should choose the point closest to the origin. So, we can add a constraint that the objective function must be at least as high as we just found<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#66d9ef">function</span> coordisinrange(x, y, z, bot<span style="color:#f92672">::</span><span style="color:#66d9ef">Nanobot</span>)
+    <span style="color:#66d9ef">return</span> abs(bot<span style="color:#f92672">.</span>x <span style="color:#f92672">-</span> x) <span style="color:#f92672">+</span> abs(bot<span style="color:#f92672">.</span>y <span style="color:#f92672">-</span> y) <span style="color:#f92672">+</span> abs(bot<span style="color:#f92672">.</span>z <span style="color:#f92672">-</span> z) <span style="color:#f92672">&lt;=</span> bot<span style="color:#f92672">.</span>radius
+<span style="color:#66d9ef">end</span>
+maxbots <span style="color:#f92672">=</span> count(b <span style="color:#f92672">-&gt;</span> coordisinrange(round(<span style="color:#66d9ef">Int</span>, value(x)),
+         round(<span style="color:#66d9ef">Int</span>, value(y)), round(<span style="color:#66d9ef">Int</span>, value(z)), b), bots)
+<span style="color:#a6e22e">@constraint</span>(model, maxbots <span style="color:#f92672">&lt;=</span> sum(botsinrange))
+</code></pre></div><p>and add a penalty term to our objective function to minimize abs(x) + abs(y) + abs(z).<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup> We have the same non-linear problem with abs as before, so we have to use a similar trick. The objective function becomes <code>sum(botsinrange) - 0.00000001 * (xt + yt + zt)</code> where the penalty is set by trial and error until the optimizer finds a solution. The coordinates are 8 digit numbers, so the penalty should be similar in scale to 1 unit of the objective&mdash;i.e. having one more bot in range.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#a6e22e">@variable</span>(model, xt, <span style="color:#66d9ef">Int</span>)
+<span style="color:#a6e22e">@variable</span>(model, yt, <span style="color:#66d9ef">Int</span>)
+<span style="color:#a6e22e">@variable</span>(model, zt, <span style="color:#66d9ef">Int</span>)
+<span style="color:#a6e22e">@constraint</span>(model, x <span style="color:#f92672">&lt;=</span> xt); <span style="color:#a6e22e">@constraint</span>(model, <span style="color:#f92672">-</span>x <span style="color:#f92672">&lt;=</span> xt);
+<span style="color:#a6e22e">@constraint</span>(model, y <span style="color:#f92672">&lt;=</span> yt); <span style="color:#a6e22e">@constraint</span>(model, <span style="color:#f92672">-</span>y <span style="color:#f92672">&lt;=</span> yt);
+<span style="color:#a6e22e">@constraint</span>(model, z <span style="color:#f92672">&lt;=</span> zt); <span style="color:#a6e22e">@constraint</span>(model, <span style="color:#f92672">-</span>z <span style="color:#f92672">&lt;=</span> zt);
+
+<span style="color:#a6e22e">@constraint</span>(model, maxbots <span style="color:#f92672">&lt;=</span> sum(botsinrange))
+<span style="color:#a6e22e">@objective</span>(model, Max, sum(botsinrange) <span style="color:#f92672">-</span> <span style="color:#ae81ff">0.00000001</span> <span style="color:#f92672">*</span> (xt <span style="color:#f92672">+</span> yt <span style="color:#f92672">+</span> zt))
+optimize!(model)
+println(<span style="color:#e6db74">&#34;&#34;&#34;x=</span><span style="color:#e6db74">$</span>(round(<span style="color:#66d9ef">Int</span>, value(x)))<span style="color:#e6db74">, y=</span><span style="color:#e6db74">$</span>(round(<span style="color:#66d9ef">Int</span>, value(y)))<span style="color:#e6db74">, z=</span><span style="color:#e6db74">$</span>(round(<span style="color:#66d9ef">Int</span>, value(z)))<span style="color:#e6db74">
+</span><span style="color:#e6db74">ans=</span><span style="color:#e6db74">$</span>(round(<span style="color:#66d9ef">Int</span>, value(x)) <span style="color:#f92672">+</span> round(<span style="color:#66d9ef">Int</span>, value(y)) <span style="color:#f92672">+</span> round(<span style="color:#66d9ef">Int</span>, value(z)))<span style="color:#e6db74">&#34;&#34;&#34;</span>)
+</code></pre></div><p>The solution is the same answer as before&mdash;which we know is correct thanks to Z3&mdash;but I&rsquo;m curious if any other input needs the tie-breaking rule.</p>
+<h2 id="discussion">Discussion</h2>
+<p>The MILP solution feels a bit hacky compared to Z3, but it is faster at around 0.3-1.5 seconds without compilation, compared to 50+ seconds for Z3. It took trial and error to get the right slack, and even if the slack is high enough, the solver may provide an incorrect solution.<sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup> For my input, slack of 1e11 results in an incorrect solution, while 1e10, 1e12-1e14 are ok.</p>
+<p>Handling the L1 norm (abs) is annoying as well. I tried to use <code>MathOptInterface.NormOneCone</code>,</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#66d9ef">for</span> (i,b) <span style="color:#66d9ef">in</span> enumerate(bots)
+    <span style="color:#a6e22e">@constraint</span>(model2,
+     [b<span style="color:#f92672">.</span>radius <span style="color:#f92672">+</span> (<span style="color:#ae81ff">1</span><span style="color:#f92672">-</span>botsinrange[i])<span style="color:#f92672">*</span><span style="color:#66d9ef">Int</span>(<span style="color:#ae81ff">1e10</span>); x <span style="color:#f92672">-</span> [b<span style="color:#f92672">.</span>x, b<span style="color:#f92672">.</span>y, b<span style="color:#f92672">.</span>z]] <span style="color:#66d9ef">in</span> MOI<span style="color:#f92672">.</span>NormOneCone(<span style="color:#ae81ff">4</span>))
+<span style="color:#66d9ef">end</span>
+</code></pre></div><p>but there is a performance issue. With constraints from only 280 bots (the problem has 1000), the solver takes about 4 seconds, but with 290 bots it hangs (or takes longer than I care to wait).</p>
+<p>In summary, MILP solvers can solve this problem more quickly than Z3 with a minor reformulation. There may be a better formulation that is less finicky. If you know of one, let me know.</p>
+<h2 id="full-julia-script">Full Julia script</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#66d9ef">using</span> JuMP
+<span style="color:#66d9ef">using</span> HiGHS
+
+<span style="color:#66d9ef">struct</span> <span style="color:#66d9ef">Nanobot</span>
+    x<span style="color:#f92672">::</span><span style="color:#66d9ef">Int</span>
+    y<span style="color:#f92672">::</span><span style="color:#66d9ef">Int</span>
+    z<span style="color:#f92672">::</span><span style="color:#66d9ef">Int</span>
+    radius<span style="color:#f92672">::</span><span style="color:#66d9ef">Int</span>
+<span style="color:#66d9ef">end</span>
+
+<span style="color:#66d9ef">function</span> processinput(filename)
+    puzin <span style="color:#f92672">=</span> [[parse(<span style="color:#66d9ef">Int</span>, m<span style="color:#f92672">.</span>match) <span style="color:#66d9ef">for</span> m <span style="color:#66d9ef">in</span> eachmatch(<span style="color:#e6db74">r</span><span style="color:#e6db74">&#34;(</span><span style="color:#960050;background-color:#1e0010">\</span><span style="color:#e6db74">-?</span><span style="color:#960050;background-color:#1e0010">\</span><span style="color:#e6db74">d+)&#34;</span>, line)]
+             <span style="color:#66d9ef">for</span> line <span style="color:#66d9ef">in</span> readlines(filename)]
+    bots <span style="color:#f92672">=</span> [Nanobot(l<span style="color:#f92672">...</span>) <span style="color:#66d9ef">for</span> l <span style="color:#66d9ef">in</span> puzin]
+    <span style="color:#66d9ef">return</span> bots
+<span style="color:#66d9ef">end</span>
+
+<span style="color:#66d9ef">function</span> coordisinrange(x, y, z, bot<span style="color:#f92672">::</span><span style="color:#66d9ef">Nanobot</span>)
+    <span style="color:#66d9ef">return</span> abs(bot<span style="color:#f92672">.</span>x <span style="color:#f92672">-</span> x) <span style="color:#f92672">+</span> abs(bot<span style="color:#f92672">.</span>y <span style="color:#f92672">-</span> y) <span style="color:#f92672">+</span> abs(bot<span style="color:#f92672">.</span>z <span style="color:#f92672">-</span> z) <span style="color:#f92672">&lt;=</span> bot<span style="color:#f92672">.</span>radius
+<span style="color:#66d9ef">end</span>
+
+<span style="color:#66d9ef">function</span> main(filename)
+    bots <span style="color:#f92672">=</span> processinput(filename)
+    model <span style="color:#f92672">=</span> Model(HiGHS<span style="color:#f92672">.</span>Optimizer)
+    slack <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span><span style="color:#f92672">*</span><span style="color:#ae81ff">4</span><span style="color:#f92672">*</span>maximum(b <span style="color:#f92672">-&gt;</span> max(abs(b<span style="color:#f92672">.</span>x), abs(b<span style="color:#f92672">.</span>y), abs(b<span style="color:#f92672">.</span>z), b<span style="color:#f92672">.</span>radius), bots)
+    set_silent(model)
+    <span style="color:#a6e22e">@variable</span>(model, x, <span style="color:#66d9ef">Int</span>)
+    <span style="color:#a6e22e">@variable</span>(model, y, <span style="color:#66d9ef">Int</span>)
+    <span style="color:#a6e22e">@variable</span>(model, z, <span style="color:#66d9ef">Int</span>)
+    <span style="color:#a6e22e">@variable</span>(model, botsinrange[<span style="color:#ae81ff">1</span><span style="color:#f92672">:</span>length(bots)], Bin)
+    <span style="color:#66d9ef">for</span> (i,b) <span style="color:#66d9ef">in</span> enumerate(bots)
+        <span style="color:#66d9ef">for</span> absmult <span style="color:#66d9ef">in</span> Iterators<span style="color:#f92672">.</span>product((<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">1</span>),(<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">1</span>),(<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">1</span>))
+            <span style="color:#a6e22e">@constraint</span>(model, absmult[<span style="color:#ae81ff">1</span>]<span style="color:#f92672">*</span>(b<span style="color:#f92672">.</span>x <span style="color:#f92672">-</span> x) <span style="color:#f92672">+</span> absmult[<span style="color:#ae81ff">2</span>]<span style="color:#f92672">*</span>(b<span style="color:#f92672">.</span>y <span style="color:#f92672">-</span> y) <span style="color:#f92672">+</span>
+                                absmult[<span style="color:#ae81ff">3</span>]<span style="color:#f92672">*</span>(b<span style="color:#f92672">.</span>z <span style="color:#f92672">-</span> z) <span style="color:#f92672">&lt;=</span> b<span style="color:#f92672">.</span>radius <span style="color:#f92672">+</span> (<span style="color:#ae81ff">1</span><span style="color:#f92672">-</span>botsinrange[i])<span style="color:#f92672">*</span>slack)
+        <span style="color:#66d9ef">end</span>
+    <span style="color:#66d9ef">end</span>
+    <span style="color:#a6e22e">@objective</span>(model, Max, sum(botsinrange))
+    optimize!(model)
+    println(<span style="color:#e6db74">&#34;Step 1 solution:&#34;</span>)
+    println(<span style="color:#e6db74">&#34;&#34;&#34;x=</span><span style="color:#e6db74">$</span>(round(<span style="color:#66d9ef">Int</span>, value(x)))<span style="color:#e6db74">, y=</span><span style="color:#e6db74">$</span>(round(<span style="color:#66d9ef">Int</span>, value(y)))<span style="color:#e6db74">, z=</span><span style="color:#e6db74">$</span>(round(<span style="color:#66d9ef">Int</span>, value(z)))<span style="color:#e6db74">,
+</span><span style="color:#e6db74">     ans=</span><span style="color:#e6db74">$</span>(round(<span style="color:#66d9ef">Int</span>, value(x)) <span style="color:#f92672">+</span> round(<span style="color:#66d9ef">Int</span>, value(y)) <span style="color:#f92672">+</span> round(<span style="color:#66d9ef">Int</span>, value(z)))<span style="color:#e6db74">&#34;&#34;&#34;</span>)
+
+    <span style="color:#75715e"># Step 2, with lower bound constraint for number of bots in range.</span>
+    maxbots <span style="color:#f92672">=</span> count(b <span style="color:#f92672">-&gt;</span> coordisinrange(round(<span style="color:#66d9ef">Int</span>, value(x)),
+         round(<span style="color:#66d9ef">Int</span>, value(y)), round(<span style="color:#66d9ef">Int</span>, value(z)), b), bots)
+    <span style="color:#a6e22e">@constraint</span>(model, maxbots <span style="color:#f92672">&lt;=</span> sum(botsinrange))
+
+    <span style="color:#a6e22e">@variable</span>(model, xt, <span style="color:#66d9ef">Int</span>)
+    <span style="color:#a6e22e">@variable</span>(model, yt, <span style="color:#66d9ef">Int</span>)
+    <span style="color:#a6e22e">@variable</span>(model, zt, <span style="color:#66d9ef">Int</span>)
+    <span style="color:#a6e22e">@constraint</span>(model, x <span style="color:#f92672">&lt;=</span> xt); <span style="color:#a6e22e">@constraint</span>(model, <span style="color:#f92672">-</span>x <span style="color:#f92672">&lt;=</span> xt);
+    <span style="color:#a6e22e">@constraint</span>(model, y <span style="color:#f92672">&lt;=</span> yt); <span style="color:#a6e22e">@constraint</span>(model, <span style="color:#f92672">-</span>y <span style="color:#f92672">&lt;=</span> yt);
+    <span style="color:#a6e22e">@constraint</span>(model, z <span style="color:#f92672">&lt;=</span> zt); <span style="color:#a6e22e">@constraint</span>(model, <span style="color:#f92672">-</span>z <span style="color:#f92672">&lt;=</span> zt);
+
+    <span style="color:#a6e22e">@objective</span>(model, Max, sum(botsinrange) <span style="color:#f92672">-</span> <span style="color:#ae81ff">0.00000001</span> <span style="color:#f92672">*</span> (xt <span style="color:#f92672">+</span> yt <span style="color:#f92672">+</span> zt))
+    optimize!(model)
+    println(<span style="color:#e6db74">&#34;Step 2 solution:&#34;</span>)
+    println(<span style="color:#e6db74">&#34;&#34;&#34;x=</span><span style="color:#e6db74">$</span>(round(<span style="color:#66d9ef">Int</span>, value(x)))<span style="color:#e6db74">, y=</span><span style="color:#e6db74">$</span>(round(<span style="color:#66d9ef">Int</span>, value(y)))<span style="color:#e6db74">, z=</span><span style="color:#e6db74">$</span>(round(<span style="color:#66d9ef">Int</span>, value(z)))<span style="color:#e6db74">
+</span><span style="color:#e6db74">     ans=</span><span style="color:#e6db74">$</span>(round(<span style="color:#66d9ef">Int</span>, value(x)) <span style="color:#f92672">+</span> round(<span style="color:#66d9ef">Int</span>, value(y)) <span style="color:#f92672">+</span> round(<span style="color:#66d9ef">Int</span>, value(z)))<span style="color:#e6db74">&#34;&#34;&#34;</span>)
+
+    <span style="color:#66d9ef">return</span> nothing
+<span style="color:#66d9ef">end</span>
+
+<span style="color:#a6e22e">@time</span> main(<span style="color:#e6db74">&#34;input201823.txt&#34;</span>)
+</code></pre></div><p>Output (second run to avoid compilation time):</p>
+<pre tabindex="0"><code>Step 1 solution:
+x=44166763, y=43480550, z=38585775,
+ans=126233088
+Step 2 solution:
+x=44166763, y=43480550, z=38585775
+ans=126233088
+  1.688667 seconds (590.15 k allocations: 32.233 MiB, 0.86% gc time)
+</code></pre><section class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1" role="doc-endnote">
+<p>You may be wondering why I didn&rsquo;t use <code>round(Int, objective_value(model))</code>. I found that for some values of <code>slack</code>, the <code>objective_value</code> is not the value of the objective at the solution (x, y, z). For example, the solution for step one results in an <code>objective_value</code> of 969 when the true number of bots in range of (x, y, z) is 972. 969 is still larger than the objective function evaluated at any other point, though. There may be a setting for HiGHS&mdash;that I&rsquo;m unaware of&mdash;to resolve this issue.&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:2" role="doc-endnote">
+<p>We could do this in the first step as well, but I&rsquo;m more confident in finding the global <code>maxbots</code> without the penalty in the first step, then trying to minimize the L1 norm of the solution.&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:3" role="doc-endnote">
+<p>If the slack is too <em>low</em>, then the problem is incorrectly specified. In the extreme case where slack is 0, the problem is to find a point within every bot&rsquo;s range, which isn&rsquo;t feasible. However, there shouldn&rsquo;t be an issue&mdash;mathematically&mdash;with a slack that is too large.&#160;<a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</section>
+
+    </div>
+  </article>
+
+  
+
+
+</main>
+
+      <footer class="footer">
+        <ul class="footer-links">
+          <li>
+            <a href="/index.xml" type="application/rss+xml" target="_blank">RSS feed</a>
+          </li>
+          <li>
+            <a href="https://gohugo.io/" class="footer-links-kudos">Made with <img src="/images/hugo-logo.png" alt="Img link to Hugo website" width="22" height="22"></a>
+          </li>
+        </ul>
+      </footer>
+
+    </div>
+    
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/julia.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+    
+<script src="/js/math-code.js"></script>
+<script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+
+    
+  </body>
+</html>
+
