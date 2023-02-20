@@ -33,8 +33,8 @@ We will solve Advent of Code 2018 day 23, so if you&amp;rsquo;d like to avoid sp
       <pubDate>Wed, 01 Feb 2023 00:00:00 +0000</pubDate>
       
       <guid>/2023/02/01/scraping-discord-pins/</guid>
-      <description>As more online communities move to Discord, it&amp;rsquo;s becoming increasingly difficult to find coherent information within those communities. Often, important findings and frequently asked questions are scattered in pinned messages throughout channels in the server. Discord search is not great, and navigating through pins is tiresome, so I wrote a hacky script to scrape all pinned messages in a server to a single Markdown file.
-The script grabs the user&amp;rsquo;s authentication token from the browser to call Discord&amp;rsquo;s API.</description>
+      <description>WARNING: Discord doesn&amp;rsquo;t like automation of user accounts, which is the method discussed in this post. Use at your own risk.
+As more online communities move to Discord, it&amp;rsquo;s becoming increasingly difficult to find coherent information within those communities. Often, important findings and frequently asked questions are scattered in pinned messages throughout channels in the server. Discord search is not great, and navigating through pins is tiresome, so I wrote a hacky script to scrape all pinned messages in a server to a single Markdown file.</description>
     </item>
     
     <item>
