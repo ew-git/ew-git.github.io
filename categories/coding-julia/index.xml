@@ -1,41 +1,0 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>coding julia on Evan Wright</title>
-    <link>/categories/coding-julia/</link>
-    <description>Recent content in coding julia on Evan Wright</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
-    <lastBuildDate>Sat, 18 Jun 2022 12:00:00 -0500</lastBuildDate><atom:link href="/categories/coding-julia/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>Solving Peg Solitaire with Julia</title>
-      <link>/2022/06/18/solving-peg-solitaire-with-julia/</link>
-      <pubDate>Sat, 18 Jun 2022 12:00:00 -0500</pubDate>
-      
-      <guid>/2022/06/18/solving-peg-solitaire-with-julia/</guid>
-      <description>Peg solitaire is a singleplayer board game with the objective to remove all game pieces (pegs or marbles) except one from the board by “jumping” them with another peg.The 15-hole triangular variant is commonly found in Cracker Barrel restaurants in the US.We will solve this variant with Julia.
-The triangular board is laid out as a hexagonal grid, so jumps can occur by moving northwest, northeast, east, southeast, southwest, or west.</description>
-    </item>
-    
-    <item>
-      <title>Julia PoissonFE.jl Package</title>
-      <link>/2020/06/02/julia-poissonfe.jl-package/</link>
-      <pubDate>Tue, 02 Jun 2020 12:00:00 -0500</pubDate>
-      
-      <guid>/2020/06/02/julia-poissonfe.jl-package/</guid>
-      <description>I’ve released a Julia package, PoissonFE.jl, to estimate Poisson regression with fixed effects.Similar to my R package, poisFErobust, it computes robust standard errors from Wooldridge (1999).
-The Julia package is quite a bit faster than R.Aside from the raw speed improvement of Julia, it implements the likelihood function without the fixed effects parameters, so it should be faster than GLM.jl for models with many fixed effect levels (thousands).</description>
-    </item>
-    
-    <item>
-      <title>A key benefit of Julia</title>
-      <link>/2019/01/15/a-key-benefit-of-julia/</link>
-      <pubDate>Tue, 15 Jan 2019 12:00:00 -0500</pubDate>
-      
-      <guid>/2019/01/15/a-key-benefit-of-julia/</guid>
-      <description>Notice: this post relies on Unicode characters which may not be included in the font(s) on your current platform, especially mobile. Therefore, you may see empty boxes or question marks for certain characters.
-A key benefit of Julia is the ability to write code which looks similar to the mathematical representation of an algorithm, with simple and expressive syntax, while still being performant.Additionally, Julia accepts UTF-8 encoded Unicode characters as variable names, so if a paper defines some quantity,\(\boldsymbol{\mu}_i\), then essentially the same Unicode representation, 𝛍ᵢ, could be used in the code.</description>
-    </item>
-    
-  </channel>
-</rss>

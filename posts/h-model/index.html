@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
+  
+  
+    
+  
+  <meta name="description" content="Derivation of the H-model dividend discount formula">
+
+  <title>Derivation of the H-model dividend discount formula</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="https://ew-git.github.io/img/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://ew-git.github.io/img/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="https://ew-git.github.io/img/apple-touch-icon.png">
+  
+  <style>
+
+  /* light mode colors */
+  body {
+    --primary-color: #5871a2;
+    --primary-pale-color: #5871a233;
+    --primary-decoration-color: #5871a210;
+    --bg-color: #ffffff;
+    --text-color: #2f3030;
+    --text-pale-color: #767676;
+    --text-decoration-color: #a9a9a9;
+    --highlight-mark-color: #5f75b020;
+
+    --callout-note-color: #5871a2;
+    --callout-tip-color: #268556;
+    --callout-important-color: #885fc9;
+    --callout-warning-color: #ab6632;
+    --callout-caution-color: #c64e4e;
+  }
+
+  /* dark mode colors */
+  body.dark {
+    --primary-color: #6f8fd1;
+    --primary-pale-color: #6f8fd166;
+    --primary-decoration-color: #6f8fd112;
+    --bg-color: #1c1c1c;
+    --text-color: #c1c1c1;
+    --text-pale-color: #848484;
+    --text-decoration-color: #5f5f5f;
+    --highlight-mark-color: #8296cb3b;
+
+    --callout-note-color: #6f8fd1;
+    --callout-tip-color: #47976f;
+    --callout-important-color: #9776cd;
+    --callout-warning-color: #ad7a52;
+    --callout-caution-color: #d06161;
+  }
+
+  /* typography */
+  body {
+    --main-font: ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+    --code-font: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+    --homepage-max-width: 768px;
+    --main-max-width: 768px;
+    --avatar-size: 60px;
+    --font-size: 16px;
+    --line-height: 1.75;
+    --img-border-radius: 0px;
+    --detail-border-radius: 0px;
+    --dark-mode-img-brightness: 0.75;
+    --dark-mode-chart-brightness: 0.75;
+    --inline-code-border-radius: 2px;
+    --inline-code-bg-color: var(--primary-decoration-color);
+    --block-code-border-radius: 0px;
+    --block-code-border-color: var(--primary-color);
+    --detail-border-color: var(--primary-color);
+  }
+
+</style>
+
+  <link rel="stylesheet" href="https://ew-git.github.io/main.css">
+  
+
+<link id="hl" rel="stylesheet" type="text/css" href="/giallo-light.css" />
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" integrity="sha384-nB0miv6/jRmo5UMMR1wu3Gz6NLsoTkbqJghGIsx//Rlm+ZU03BU6SQNC66uf4l5+" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" integrity="sha384-7zkQWkzuo3B5mTepMUcHkMB5jZaolc2xDwL6VFqjFALcbeS9Ggm/Yr2r3Dy4lfFg" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" integrity="sha384-43gviWU0YVjaDtb/GhzOouOXtZMP/7XUzwPTstBeZFe/+rCMvRwr4yROQP43s0Xk" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/copy-tex.min.js" integrity="sha384-HORx6nWi8j5/mYA+y57/9/CZc5z8HnEw4WUZWy5yOn9ToKBv1l58vJaufFAn9Zzi" crossorigin="anonymous"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        renderMathInElement(document.body, {
+            delimiters: [
+                { left: '$$', right: '$$', display: true },
+                { left: '$', right: '$', display: false },
+                { left: '\\(', right: '\\)', display: false },
+                { left: '\\[', right: '\\]', display: true }
+            ],
+            throwOnError: false
+        });
+    });
+</script>
+
+
+  
+</head>
+
+<body class="post">
+  
+  <script>
+    const theme = sessionStorage.getItem('theme');
+    const match = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    if ((theme && theme == 'dark') || (!theme && match)) {
+      document.body.classList.add('dark');
+      const hl = document.querySelector('link#hl');
+      if (hl) hl.href = 'https://ew-git.github.io/giallo-dark.css';
+    }
+  </script>
+  
+  
+<div id="wrapper">
+  <div id="blank"></div>
+  <aside>
+    
+    
+    <nav>
+      <ul>
+        
+        <li>
+          <a class="h2" href="#introduction">Introduction</a>
+          
+        </li>
+        
+        <li>
+          <a class="h2" href="#the-h-model">The H-model</a>
+          
+          <ul>
+            
+            <li>
+              <a class="h3" href="#derivation">Derivation</a>
+            </li>
+            
+            <li>
+              <a class="h3" href="#approximation-error">Approximation error</a>
+            </li>
+            
+          </ul>
+          
+        </li>
+        
+        <li>
+          <a class="h2" href="#why-did-i-write-this-post">Why did I write this post?</a>
+          
+        </li>
+        
+        <li>
+          <a class="h2" href="#references">References</a>
+          
+        </li>
+        
+      </ul>
+    </nav>
+    
+    
+    <button id="back-to-top" aria-label="back to top">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-up"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>
+
+    </button>
+    
+  </aside>
+  <main>
+    
+<header>
+  <nav>
+    <a id="back-link" href="https:&#x2F;&#x2F;ew-git.github.io&#x2F;posts">← Back</a>
+  </nav>
+</header>
+
+
+    <div>
+      
+      
+      <article class="prose">
+        <h1>Derivation of the H-model dividend discount formula</h1>
+        <div id="post-info">
+          <div id="date">
+            <span id="publish">Nov 2, 2021</span>
+            </div>
+
+          
+          <div id="tags">
+            <a class="instant" href="https://ew-git.github.io/tags/r"><span>#</span>r</a>
+          </div>
+          
+        </div>
+
+        
+        
+
+        
+
+        <h1 id="introduction">Introduction<a class="zola-anchor" href="#introduction" aria-label="Anchor link for: introduction" style="visibility: hidden;"></a>
+</h1>
+<p><a rel="nofollow noreferrer external" href="https://en.wikipedia.org/wiki/Dividend_discount_model">Dividend discount models</a> (DDM) provide a basic mechanism to value companies by discounting expected dividend cash flows back to the current period.
+Practitioners typically assume a series of dividend growth rates over a short horizon along with a constant terminal growth rate.
+These assumptions imply a multi-stage model with growth rates $g_1,\ldots,g_A$ for the first $A$ periods, and a terminal growth rate $g_\infty$.
+Given an initial dividend amount, $D_0$, and a discount rate, $r$, the present value today, $P_0$, is</p>
+<p><span id="eq-twostage"></span>
+$$
+P_0 = \sum_{t=1}^A \dfrac{D_0 \prod_{i=1}^t (1 + g_i)}{(1 + r)^t} +
+D_A\dfrac{
+\frac{1+g_{\infty}}{r-g_{\infty}}
+}{
+(1 + r)^A
+}
+\tag{1}
+$$</p>
+<p>Determining the growth rates is a tricky task.
+The terminal rate in particular cannot be too high, or
+else the second term—often called the terminal value—will be unreasonably large.
+Therefore, the earlier rates, $g_1,\ldots,g_A$, are often chosen to decrease towards a lower terminal rate.
+In some cases, this strategy results in a cliff, where the drop from $g_A$ to $g_\infty$ is significant.
+The drop is hard to justify qualitatively, although typically accepted to arrive at a reasonable valuation.</p>
+<h1 id="the-h-model">The H-model<a class="zola-anchor" href="#the-h-model" aria-label="Anchor link for: the-h-model" style="visibility: hidden;"></a>
+</h1>
+<p>The H-model proposed by Fuller and Hsia (1984) seeks to alleviate these issues by assuming a linear decline in the growth rate during the first $A$ periods, so the modeler only need choose $g_1$ and $g_\infty$.
+The model uses the following formula to determine the present value,</p>
+<p><span id="eq-hmodel"></span>
+$$
+P_0 = \dfrac{D_0}{r - g_\infty} [(1 + g_\infty) + H(g_1 - g_\infty)]
+\tag{2}
+$$
+where $H$ is half of the transition period—i.e., $H=A/2$.</p>
+<p>Equation <a href="https://ew-git.github.io/posts/h-model/#eq-hmodel">(2)</a> appears quite nice, almost too nice.
+Indeed, the H-model is only an <em>approximation</em> of the present value of the assumed cash flows.<sup class="footnote-reference"><a href="#1">1</a></sup>
+The assumption of linearly declining growth rate does not admit much simplification of Equation <a href="https://ew-git.github.io/posts/h-model/#eq-twostage">(1)</a>.</p>
+<p>However, one of the goals of Fuller and Hsia (1984) is to provide a simple analytic formula for the discount rate, given a present value. That is,</p>
+<p><span id="eq-hmodel-discount"></span>
+$$
+r = \dfrac{D_0}{P_0}[(1 + g_\infty) + H(g_1 - g_\infty)] + g_\infty
+\tag{3}
+$$
+Although an analytic formula is not necessary with modern computing power, most financial analysts in 1984 would have found solving Equation <a href="https://ew-git.github.io/posts/h-model/#eq-twostage">(1)</a> rather time-consuming.
+Therefore, approximation error may have been a reasonable trade-off.</p>
+<h2 id="derivation">Derivation<a class="zola-anchor" href="#derivation" aria-label="Anchor link for: derivation" style="visibility: hidden;"></a>
+</h2>
+<p>Unfortunately, Fuller and Hsia (1984) do not provide a formal derivation of the H-model in the paper.
+A footnote contains the dreaded words, "available from the authors."<sup class="footnote-reference"><a href="#2">2</a></sup>
+However, with a bit a guess work, it's not too difficult to figure out how they likely arrived at Equation <a href="https://ew-git.github.io/posts/h-model/#eq-hmodel">(2)</a>.</p>
+<h3 id="two-step-approximation">Two-step approximation<a class="zola-anchor" href="#two-step-approximation" aria-label="Anchor link for: two-step-approximation" style="visibility: hidden;"></a>
+</h3>
+<p>The authors begin with a two-step model with two growth rates.
+Dividends grow at the initial rate ($g_a$) for $A$ periods then at the terminal rate ($g_\infty$) for all future periods.
+In the two-step model, the present value is given by equation 5 in the paper,</p>
+<p><span id="eq-twostep1"></span>
+$$
+P_0 = D_0 \sum_{t=1}^A \left(\dfrac{1+g_a}{1+r} \right)^t +
+D_A \sum_{t=A+1}^\infty \left(\dfrac{(1+g_\infty)^{t-A}}{(1+r)^t} \right)
+\tag{4}
+$$
+By applying the formula for a growing annuity to the first term and the formula for a growing perpetuity to the second term, the present value can be written as</p>
+<p><span id="eq-twostep2"></span>
+$$
+P_0 = D_0 \dfrac{1+g_a}{r-g_a}\left(1 - \left(\dfrac{1+g_a}{1+r} \right)^A \right) +
+D_0 \left(\dfrac{1+g_a}{1+r} \right)^A \dfrac{1+g_\infty}{r-g_\infty}
+\tag{5}
+$$
+With some algebra, Equation <a href="https://ew-git.github.io/posts/h-model/#eq-twostep2">(5)</a> can be rearranged as</p>
+<p><span id="eq-twostep3"></span>
+$$
+P_0 = D_0 \dfrac{1+g_a}{r-g_a}\left(1 - \left(\dfrac{1+g_a}{1+r} \right)^{A-1} \left(\dfrac{g_a-g_\infty}{r-g_\infty} \right) \right)
+\tag{6}
+$$
+which is equation 6 in the paper.</p>
+<p>The authors claim that <a href="https://ew-git.github.io/posts/h-model/#eq-twostep3">(6)</a> can be approximated by</p>
+<p><span id="eq-twostepapprox"></span>
+$$
+P_0 \approx  \dfrac{D_0}{r-g_\infty}\left(1 + g_\infty + A(g_a - g_\infty)\right)
+\tag{7}
+$$</p>
+<p>The authors do not provide any hints for the approximation, and manipulating Equation <a href="https://ew-git.github.io/posts/h-model/#eq-twostep3">(6)</a> is quite messy.
+Instead, consider how extreme values of $g_a$ affect the "exact" present value in Equation <a href="https://ew-git.github.io/posts/h-model/#eq-twostep1">(4)</a>.
+If $g_a=g_\infty$, then the whole cash flow series is a perpetuity with constant growth, so $P_0=\frac{D_0(1+g_\infty)}{r-g_\infty}$.
+If $g_a=r$, then both terms can be considerably simplified so $P_0=D_0A +\frac{D_0(1+g_\infty)}{r-g_\infty}$.</p>
+<p>Now, consider linearly interpolating between these two points for ($g_a,P_0$): from $\left(g_\infty,\frac{D_0(1+g_\infty)}{r-g_\infty}\right)$ to $\left(r,D_0A+\frac{D_0(1+g_\infty)}{r-g_\infty}\right)$.
+The formula for a line connecting two points, $(x, f(x))$ and $(x_1, f(x_1))$, is
+$$
+f(x)-f(x_1)=m(x-x_1)
+$$
+where $m$ is the slope between the two points.
+The slope between our two points for the present value is $\frac{D_0A}{r-g_\infty}$, so we can write the formula as
+$$
+f(x) - \frac{D_0(1+g_\infty)}{r-g_\infty} = \frac{D_0A}{r-g_\infty}(x-g_\infty)
+$$
+$$
+f(x) = \frac{D_0}{r-g_\infty}(1+g_\infty+A(x-g_\infty))
+$$
+So, for a particular value of $g_a$, we have the approximation
+$$
+P_0 \approx f(g_a) = \frac{D_0}{r-g_\infty}(1+g_\infty+A(g_a-g_\infty))
+$$</p>
+<p>The authors also write the approximation as the sum of two terms,
+$$
+P_0 \approx \frac{D_0}{r-g_\infty}(1+g_\infty)+ \frac{D_0}{r-g_\infty}A(g_a-g_\infty)
+$$
+and add the interpretation that the first term is the underlying perpetuity, while the second term is the "excess" dividend growth during the period from 0 to $A$ which itself grows at $g_\infty$ starting from period $A+1$.
+The approximation ignores the discounting of the excess perpetuity back to time 0.</p>
+<h3 id="the-h-model-formula">The H-model formula<a class="zola-anchor" href="#the-h-model-formula" aria-label="Anchor link for: the-h-model-formula" style="visibility: hidden;"></a>
+</h3>
+<p>From this interpretation, one may consider a linearly declining growth rate over the $A$ period, instead of a constant $g_a$.
+In that case, the "excess growth" would be halved, to $\frac{A}{2}(g_a - g_\infty)$ (again, ignore compounding).
+Finally, with $H=A/2$, we have the H-model formula, Equation <a href="https://ew-git.github.io/posts/h-model/#eq-hmodel">(2)</a>.</p>
+<h3 id="three-step-approximation">Three-step approximation<a class="zola-anchor" href="#three-step-approximation" aria-label="Anchor link for: three-step-approximation" style="visibility: hidden;"></a>
+</h3>
+<p>The authors do not jump directly from the two-step approximation to the H-model formula in the paper.
+Instead, they consider a three-step model, with growth rates of $g_a$ for $A$ periods, then $g_b$ for $B-A$ periods, then $g_\infty$ for all future periods.
+In this model, they claim the present value can be approximated by
+$$
+P_0 \approx \frac{D_0}{r-g_\infty}(1+g_\infty+A(g_a-g_\infty)+(B-A)(g_b-g_\infty))
+$$
+again without explanation.<sup class="footnote-reference"><a href="#3">3</a></sup>
+Unfortunately, I was not able to find a clean mathematical way to arrive at this approximation.
+Of course if $g_a=g_b=r$ or $g_a=g_b=g_\infty$, then the approximate formula matches the exact formula.
+However, three points are required to form the plane representing the approximation.
+I suspect the authors continue the geometric interpretation above that $A(g_a-g_\infty)$ is the excess growth in the first intermediate period, so $(B-A)(g_b-g_\infty)$ is the excess growth in the second intermediate period.</p>
+<p>Given the three-step approximation, the authors assume $g_b = \frac{g_a+g_n}{2}$, so the approximation reduces to
+$$
+P_0 \approx \frac{D_0}{r-g_\infty}\left(1+g_\infty+\frac{A+B}{2}(g_a-g_\infty)\right)
+$$
+Now the authors write $H=\frac{A+B}{2}$ to arrive at what they call the H-model.
+The three-step approximation does not improve the accuracy of the H-model, although it shows another way to think about the underlying assumptions as being about the growth rate rather than the length of time over which the growth rate is declining.</p>
+<h2 id="approximation-error">Approximation error<a class="zola-anchor" href="#approximation-error" aria-label="Anchor link for: approximation-error" style="visibility: hidden;"></a>
+</h2>
+<p>Let us now examine the accuracy of the approximations, including the H-model itself as compared to the "exact" model with linearly declining growth rate over $2H$ periods.</p>
+<h3 id="two-step">Two-step<a class="zola-anchor" href="#two-step" aria-label="Anchor link for: two-step" style="visibility: hidden;"></a>
+</h3>
+<p>The following plot shows the present value as a function of $g_a$ with representative values of the remaining parameters: $D_0=1,A=5,g_\infty=0.01,r=0.15$.
+The lines intersect at the points used to create the approximation—that is, where $g_a=g_\infty$ and $g_a=r$.
+Interestingly, for reasonable parameter values ($g_\infty&lt;g_a&lt;r$), the approximation always overstates the present value.</p>
+<figure>
+    <img
+        src="&#x2F;img&#x2F;h-model-two-step-1.png"
+         alt="H-model two step approximation"
+         height="600"
+        
+    >
+    
+    <figcaption><p>H-model two step approximation</p>
+</figcaption>
+    
+</figure>
+<!-- 
+Figure generated with https://webr.sh
+```r
+exact2 <- function(D, a, A, inf, r){
+  term1 <- D*sum(rep((1+a)/(1+r), A)^(1:A))
+  term2 <- D*((1+a)/(1+r))^A*(1+inf)/(r-inf)
+  pv <- term1 + term2
+  return(pv)
+}
+
+apx2 <- function(D, a, A, inf, r){
+  pv <- D/(r-inf)*(1 + inf + A*(a - inf))
+  return(pv)
+}
+
+plot_two_step <- function(D, A, inf, r){
+  a <- seq(from=0, to=0.2, by = 0.01)
+  plot(a, sapply(a, function(x) return(exact2(D, x, A, inf, r))),
+       col = "black", type = "l", xlab = bquote(g[a]), ylab = "Present Value")
+  lines(a, sapply(a, function(x) return(apx2(D, x, A, inf, r))),
+        col = "red")
+  abline(v=inf, col = "green")
+  abline(v=r, col = "orange")
+  legend(x = "topleft",
+         legend = c("Exact PV", "Approximate PV", expression(g[infinity]), "r"),
+         col = c("black", "red", "green", "orange"),
+         lty = c(1,1,1,1))
+}
+
+plot_two_step(1, 5, 0.01, 0.15)
+``` -->
+<h3 id="three-step">Three-step<a class="zola-anchor" href="#three-step" aria-label="Anchor link for: three-step" style="visibility: hidden;"></a>
+</h3>
+<p>The three-step model is a bit harder to visualize, with present value now a function of the growth rates of the first two periods, $g_a$ and $g_b$.
+The approximate present value is a plane in 3D space, and the exact present value is a curved surface.
+The figure below shows the difference between the two (error) with the following parameters: $A=3,B=6,g_\infty=0.01,r=0.15$.
+Again, for typical parameters ($g_\infty &lt; g_a, g_b &lt; r$), the approximation overstates the present value.</p>
+<figure>
+    <img
+        src="&#x2F;img&#x2F;h-model-three-step-1.png"
+         alt="H-model three step approximation"
+         height="600"
+        
+    >
+    
+    <figcaption><p>H-model three step approximation</p>
+</figcaption>
+    
+</figure>
+<!-- 
+Figure generated with https://webr.sh
+```r
+# 1. Valuation Functions (Unchanged)
+exact3 <- function(D, a, A, b, B, inf, r){
+  term1 <- D*sum(rep((1+a)/(1+r), A)^(1:A))
+  if (A < B){
+    term2 <- D * (1+a)^A * sum( (1+b)^(1:(B-A)) / (1+r)^((A+1):B) )
+    term3 <- D*((1+a)/(1+r))^A*((1+b)/(1+r))^(B-A)*(1+inf)/(r-inf)
+  } else {
+    term2 <- 0
+    term3 <- D*((1+a)/(1+r))^A*(1+inf)/(r-inf)
+  }
+  pv <- term1 + term2 + term3
+  return(pv)
+}
+
+apx3 <- function(D, a, A, b, B, inf, r){
+  pv <- D/(r-inf)*(1 + inf + A*(a - inf) + (B-A)*(b-inf))
+  return(pv)
+}
+
+# 2. Base R Plotting Function
+plot_three_step_base <- function(A, B, ginf, r, filename = "contour_plot.png"){
+  rawa <- seq(from = 0, to = 0.2, by = 0.001)
+  rawb <- seq(from = 0, to = 0.2, by = 0.001)
+  
+  # Vectorize the functions so they can be passed to outer()
+  exact_vec <- Vectorize(function(x, y) exact3(1, x, A, y, B, ginf, r))
+  apx_vec <- Vectorize(function(x, y) apx3(1, x, A, y, B, ginf, r))
+  
+  # outer() evaluates the grid much faster than expand.grid + mapply
+  zmat <- outer(rawa, rawb, exact_vec)
+  zmatapx <- outer(rawa, rawb, apx_vec)
+  
+  errormat <- zmatapx - zmat
+  
+  # Open PNG graphics device
+  png(filename, width = 800, height = 600, res = 120)
+  
+  # Generate the filled contour plot
+  filled.contour(x = rawa, y = rawb, z = errormat,
+                 # hcl.colors provides modern, colorblind-friendly palettes in Base R
+                 color.palette = function(n) hcl.colors(n, "YlOrRd", rev = TRUE), 
+                 plot.title = title(xlab = expression(g[a]), 
+                                    ylab = expression(g[b])),
+                 plot.axes = {
+                   axis(1)
+                   axis(2)
+                   # Overlay standard contour lines with labels on top of the heatmap
+                   contour(rawa, rawb, errormat, add = TRUE, 
+                           col = "white", lwd = 1, labcex = 1)
+                 },
+                 key.title = title(main = "PV Error", cex.main = 0.9))
+  
+  # Close graphics device and save file
+  dev.off()
+
+  
+  cat("Plot successfully saved to", filename, "\n")
+}
+
+# 3. Execution
+plot_three_step_base(3, 6, 0.01, 0.15)
+``` -->
+<h3 id="h-model-versus-exact-linear-decline-in-growth-rate">H-model versus "exact" linear decline in growth rate<a class="zola-anchor" href="#h-model-versus-exact-linear-decline-in-growth-rate" aria-label="Anchor link for: h-model-versus-exact-linear-decline-in-growth-rate" style="visibility: hidden;"></a>
+</h3>
+<p>Lastly, let us compare the H-model itself to the intended underlying assumption of linearly declining growth rate over $2H$ periods.
+Similar to the two-step model, the approximation is exact when $g_a=g_\infty$, but the upper intersection point now depends on $H$.
+Larger values of $H$ tend to result in overstating the present value, while lower values the opposite.</p>
+<p><figure>
+    <img
+        src="&#x2F;img&#x2F;h-model-two-step-h2.png"
+         alt="H-model exact linear decline approximation, H=2"
+         height="600"
+        
+    >
+    
+    <figcaption><p>H-model exact linear decline approximation, H=2</p>
+</figcaption>
+    
+</figure>
+
+<figure>
+    <img
+        src="&#x2F;img&#x2F;h-model-two-step-h5.png"
+         alt="H-model exact linear decline approximation, H=5"
+         height="600"
+        
+    >
+    
+    <figcaption><p>H-model exact linear decline approximation, H=5</p>
+</figcaption>
+    
+</figure>
+
+<figure>
+    <img
+        src="&#x2F;img&#x2F;h-model-two-step-h10.png"
+         alt="H-model exact linear decline approximation, H=10"
+         height="600"
+        
+    >
+    
+    <figcaption><p>H-model exact linear decline approximation, H=10</p>
+</figcaption>
+    
+</figure>
+</p>
+<!-- 
+Figure generated with https://webr.sh
+```r
+exacth <- function(D, a, H, inf, r){
+  h2 <- 2*H
+  gs <- a - (a-inf)*((0:(h2-1))/(h2))
+  ds <- cumprod(1+gs)
+  term1 <- D*sum(ds*(1/(1+r))^(1:h2)) # present value of dividends during the linear decline
+  term2 <- D*ds[h2]/(1+r)^h2*(1+inf)/(r-inf) # terminal value
+  return(term1+term2)
+}
+
+apxh <- function(D, a, H, inf, r){
+  pv <- D/(r-inf)*(1 + inf + H*(a - inf))
+  return(pv)
+}
+
+plot_h <- function(D, H, inf, r){
+  a <- seq(from=0, to=0.2, by = 0.01)
+  plot(a, sapply(a, function(x) return(exacth(D, x, H, inf, r))),
+       col = "black", type = "l", xlab = bquote(g[a]), ylab = "Present Value",
+       main = paste("H =", H))
+  lines(a, sapply(a, function(x) return(apxh(D, x, H, inf, r))),
+        col = "red")
+  abline(v=inf, col = "green")
+  abline(v=r, col = "orange")
+  legend(x = "topleft",
+         legend = c("Exact PV", "Approximate PV", expression(g[infinity]), "r"),
+         col = c("black", "red", "green", "orange"),
+         lty = c(1,1,1,1))
+}
+
+plot_h(1, 2, 0.01, 0.15)
+plot_h(1, 5, 0.01, 0.15)
+plot_h(1, 10, 0.01, 0.15)
+``` -->
+<h1 id="why-did-i-write-this-post">Why did I write this post?<a class="zola-anchor" href="#why-did-i-write-this-post" aria-label="Anchor link for: why-did-i-write-this-post" style="visibility: hidden;"></a>
+</h1>
+<p>That's a great question. I came across the H-model in my normal course of work.
+It seemed like an elegant simplification of a more general model (linearly declining growth), so I tried to work out the derivation.
+After unsuccessful attempts, I decided to dig up the original paper.
+Finding out it was only an approximation was quite annoying, doubly so when I saw the authors didn't bother to include explanation—let alone derivation—of the approximate form.</p>
+<p>I guess I felt committed at this point, so I spent some time trying to deduce the path from the "exact" formula to the approximate one.
+The two-step model eventually worked out nicely, but the three-step (or n-step) approximation appears to be heuristic.</p>
+<h1 id="references">References<a class="zola-anchor" href="#references" aria-label="Anchor link for: references" style="visibility: hidden;"></a>
+</h1>
+<p>Fuller, Russell J. and Chi-Cheng Hsia (1984): "A Simplified Common Stock Valuation Model," <em>Financial Analysts Journal</em>, Sep.--Oct., 1984, Vol. 40, No. 5, pp. 49--56. https://www.jstor.org/stable/4478774</p>
+<div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
+<p>Many online resources explaining the H-model omit this important detail. The subjective choices of the growth and discount rates dwarf the materiality of approximation error, but it's nonetheless important for practitioners to understand how the model works.</p>
+</div>
+<div class="footnote-definition" id="2"><sup class="footnote-definition-label">2</sup>
+<p>If you are unfamiliar with academic writing, this means it's not available. If it were available, it would be in the paper.</p>
+</div>
+<div class="footnote-definition" id="3"><sup class="footnote-definition-label">3</sup>
+<p>In a footnote, they claim a general approximation for $N$ intermediate growth periods of the form $\frac{D_0}{r-g_\infty}(1+g_\infty+X_1(g_1-g_\infty)+X_2(g_2-g_\infty)+\ldots. +X_N(g_N-g_\infty))$, where $X_i$ is the length of each period.</p>
+</div>
+
+      </article>
+
+      
+      
+
+      
+      
+    </div>
+
+    
+
+
+<footer>
+  <div class="left">
+    <div class="copyright">
+      © 2026 Evan Wright, CC BY-NC-SA 4.0
+      
+    </div>
+  </div>
+
+  <div class="right">
+    
+    
+      
+    
+    
+    <a id="rss-btn" href="https://ew-git.github.io/posts/feed.xml">RSS</a>
+    
+    
+
+    
+    
+    
+    <button id="theme-toggle" aria-label="theme switch">
+      <span class="moon-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18"><path d="M10 7C10 10.866 13.134 14 17 14C18.9584 14 20.729 13.1957 21.9995 11.8995C22 11.933 22 11.9665 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C12.0335 2 12.067 2 12.1005 2.00049C10.8043 3.27098 10 5.04157 10 7ZM4 12C4 16.4183 7.58172 20 12 20C15.0583 20 17.7158 18.2839 19.062 15.7621C18.3945 15.9187 17.7035 16 17 16C12.0294 16 8 11.9706 8 7C8 6.29648 8.08133 5.60547 8.2379 4.938C5.71611 6.28423 4 8.9417 4 12Z" fill="currentColor"></path></svg>
+</span>
+      <span class="sun-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18"><path d="M12 18C8.68629 18 6 15.3137 6 12C6 8.68629 8.68629 6 12 6C15.3137 6 18 8.68629 18 12C18 15.3137 15.3137 18 12 18ZM12 16C14.2091 16 16 14.2091 16 12C16 9.79086 14.2091 8 12 8C9.79086 8 8 9.79086 8 12C8 14.2091 9.79086 16 12 16ZM11 1H13V4H11V1ZM11 20H13V23H11V20ZM3.51472 4.92893L4.92893 3.51472L7.05025 5.63604L5.63604 7.05025L3.51472 4.92893ZM16.9497 18.364L18.364 16.9497L20.4853 19.0711L19.0711 20.4853L16.9497 18.364ZM19.0711 3.51472L20.4853 4.92893L18.364 7.05025L16.9497 5.63604L19.0711 3.51472ZM5.63604 16.9497L7.05025 18.364L4.92893 20.4853L3.51472 19.0711L5.63604 16.9497ZM23 11V13H20V11H23ZM4 11V13H1V11H4Z" fill="currentColor"></path></svg>
+</span>
+    </button>
+    
+  </div>
+</footer>
+
+
+
+
+<dialog id="rss-mask">
+  <div>
+    <a href="https:&#x2F;&#x2F;ew-git.github.io&#x2F;posts&#x2F;feed.xml">https:&#x2F;&#x2F;ew-git.github.io&#x2F;posts&#x2F;feed.xml</a>
+    
+    
+    <button autofocus aria-label="copy" data-link="https:&#x2F;&#x2F;ew-git.github.io&#x2F;posts&#x2F;feed.xml" data-copy-icon="&lt;svg xmlns=&quot;http:&#x2F;&#x2F;www.w3.org&#x2F;2000&#x2F;svg&quot; viewBox=&quot;0 0 24 24&quot; width=&quot;18&quot; height=&quot;18&quot;&gt;&lt;path d=&quot;M6.9998 6V3C6.9998 2.44772 7.44752 2 7.9998 2H19.9998C20.5521 2 20.9998 2.44772 20.9998 3V17C20.9998 17.5523 20.5521 18 19.9998 18H16.9998V20.9991C16.9998 21.5519 16.5499 22 15.993 22H4.00666C3.45059 22 3 21.5554 3 20.9991L3.0026 7.00087C3.0027 6.44811 3.45264 6 4.00942 6H6.9998ZM5.00242 8L5.00019 20H14.9998V8H5.00242ZM8.9998 6H16.9998V16H18.9998V4H8.9998V6Z&quot; fill=&quot;currentColor&quot;&gt;&lt;&#x2F;path&gt;&lt;&#x2F;svg&gt;
+" data-check-icon="&lt;svg xmlns=&quot;http:&#x2F;&#x2F;www.w3.org&#x2F;2000&#x2F;svg&quot; viewBox=&quot;0 0 24 24&quot; width=&quot;18&quot; height=&quot;18&quot;&gt;&lt;path d=&quot;M10.0007 15.1709L19.1931 5.97852L20.6073 7.39273L10.0007 17.9993L3.63672 11.6354L5.05093 10.2212L10.0007 15.1709Z&quot; fill=&quot;currentColor&quot;&gt;&lt;&#x2F;path&gt;&lt;&#x2F;svg&gt;
+" >
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18"><path d="M6.9998 6V3C6.9998 2.44772 7.44752 2 7.9998 2H19.9998C20.5521 2 20.9998 2.44772 20.9998 3V17C20.9998 17.5523 20.5521 18 19.9998 18H16.9998V20.9991C16.9998 21.5519 16.5499 22 15.993 22H4.00666C3.45059 22 3 21.5554 3 20.9991L3.0026 7.00087C3.0027 6.44811 3.45264 6 4.00942 6H6.9998ZM5.00242 8L5.00019 20H14.9998V8H5.00242ZM8.9998 6H16.9998V16H18.9998V4H8.9998V6Z" fill="currentColor"></path></svg>
+
+    </button>
+  </div>
+</dialog>
+
+
+
+  </main>
+</div>
+
+  
+<script src="/js/lightense.min.js"></script>
+
+
+  <script src="https://ew-git.github.io/js/main.js"></script>
+</body>
+
+</html>

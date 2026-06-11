@@ -1,17 +1,18 @@
 <!DOCTYPE html>
 
-<html lang="
-
-en">
+<html lang="en">
 
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="color-scheme" content="light dark">
   
-  <meta name="description" content="julia">
+  
+    
+  
+  <meta name="description" content="Julia PoissonFE.jl Package">
 
-  <title>My Blog</title>
+  <title>Julia PoissonFE.jl Package</title>
   <link rel="icon" type="image/png" sizes="32x32" href="https://ew-git.github.io/img/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="https://ew-git.github.io/img/favicon-16x16.png">
   <link rel="apple-touch-icon" sizes="180x180" href="https://ew-git.github.io/img/apple-touch-icon.png">
@@ -78,10 +79,15 @@ en">
 
   <link rel="stylesheet" href="https://ew-git.github.io/main.css">
   
+
+<link id="hl" rel="stylesheet" type="text/css" href="/giallo-light.css" />
+
+
+
   
 </head>
 
-<body class="tag-single">
+<body class="post">
   
   <script>
     const theme = sessionStorage.getItem('theme');
@@ -95,47 +101,72 @@ en">
   
   
 <div id="wrapper">
-  
+  <div id="blank"></div>
+  <aside>
+    
+    
+    
+    <button id="back-to-top" aria-label="back to top">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-up"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>
+
+    </button>
+    
+  </aside>
+  <main>
+    
 <header>
   <nav>
-    <a id="back-link" href="https:&#x2F;&#x2F;ew-git.github.io&#x2F;tags">← Back</a>
+    <a id="back-link" href="https:&#x2F;&#x2F;ew-git.github.io&#x2F;posts">← Back</a>
   </nav>
 </header>
 
-  <main class="layout-list">
-    <div class="title">
-      <span># julia</span>
+
+    <div>
+      
+      
+      <article class="prose">
+        <h1>Julia PoissonFE.jl Package</h1>
+        <div id="post-info">
+          <div id="date">
+            <span id="publish">Jun 2, 2020</span>
+            </div>
+
+          
+          <div id="tags">
+            <a class="instant" href="https://ew-git.github.io/tags/julia"><span>#</span>julia</a>
+          </div>
+          
+        </div>
+
+        
+        
+
+        
+
+        <p>I've released a Julia package, <a rel="nofollow noreferrer external" href="https://github.com/ew-git/PoissonFE.jl">PoissonFE.jl</a>, to estimate Poisson regression with fixed effects.
+Similar to my R package, <a rel="nofollow noreferrer external" href="https://cran.r-project.org/package=poisFErobust">poisFErobust</a>, it computes robust standard errors from <a rel="nofollow noreferrer external" href="https://doi.org/10.1016/S0304-4076%2898%2900033-5">Wooldridge (1999)</a>.</p>
+<p>The Julia package is quite a bit faster than R.
+Aside from the raw speed improvement of Julia, it implements the likelihood function without the fixed effects parameters, so it should be faster than <a rel="nofollow noreferrer external" href="https://github.com/JuliaStats/GLM.jl">GLM.jl</a> for models with many fixed effect levels (thousands).
+The estimates should match Stata's command, <code>xtpoisson y x, fe vce(r)</code>.</p>
+<p>I continue to be impressed by Julia's ecosystem.
+Estimating the coefficients only required implementing the likelihood function.
+Automatic differentiation via <a rel="nofollow noreferrer external" href="https://github.com/JuliaDiff/ForwardDiff.jl">ForwardDiff.jl</a> enables a simple function call to <a rel="nofollow noreferrer external" href="https://github.com/JuliaNLSolvers/Optim.jl">Optim.jl</a> which implements efficient line search algorithms.
+There was no need to implement the gradient or Hessian by hand.</p>
+<h3 id="references">References<a class="zola-anchor" href="#references" aria-label="Anchor link for: references" style="visibility: hidden;"></a>
+</h3>
+<p>Wooldridge, Jeffrey M. (1999): "Distribution-free estimation of some nonlinear panel data models," <em>Journal of Econometrics</em>, 90, 77-97. <a rel="nofollow noreferrer external" href="https://doi.org/10.1016/S0304-4076%2898%2900033-5">https://doi.org/10.1016/S0304-4076%2898%2900033-5</a></p>
+
+      </article>
+
+      
+      
+
+      
+      
     </div>
-    <div class="post-list">
-      
-      <a class="post instant " href="https:&#x2F;&#x2F;ew-git.github.io&#x2F;posts&#x2F;milp-example-with-jump-and-highs&#x2F;">
-        <span>MILP Example with JuMP and HiGHS</span>
-        <span class="date">Feb 16, 2023</span>
-      </a>
-      
-      <a class="post instant " href="https:&#x2F;&#x2F;ew-git.github.io&#x2F;posts&#x2F;z3-jl-optimization-example&#x2F;">
-        <span>Z3.jl Optimization Example</span>
-        <span class="date">Feb 14, 2023</span>
-      </a>
-      
-      <a class="post instant " href="https:&#x2F;&#x2F;ew-git.github.io&#x2F;posts&#x2F;pegsolitaire-julia&#x2F;">
-        <span>Solving Peg Solitaire with Julia</span>
-        <span class="date">Jun 18, 2022</span>
-      </a>
-      
-      <a class="post instant " href="https:&#x2F;&#x2F;ew-git.github.io&#x2F;posts&#x2F;poisferobust-julia-pkg&#x2F;">
-        <span>Julia PoissonFE.jl Package</span>
-        <span class="date">Jun 2, 2020</span>
-      </a>
-      
-      <a class="post instant " href="https:&#x2F;&#x2F;ew-git.github.io&#x2F;posts&#x2F;poisferobust-julia&#x2F;">
-        <span>A key benefit of Julia</span>
-        <span class="date">Jan 15, 2019</span>
-      </a>
-      
-    </div>
-  </main>
-  
+
+    
 
 
 <footer>
@@ -188,9 +219,13 @@ en">
 
 
 
+  </main>
 </div>
 
   
+<script src="/js/lightense.min.js"></script>
+
+
   <script src="https://ew-git.github.io/js/main.js"></script>
 </body>
 

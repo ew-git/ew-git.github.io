@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
+  
+  
+    
+  
+  <meta name="description" content="Z3.jl Optimization Example">
+
+  <title>Z3.jl Optimization Example</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="https://ew-git.github.io/img/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://ew-git.github.io/img/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="https://ew-git.github.io/img/apple-touch-icon.png">
+  
+  <style>
+
+  /* light mode colors */
+  body {
+    --primary-color: #5871a2;
+    --primary-pale-color: #5871a233;
+    --primary-decoration-color: #5871a210;
+    --bg-color: #ffffff;
+    --text-color: #2f3030;
+    --text-pale-color: #767676;
+    --text-decoration-color: #a9a9a9;
+    --highlight-mark-color: #5f75b020;
+
+    --callout-note-color: #5871a2;
+    --callout-tip-color: #268556;
+    --callout-important-color: #885fc9;
+    --callout-warning-color: #ab6632;
+    --callout-caution-color: #c64e4e;
+  }
+
+  /* dark mode colors */
+  body.dark {
+    --primary-color: #6f8fd1;
+    --primary-pale-color: #6f8fd166;
+    --primary-decoration-color: #6f8fd112;
+    --bg-color: #1c1c1c;
+    --text-color: #c1c1c1;
+    --text-pale-color: #848484;
+    --text-decoration-color: #5f5f5f;
+    --highlight-mark-color: #8296cb3b;
+
+    --callout-note-color: #6f8fd1;
+    --callout-tip-color: #47976f;
+    --callout-important-color: #9776cd;
+    --callout-warning-color: #ad7a52;
+    --callout-caution-color: #d06161;
+  }
+
+  /* typography */
+  body {
+    --main-font: ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+    --code-font: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+    --homepage-max-width: 768px;
+    --main-max-width: 768px;
+    --avatar-size: 60px;
+    --font-size: 16px;
+    --line-height: 1.75;
+    --img-border-radius: 0px;
+    --detail-border-radius: 0px;
+    --dark-mode-img-brightness: 0.75;
+    --dark-mode-chart-brightness: 0.75;
+    --inline-code-border-radius: 2px;
+    --inline-code-bg-color: var(--primary-decoration-color);
+    --block-code-border-radius: 0px;
+    --block-code-border-color: var(--primary-color);
+    --detail-border-color: var(--primary-color);
+  }
+
+</style>
+
+  <link rel="stylesheet" href="https://ew-git.github.io/main.css">
+  
+
+<link id="hl" rel="stylesheet" type="text/css" href="/giallo-light.css" />
+
+
+
+  
+</head>
+
+<body class="post">
+  
+  <script>
+    const theme = sessionStorage.getItem('theme');
+    const match = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    if ((theme && theme == 'dark') || (!theme && match)) {
+      document.body.classList.add('dark');
+      const hl = document.querySelector('link#hl');
+      if (hl) hl.href = 'https://ew-git.github.io/giallo-dark.css';
+    }
+  </script>
+  
+  
+<div id="wrapper">
+  <div id="blank"></div>
+  <aside>
+    
+    
+    
+    <button id="back-to-top" aria-label="back to top">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-up"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>
+
+    </button>
+    
+  </aside>
+  <main>
+    
+<header>
+  <nav>
+    <a id="back-link" href="https:&#x2F;&#x2F;ew-git.github.io&#x2F;posts">← Back</a>
+  </nav>
+</header>
+
+
+    <div>
+      
+      
+      
+      
+      <div id="copy-cfg" style="display: none;" data-copy-icon="&lt;svg xmlns=&quot;http:&#x2F;&#x2F;www.w3.org&#x2F;2000&#x2F;svg&quot; viewBox=&quot;0 0 24 24&quot; width=&quot;18&quot; height=&quot;18&quot;&gt;&lt;path d=&quot;M6.9998 6V3C6.9998 2.44772 7.44752 2 7.9998 2H19.9998C20.5521 2 20.9998 2.44772 20.9998 3V17C20.9998 17.5523 20.5521 18 19.9998 18H16.9998V20.9991C16.9998 21.5519 16.5499 22 15.993 22H4.00666C3.45059 22 3 21.5554 3 20.9991L3.0026 7.00087C3.0027 6.44811 3.45264 6 4.00942 6H6.9998ZM5.00242 8L5.00019 20H14.9998V8H5.00242ZM8.9998 6H16.9998V16H18.9998V4H8.9998V6Z&quot; fill=&quot;currentColor&quot;&gt;&lt;&#x2F;path&gt;&lt;&#x2F;svg&gt;
+" data-check-icon="&lt;svg xmlns=&quot;http:&#x2F;&#x2F;www.w3.org&#x2F;2000&#x2F;svg&quot; viewBox=&quot;0 0 24 24&quot; width=&quot;18&quot; height=&quot;18&quot;&gt;&lt;path d=&quot;M10.0007 15.1709L19.1931 5.97852L20.6073 7.39273L10.0007 17.9993L3.63672 11.6354L5.05093 10.2212L10.0007 15.1709Z&quot; fill=&quot;currentColor&quot;&gt;&lt;&#x2F;path&gt;&lt;&#x2F;svg&gt;
+"></div>
+      
+      <article class="prose">
+        <h1>Z3.jl Optimization Example</h1>
+        <div id="post-info">
+          <div id="date">
+            <span id="publish">Feb 14, 2023</span>
+            </div>
+
+          
+          <div id="tags">
+            <a class="instant" href="https://ew-git.github.io/tags/julia"><span>#</span>julia</a>
+          </div>
+          
+        </div>
+
+        
+        
+
+        
+
+        <p><a rel="nofollow noreferrer external" href="https://en.wikipedia.org/wiki/Z3_Theorem_Prover">Z3</a> is a satisfiability modulo
+theories (SMT) solver callable from Julia with <a rel="nofollow noreferrer external" href="https://github.com/ahumenberger/Z3.jl">Z3.jl</a>.
+Documentation is somewhat lacking, so I'd like to share a worked example
+of optimizing an integer programming problem with Z3.jl.</p>
+<p>We will solve <a rel="nofollow noreferrer external" href="https://adventofcode.com/2018/day/23">Advent of Code 2018 day 23</a>, so if you'd like to avoid spoilers,
+stop reading.
+The problem provides a list of nanobots defined by a center point in 3d space and
+radius, measured by Manhattan distance.
+For part 2 of the problem, we must find the (integer) point that lies within range of the largest number of nanobots.
+If there are multiple such points, we must find the one closest to the origin (0, 0, 0).</p>
+<p>First, we'll define a struct to hold the nanobot data and process the input
+file.<sup class="footnote-reference"><a href="#1">1</a></sup></p>
+<pre class="giallo z-code"><code data-lang="julia"><span class="giallo-l"><span class="z-keyword">using</span><span> Z3</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span class="z-keyword">struct</span><span> Nanobot</span></span>
+<span class="giallo-l"><span>    x</span><span class="z-keyword">::</span><span class="z-support">Int</span></span>
+<span class="giallo-l"><span>    y</span><span class="z-keyword">::</span><span class="z-support">Int</span></span>
+<span class="giallo-l"><span>    z</span><span class="z-keyword">::</span><span class="z-support">Int</span></span>
+<span class="giallo-l"><span>    radius</span><span class="z-keyword">::</span><span class="z-support">Int</span></span>
+<span class="giallo-l"><span class="z-keyword">end</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span class="z-keyword">function</span><span class="z-entity z-name"> processinput</span><span>(</span><span>filename</span><span>)</span></span>
+<span class="giallo-l"><span>    puzin </span><span class="z-keyword">=</span><span> [</span><span>[</span><span class="z-support">parse</span><span>(</span><span>Int</span><span>,</span><span> m</span><span class="z-keyword">.</span><span>match</span><span>)</span><span class="z-keyword"> for</span><span> m </span><span class="z-keyword">in</span><span class="z-support"> eachmatch</span><span>(</span><span class="z-punctuation z-definition z-string">r&quot;</span><span class="z-string z-regexp">(</span><span class="z-constant z-character z-escape">\-</span><span class="z-string z-regexp">?</span><span class="z-constant z-character z-escape">\d</span><span class="z-string z-regexp">+)</span><span class="z-punctuation z-definition z-string">&quot;</span><span>,</span><span> line</span><span>)</span><span>]</span></span>
+<span class="giallo-l"><span class="z-keyword">             for</span><span> line </span><span class="z-keyword">in</span><span class="z-support"> readlines</span><span>(</span><span>filename</span><span>)</span><span>]</span></span>
+<span class="giallo-l"><span>    bots </span><span class="z-keyword">=</span><span> [</span><span class="z-support">Nanobot</span><span>(</span><span>l</span><span class="z-keyword">...</span><span>)</span><span class="z-keyword"> for</span><span> l </span><span class="z-keyword">in</span><span> puzin</span><span>]</span></span>
+<span class="giallo-l"><span class="z-keyword">    return</span><span> bots</span></span>
+<span class="giallo-l"><span class="z-keyword">end</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span>bots </span><span class="z-keyword">=</span><span class="z-support"> processinput</span><span>(</span><span class="z-punctuation z-definition z-string">&quot;</span><span class="z-string">input201823.txt</span><span class="z-punctuation z-definition z-string">&quot;</span><span>)</span></span></code></pre>
+<p>Let's think about how we may define the problem as an integer optimization
+that Z3 can understand.
+Consider a potential solution point <code>(x, y, z)</code>.
+The point is outside the radius of nanobot <code>bot</code> if and only if
+<code>abs(bot.x - x) + abs(bot.y - y) + abs(bot.z - z) &gt; bot.radius</code>.
+We want to <em>minimize</em> the number bots for which that statement is true.
+We can collect the statements in an array, and sum the boolean values (1 = true).
+The resulting sum (call it <code>noutofrange</code>) will be our objective to minimize.</p>
+<p>Finally, conditional on minimizing <code>noutofrange</code>, we want to choose the
+point closest to the origin, or minimize <code>abs(x) + abs(y) + abs(z)</code> (call this value <code>cost</code>).
+Z3 uses by default a lexicographic priority of objectives.
+It solves first for the objective that is declared first, so this should be easy.</p>
+<p>Define the Z3 context and necessary variables.
+We'll see why we need <code>z3zero</code> and <code>z3one</code> in a moment.</p>
+<pre class="giallo z-code"><code data-lang="julia"><span class="giallo-l"><span>ctx </span><span class="z-keyword">=</span><span class="z-support"> Context</span><span>(</span><span>)</span></span>
+<span class="giallo-l"><span>x </span><span class="z-keyword">=</span><span class="z-support"> int_const</span><span>(</span><span>ctx</span><span>,</span><span class="z-punctuation z-definition z-string"> &quot;</span><span class="z-string">x</span><span class="z-punctuation z-definition z-string">&quot;</span><span>)</span></span>
+<span class="giallo-l"><span>y </span><span class="z-keyword">=</span><span class="z-support"> int_const</span><span>(</span><span>ctx</span><span>,</span><span class="z-punctuation z-definition z-string"> &quot;</span><span class="z-string">y</span><span class="z-punctuation z-definition z-string">&quot;</span><span>)</span></span>
+<span class="giallo-l"><span>z </span><span class="z-keyword">=</span><span class="z-support"> int_const</span><span>(</span><span>ctx</span><span>,</span><span class="z-punctuation z-definition z-string"> &quot;</span><span class="z-string">z</span><span class="z-punctuation z-definition z-string">&quot;</span><span>)</span></span>
+<span class="giallo-l"><span>z3zero </span><span class="z-keyword">=</span><span class="z-support"> int_val</span><span>(</span><span>ctx</span><span>,</span><span class="z-constant"> 0</span><span>)</span></span>
+<span class="giallo-l"><span>z3one </span><span class="z-keyword">=</span><span class="z-support"> int_val</span><span>(</span><span>ctx</span><span>,</span><span class="z-constant"> 1</span><span>)</span></span>
+<span class="giallo-l"><span>noutofrange </span><span class="z-keyword">=</span><span class="z-support"> int_const</span><span>(</span><span>ctx</span><span>,</span><span class="z-punctuation z-definition z-string"> &quot;</span><span class="z-string">noutofrange</span><span class="z-punctuation z-definition z-string">&quot;</span><span>)</span></span>
+<span class="giallo-l"><span>cost </span><span class="z-keyword">=</span><span class="z-support"> int_const</span><span>(</span><span>ctx</span><span>,</span><span class="z-punctuation z-definition z-string"> &quot;</span><span class="z-string">cost</span><span class="z-punctuation z-definition z-string">&quot;</span><span>)</span></span></code></pre>
+<p>The array of boolean values (converted to integer 1 or 0) measuring whether the point is within range of each bot
+may now be defined as</p>
+<pre class="giallo z-code"><code data-lang="julia"><span class="giallo-l"><span>botsoutofrange </span><span class="z-keyword">=</span><span> [</span><span class="z-support">ite</span><span>(</span><span class="z-support">abs</span><span>(</span><span>b</span><span class="z-keyword">.</span><span>x </span><span class="z-keyword">-</span><span> x</span><span>)</span><span class="z-keyword"> +</span><span class="z-support"> abs</span><span>(</span><span>b</span><span class="z-keyword">.</span><span>y </span><span class="z-keyword">-</span><span> y</span><span>)</span><span class="z-keyword"> +</span><span class="z-support"> abs</span><span>(</span><span>b</span><span class="z-keyword">.</span><span>z </span><span class="z-keyword">-</span><span> z</span><span>)</span><span class="z-keyword"> &gt;</span><span> b</span><span class="z-keyword">.</span><span>radius</span><span>,</span></span>
+<span class="giallo-l"><span>                      z3one</span><span>,</span><span> z3zero</span><span>)</span><span class="z-keyword"> for</span><span> b </span><span class="z-keyword">in</span><span> bots</span><span>]</span></span></code></pre>
+<p><code>ite(a, b, c)</code> (if then else) is a Z3 method that means</p>
+<pre class="giallo z-code"><code data-lang="plain"><span class="giallo-l"><span>if a</span></span>
+<span class="giallo-l"><span>    return b</span></span>
+<span class="giallo-l"><span>else</span></span>
+<span class="giallo-l"><span>    return c</span></span>
+<span class="giallo-l"><span>end</span></span></code></pre>
+<p>We need <code>b</code> and <code>c</code> to be Z3 expressions, hence the use of our previously defined
+<code>z3one</code> and <code>z3zero</code>.</p>
+<p>Now, we initialize the optimization problem with the "constraints" that
+define our objective variables,</p>
+<pre class="giallo z-code"><code data-lang="julia"><span class="giallo-l"><span>opt </span><span class="z-keyword">=</span><span class="z-support"> Optimize</span><span>(</span><span>ctx</span><span>)</span></span>
+<span class="giallo-l"><span class="z-support">add</span><span>(</span><span>opt</span><span>,</span><span> noutofrange </span><span class="z-keyword">==</span><span class="z-support"> sum</span><span>(</span><span>botsoutofrange</span><span>)</span><span>)</span></span>
+<span class="giallo-l"><span class="z-support">add</span><span>(</span><span>opt</span><span>,</span><span> cost </span><span class="z-keyword">==</span><span class="z-support"> abs</span><span>(</span><span>x</span><span>)</span><span class="z-keyword"> +</span><span class="z-support"> abs</span><span>(</span><span>y</span><span>)</span><span class="z-keyword"> +</span><span class="z-support"> abs</span><span>(</span><span>z</span><span>)</span><span>)</span></span></code></pre>
+<p>and finally optimize each of the objectives in order.</p>
+<pre class="giallo z-code"><code data-lang="julia"><span class="giallo-l"><span class="z-support">minimize</span><span>(</span><span>opt</span><span>,</span><span> noutofrange</span><span>)</span></span>
+<span class="giallo-l"><span class="z-support">minimize</span><span>(</span><span>opt</span><span>,</span><span> cost</span><span>)</span></span>
+<span class="giallo-l"><span>res </span><span class="z-keyword">=</span><span class="z-support"> check</span><span>(</span><span>opt</span><span>)</span></span></code></pre>
+<p>Confirm that the problem is satisfiable and print the optimal point.</p>
+<pre class="giallo z-code"><code data-lang="julia"><span class="giallo-l"><span class="z-support">@assert</span><span> res </span><span class="z-keyword">==</span><span> Z3</span><span class="z-keyword">.</span><span>sat</span></span>
+<span class="giallo-l"><span>m </span><span class="z-keyword">=</span><span class="z-support"> get_model</span><span>(</span><span>opt</span><span>)</span></span>
+<span class="giallo-l"><span class="z-keyword">for</span><span> (</span><span>k</span><span>,</span><span> v</span><span>)</span><span class="z-keyword"> in</span><span class="z-support"> consts</span><span>(</span><span>m</span><span>)</span></span>
+<span class="giallo-l"><span class="z-support">    println</span><span>(</span><span class="z-punctuation z-definition z-string">&quot;</span><span class="z-variable">$k</span><span class="z-string"> = </span><span class="z-variable">$v</span><span class="z-punctuation z-definition z-string">&quot;</span><span>)</span></span>
+<span class="giallo-l"><span class="z-keyword">end</span></span></code></pre>
+<p>For my input, this prints</p>
+<pre class="giallo z-code"><code data-lang="plain"><span class="giallo-l"><span>noutofrange = 28</span></span>
+<span class="giallo-l"><span>cost = 126233088</span></span>
+<span class="giallo-l"><span>z = 38585775</span></span>
+<span class="giallo-l"><span>y = 43480550</span></span>
+<span class="giallo-l"><span>x = 44166763</span></span></code></pre>
+<p>It takes about a minute to solve on my PC. That may seem slow, but the human
+time required to code a faster algorithm is a lot longer than a minute!<sup class="footnote-reference"><a href="#2">2</a></sup>
+Z3 is one of those tools that isn't often applicable, but when it is, it feels like magic.</p>
+<h2 id="full-julia-script">Full Julia script<a class="zola-anchor" href="#full-julia-script" aria-label="Anchor link for: full-julia-script" style="visibility: hidden;"></a>
+</h2>
+<pre class="giallo z-code"><code data-lang="julia"><span class="giallo-l"><span class="z-keyword">using</span><span> Z3</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span class="z-keyword">struct</span><span> Nanobot</span></span>
+<span class="giallo-l"><span>    x</span><span class="z-keyword">::</span><span class="z-support">Int</span></span>
+<span class="giallo-l"><span>    y</span><span class="z-keyword">::</span><span class="z-support">Int</span></span>
+<span class="giallo-l"><span>    z</span><span class="z-keyword">::</span><span class="z-support">Int</span></span>
+<span class="giallo-l"><span>    radius</span><span class="z-keyword">::</span><span class="z-support">Int</span></span>
+<span class="giallo-l"><span class="z-keyword">end</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span class="z-keyword">function</span><span class="z-entity z-name"> processinput</span><span>(</span><span>filename</span><span>)</span></span>
+<span class="giallo-l"><span>    puzin </span><span class="z-keyword">=</span><span> [</span><span>[</span><span class="z-support">parse</span><span>(</span><span>Int</span><span>,</span><span> m</span><span class="z-keyword">.</span><span>match</span><span>)</span><span class="z-keyword"> for</span><span> m </span><span class="z-keyword">in</span><span class="z-support"> eachmatch</span><span>(</span><span class="z-punctuation z-definition z-string">r&quot;</span><span class="z-string z-regexp">(</span><span class="z-constant z-character z-escape">\-</span><span class="z-string z-regexp">?</span><span class="z-constant z-character z-escape">\d</span><span class="z-string z-regexp">+)</span><span class="z-punctuation z-definition z-string">&quot;</span><span>,</span><span> line</span><span>)</span><span>]</span></span>
+<span class="giallo-l"><span class="z-keyword">             for</span><span> line </span><span class="z-keyword">in</span><span class="z-support"> readlines</span><span>(</span><span>filename</span><span>)</span><span>]</span></span>
+<span class="giallo-l"><span>    bots </span><span class="z-keyword">=</span><span> [</span><span class="z-support">Nanobot</span><span>(</span><span>l</span><span class="z-keyword">...</span><span>)</span><span class="z-keyword"> for</span><span> l </span><span class="z-keyword">in</span><span> puzin</span><span>]</span></span>
+<span class="giallo-l"><span class="z-keyword">    return</span><span> bots</span></span>
+<span class="giallo-l"><span class="z-keyword">end</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span class="z-keyword">function</span><span class="z-entity z-name"> main</span><span>(</span><span>filename</span><span>)</span></span>
+<span class="giallo-l"><span>    bots </span><span class="z-keyword">=</span><span class="z-support"> processinput</span><span>(</span><span>filename</span><span>)</span></span>
+<span class="giallo-l"><span>    ctx </span><span class="z-keyword">=</span><span class="z-support"> Context</span><span>(</span><span>)</span></span>
+<span class="giallo-l"><span>    x </span><span class="z-keyword">=</span><span class="z-support"> int_const</span><span>(</span><span>ctx</span><span>,</span><span class="z-punctuation z-definition z-string"> &quot;</span><span class="z-string">x</span><span class="z-punctuation z-definition z-string">&quot;</span><span>)</span></span>
+<span class="giallo-l"><span>    y </span><span class="z-keyword">=</span><span class="z-support"> int_const</span><span>(</span><span>ctx</span><span>,</span><span class="z-punctuation z-definition z-string"> &quot;</span><span class="z-string">y</span><span class="z-punctuation z-definition z-string">&quot;</span><span>)</span></span>
+<span class="giallo-l"><span>    z </span><span class="z-keyword">=</span><span class="z-support"> int_const</span><span>(</span><span>ctx</span><span>,</span><span class="z-punctuation z-definition z-string"> &quot;</span><span class="z-string">z</span><span class="z-punctuation z-definition z-string">&quot;</span><span>)</span></span>
+<span class="giallo-l"><span>    z3zero </span><span class="z-keyword">=</span><span class="z-support"> int_val</span><span>(</span><span>ctx</span><span>,</span><span class="z-constant"> 0</span><span>)</span></span>
+<span class="giallo-l"><span>    z3one </span><span class="z-keyword">=</span><span class="z-support"> int_val</span><span>(</span><span>ctx</span><span>,</span><span class="z-constant"> 1</span><span>)</span></span>
+<span class="giallo-l"><span>    noutofrange </span><span class="z-keyword">=</span><span class="z-support"> int_const</span><span>(</span><span>ctx</span><span>,</span><span class="z-punctuation z-definition z-string"> &quot;</span><span class="z-string">noutofrange</span><span class="z-punctuation z-definition z-string">&quot;</span><span>)</span></span>
+<span class="giallo-l"><span>    cost </span><span class="z-keyword">=</span><span class="z-support"> int_const</span><span>(</span><span>ctx</span><span>,</span><span class="z-punctuation z-definition z-string"> &quot;</span><span class="z-string">cost</span><span class="z-punctuation z-definition z-string">&quot;</span><span>)</span></span>
+<span class="giallo-l"><span>    botsoutofrange </span><span class="z-keyword">=</span><span> [</span><span class="z-support">ite</span><span>(</span><span class="z-support">abs</span><span>(</span><span>b</span><span class="z-keyword">.</span><span>x </span><span class="z-keyword">-</span><span> x</span><span>)</span><span class="z-keyword"> +</span><span class="z-support"> abs</span><span>(</span><span>b</span><span class="z-keyword">.</span><span>y </span><span class="z-keyword">-</span><span> y</span><span>)</span><span class="z-keyword"> +</span><span class="z-support"> abs</span><span>(</span><span>b</span><span class="z-keyword">.</span><span>z </span><span class="z-keyword">-</span><span> z</span><span>)</span><span class="z-keyword"> &gt;</span><span> b</span><span class="z-keyword">.</span><span>radius</span><span>,</span><span> z3one</span><span>,</span><span> z3zero</span><span>)</span></span>
+<span class="giallo-l"><span class="z-keyword">                      for</span><span> b </span><span class="z-keyword">in</span><span> bots</span><span>]</span></span>
+<span class="giallo-l"><span>    opt </span><span class="z-keyword">=</span><span class="z-support"> Optimize</span><span>(</span><span>ctx</span><span>)</span></span>
+<span class="giallo-l"><span class="z-support">    add</span><span>(</span><span>opt</span><span>,</span><span> noutofrange </span><span class="z-keyword">==</span><span class="z-support"> sum</span><span>(</span><span>botsoutofrange</span><span>)</span><span>)</span></span>
+<span class="giallo-l"><span class="z-support">    add</span><span>(</span><span>opt</span><span>,</span><span> cost </span><span class="z-keyword">==</span><span class="z-support"> abs</span><span>(</span><span>x</span><span>)</span><span class="z-keyword"> +</span><span class="z-support"> abs</span><span>(</span><span>y</span><span>)</span><span class="z-keyword"> +</span><span class="z-support"> abs</span><span>(</span><span>z</span><span>)</span><span>)</span></span>
+<span class="giallo-l"><span class="z-support">    minimize</span><span>(</span><span>opt</span><span>,</span><span> noutofrange</span><span>)</span></span>
+<span class="giallo-l"><span class="z-support">    minimize</span><span>(</span><span>opt</span><span>,</span><span> cost</span><span>)</span></span>
+<span class="giallo-l"><span>    res </span><span class="z-keyword">=</span><span class="z-support"> check</span><span>(</span><span>opt</span><span>)</span></span>
+<span class="giallo-l"><span class="z-support">    @assert</span><span> res </span><span class="z-keyword">==</span><span> Z3</span><span class="z-keyword">.</span><span>sat</span></span>
+<span class="giallo-l"><span>    m </span><span class="z-keyword">=</span><span class="z-support"> get_model</span><span>(</span><span>opt</span><span>)</span></span>
+<span class="giallo-l"><span class="z-keyword">    for</span><span> (</span><span>k</span><span>,</span><span> v</span><span>)</span><span class="z-keyword"> in</span><span class="z-support"> consts</span><span>(</span><span>m</span><span>)</span></span>
+<span class="giallo-l"><span class="z-support">        println</span><span>(</span><span class="z-punctuation z-definition z-string">&quot;</span><span class="z-variable">$k</span><span class="z-string"> = </span><span class="z-variable">$v</span><span class="z-punctuation z-definition z-string">&quot;</span><span>)</span></span>
+<span class="giallo-l"><span class="z-keyword">    end</span></span>
+<span class="giallo-l"><span class="z-keyword">    return</span><span class="z-constant"> nothing</span></span>
+<span class="giallo-l"><span class="z-keyword">end</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span class="z-support">@time</span><span class="z-support"> main</span><span>(</span><span class="z-punctuation z-definition z-string">&quot;</span><span class="z-string">input201823.txt</span><span class="z-punctuation z-definition z-string">&quot;</span><span>)</span></span></code></pre>
+<p>Output:</p>
+<pre class="giallo z-code"><code data-lang="plain"><span class="giallo-l"><span>noutofrange = 28</span></span>
+<span class="giallo-l"><span>cost = 126233088</span></span>
+<span class="giallo-l"><span>z = 38585775</span></span>
+<span class="giallo-l"><span>y = 43480550</span></span>
+<span class="giallo-l"><span>x = 44166763</span></span>
+<span class="giallo-l"><span> 52.030344 seconds (71.38 k allocations: 3.053 MiB, 0.07% compilation time)</span></span></code></pre><h2 id="comparison-with-python">Comparison with Python<a class="zola-anchor" href="#comparison-with-python" aria-label="Anchor link for: comparison-with-python" style="visibility: hidden;"></a>
+</h2>
+<p>The script below is the same problem solved with the Python package <code>z3-solver</code>.
+I had to manually define <code>abs</code> to work with Z3 in Python, but Python didn't require <code>ite</code> or
+definition of the 0 and 1 Z3 expressions like Julia.
+I also had occasional segfaults in the Julia version, although
+it wasn't reproducible when executing the file in a fresh REPL.
+It may be related to this issue: <a rel="nofollow noreferrer external" href="https://github.com/ahumenberger/Z3.jl/issues/12">https://github.com/ahumenberger/Z3.jl/issues/12</a>.</p>
+<pre class="giallo z-code"><code data-lang="python"><span class="giallo-l"><span class="z-keyword">import</span><span> z3</span></span>
+<span class="giallo-l"><span class="z-keyword">import</span><span> re</span></span>
+<span class="giallo-l"><span class="z-keyword">import</span><span> time</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span class="z-keyword">with</span><span class="z-support"> open</span><span>(</span><span class="z-punctuation z-definition z-string">&#39;</span><span class="z-string">input/input201823.txt</span><span class="z-punctuation z-definition z-string">&#39;</span><span>,</span><span class="z-punctuation z-definition z-string"> &#39;</span><span class="z-string">r</span><span class="z-punctuation z-definition z-string">&#39;</span><span>)</span><span class="z-keyword"> as</span><span> f</span><span>:</span></span>
+<span class="giallo-l"><span>    actualinput</span><span class="z-keyword"> =</span><span> f</span><span>.</span><span>read</span><span>(</span><span>)</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span>bots</span><span class="z-keyword"> =</span><span> [</span><span class="z-support">list</span><span>(</span><span class="z-support">map</span><span>(</span><span class="z-support">int</span><span>,</span><span> re</span><span>.</span><span>findall</span><span>(</span><span class="z-punctuation z-definition z-string">&#39;</span><span class="z-string">(\-?\d+)</span><span class="z-punctuation z-definition z-string">&#39;</span><span>,</span><span> row</span><span>)</span><span>)</span><span>)</span><span class="z-keyword"> for</span><span> row</span><span class="z-keyword"> in</span><span> actualinput</span><span>.</span><span>splitlines</span><span>(</span><span>)</span><span>]</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span class="z-punctuation z-definition z-comment">#</span><span class="z-comment"> https://stackoverflow.com/questions/22547988/how-to-calculate-absolute-value-in-z3-or-z3py</span></span>
+<span class="giallo-l"><span class="z-storage z-type">def</span><span class="z-entity z-name"> z3abs</span><span>(</span><span class="z-variable z-parameter z-function">x</span><span>)</span><span>:</span></span>
+<span class="giallo-l"><span class="z-keyword">    return</span><span> z3</span><span>.</span><span>If</span><span>(</span><span>x</span><span class="z-keyword"> &gt;=</span><span class="z-constant"> 0</span><span>,</span><span>x</span><span>,</span><span class="z-keyword">-</span><span>x</span><span>)</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span>x</span><span class="z-keyword"> =</span><span> z3</span><span>.</span><span>Int</span><span>(</span><span class="z-punctuation z-definition z-string">&#39;</span><span class="z-string">x</span><span class="z-punctuation z-definition z-string">&#39;</span><span>)</span></span>
+<span class="giallo-l"><span>y</span><span class="z-keyword"> =</span><span> z3</span><span>.</span><span>Int</span><span>(</span><span class="z-punctuation z-definition z-string">&#39;</span><span class="z-string">y</span><span class="z-punctuation z-definition z-string">&#39;</span><span>)</span></span>
+<span class="giallo-l"><span>z</span><span class="z-keyword"> =</span><span> z3</span><span>.</span><span>Int</span><span>(</span><span class="z-punctuation z-definition z-string">&#39;</span><span class="z-string">z</span><span class="z-punctuation z-definition z-string">&#39;</span><span>)</span></span>
+<span class="giallo-l"><span>noutofrange</span><span class="z-keyword"> =</span><span> z3</span><span>.</span><span>Int</span><span>(</span><span class="z-punctuation z-definition z-string">&#39;</span><span class="z-string">noutofrange</span><span class="z-punctuation z-definition z-string">&#39;</span><span>)</span></span>
+<span class="giallo-l"><span>cost</span><span class="z-keyword"> =</span><span> z3</span><span>.</span><span>Int</span><span>(</span><span class="z-punctuation z-definition z-string">&#39;</span><span class="z-string">cost</span><span class="z-punctuation z-definition z-string">&#39;</span><span>)</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span>botsoutofrange</span><span class="z-keyword"> =</span><span> [</span><span>z3abs</span><span>(</span><span>b</span><span>[</span><span class="z-constant">0</span><span>]</span><span class="z-keyword">-</span><span>x</span><span>)</span><span class="z-keyword"> +</span><span> z3abs</span><span>(</span><span>b</span><span>[</span><span class="z-constant">1</span><span>]</span><span class="z-keyword">-</span><span>y</span><span>)</span><span class="z-keyword"> +</span><span> z3abs</span><span>(</span><span>b</span><span>[</span><span class="z-constant">2</span><span>]</span><span class="z-keyword">-</span><span>z</span><span>)</span><span class="z-keyword"> &gt;</span><span> b</span><span>[</span><span class="z-constant">3</span><span>]</span><span class="z-keyword"> for</span><span> b</span><span class="z-keyword"> in</span><span> bots</span><span>]</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span>opt</span><span class="z-keyword"> =</span><span> z3</span><span>.</span><span>Optimize</span><span>(</span><span>)</span></span>
+<span class="giallo-l"><span>opt</span><span>.</span><span>add</span><span>(</span><span>noutofrange</span><span class="z-keyword"> ==</span><span> z3</span><span>.</span><span>Sum</span><span>(</span><span>botsoutofrange</span><span>)</span><span>)</span></span>
+<span class="giallo-l"><span>opt</span><span>.</span><span>add</span><span>(</span><span>cost</span><span class="z-keyword"> ==</span><span> z3abs</span><span>(</span><span>x</span><span>)</span><span class="z-keyword"> +</span><span> z3abs</span><span>(</span><span>y</span><span>)</span><span class="z-keyword"> +</span><span> z3abs</span><span>(</span><span>z</span><span>)</span><span>)</span></span>
+<span class="giallo-l"><span class="z-punctuation z-definition z-comment">#</span><span class="z-comment"> Z3 uses by default a lexicographic priority of objectives. It solves first for the objective that is declared first.</span></span>
+<span class="giallo-l"><span>lowestoutofrange</span><span class="z-keyword"> =</span><span> opt</span><span>.</span><span>minimize</span><span>(</span><span>noutofrange</span><span>)</span></span>
+<span class="giallo-l"><span>closesttoorigin</span><span class="z-keyword"> =</span><span> opt</span><span>.</span><span>minimize</span><span>(</span><span>cost</span><span>)</span></span>
+<span class="giallo-l"><span class="z-support">print</span><span>(</span><span class="z-punctuation z-definition z-string">&quot;</span><span class="z-string">Checking optimization...</span><span class="z-punctuation z-definition z-string">&quot;</span><span>)</span></span>
+<span class="giallo-l"><span>start_time</span><span class="z-keyword"> =</span><span> time</span><span>.</span><span>time</span><span>(</span><span>)</span></span>
+<span class="giallo-l"><span>opt</span><span>.</span><span>check</span><span>(</span><span>)</span></span>
+<span class="giallo-l"><span class="z-support">print</span><span>(</span><span class="z-storage z-type">f</span><span class="z-string">&quot;</span><span class="z-string">Found solution in </span><span class="z-constant">{</span><span>time</span><span>.</span><span>time</span><span>(</span><span>)</span><span class="z-keyword"> -</span><span> start_time</span><span class="z-storage z-type">:.2f</span><span class="z-constant">}</span><span class="z-string">s</span><span class="z-string">&quot;</span><span>)</span></span>
+<span class="giallo-l"><span class="z-support">print</span><span>(</span><span>opt</span><span>.</span><span>model</span><span>(</span><span>)</span><span>)</span></span></code></pre>
+<div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
+<p>You can use the following example input if you don't want to log in to Advent of Code.<br />
+<code>pos=&lt;10,12,12&gt;, r=2</code><br />
+<code>pos=&lt;12,14,12&gt;, r=2</code><br />
+<code>pos=&lt;16,12,12&gt;, r=4</code><br />
+<code>pos=&lt;14,14,14&gt;, r=6</code><br />
+<code>pos=&lt;50,50,50&gt;, r=200</code><br />
+<code>pos=&lt;10,10,10&gt;, r=5</code></p>
+</div>
+<div class="footnote-definition" id="2"><sup class="footnote-definition-label">2</sup>
+<p>The problem can be reformulated as a mixed-integer linear program, which is
+solvable nearly instantly by an optimizer like <a rel="nofollow noreferrer external" href="https://highs.dev/">HiGHS</a>, but that still
+requires some human effort to think through and implement the reformulation.</p>
+</div>
+
+      </article>
+
+      
+      
+
+      
+      
+    </div>
+
+    
+
+
+<footer>
+  <div class="left">
+    <div class="copyright">
+      © 2026 Evan Wright, CC BY-NC-SA 4.0
+      
+    </div>
+  </div>
+
+  <div class="right">
+    
+    
+      
+    
+    
+    <a id="rss-btn" href="https://ew-git.github.io/posts/feed.xml">RSS</a>
+    
+    
+
+    
+    
+    
+    <button id="theme-toggle" aria-label="theme switch">
+      <span class="moon-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18"><path d="M10 7C10 10.866 13.134 14 17 14C18.9584 14 20.729 13.1957 21.9995 11.8995C22 11.933 22 11.9665 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C12.0335 2 12.067 2 12.1005 2.00049C10.8043 3.27098 10 5.04157 10 7ZM4 12C4 16.4183 7.58172 20 12 20C15.0583 20 17.7158 18.2839 19.062 15.7621C18.3945 15.9187 17.7035 16 17 16C12.0294 16 8 11.9706 8 7C8 6.29648 8.08133 5.60547 8.2379 4.938C5.71611 6.28423 4 8.9417 4 12Z" fill="currentColor"></path></svg>
+</span>
+      <span class="sun-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18"><path d="M12 18C8.68629 18 6 15.3137 6 12C6 8.68629 8.68629 6 12 6C15.3137 6 18 8.68629 18 12C18 15.3137 15.3137 18 12 18ZM12 16C14.2091 16 16 14.2091 16 12C16 9.79086 14.2091 8 12 8C9.79086 8 8 9.79086 8 12C8 14.2091 9.79086 16 12 16ZM11 1H13V4H11V1ZM11 20H13V23H11V20ZM3.51472 4.92893L4.92893 3.51472L7.05025 5.63604L5.63604 7.05025L3.51472 4.92893ZM16.9497 18.364L18.364 16.9497L20.4853 19.0711L19.0711 20.4853L16.9497 18.364ZM19.0711 3.51472L20.4853 4.92893L18.364 7.05025L16.9497 5.63604L19.0711 3.51472ZM5.63604 16.9497L7.05025 18.364L4.92893 20.4853L3.51472 19.0711L5.63604 16.9497ZM23 11V13H20V11H23ZM4 11V13H1V11H4Z" fill="currentColor"></path></svg>
+</span>
+    </button>
+    
+  </div>
+</footer>
+
+
+
+
+<dialog id="rss-mask">
+  <div>
+    <a href="https:&#x2F;&#x2F;ew-git.github.io&#x2F;posts&#x2F;feed.xml">https:&#x2F;&#x2F;ew-git.github.io&#x2F;posts&#x2F;feed.xml</a>
+    
+    
+    <button autofocus aria-label="copy" data-link="https:&#x2F;&#x2F;ew-git.github.io&#x2F;posts&#x2F;feed.xml" data-copy-icon="&lt;svg xmlns=&quot;http:&#x2F;&#x2F;www.w3.org&#x2F;2000&#x2F;svg&quot; viewBox=&quot;0 0 24 24&quot; width=&quot;18&quot; height=&quot;18&quot;&gt;&lt;path d=&quot;M6.9998 6V3C6.9998 2.44772 7.44752 2 7.9998 2H19.9998C20.5521 2 20.9998 2.44772 20.9998 3V17C20.9998 17.5523 20.5521 18 19.9998 18H16.9998V20.9991C16.9998 21.5519 16.5499 22 15.993 22H4.00666C3.45059 22 3 21.5554 3 20.9991L3.0026 7.00087C3.0027 6.44811 3.45264 6 4.00942 6H6.9998ZM5.00242 8L5.00019 20H14.9998V8H5.00242ZM8.9998 6H16.9998V16H18.9998V4H8.9998V6Z&quot; fill=&quot;currentColor&quot;&gt;&lt;&#x2F;path&gt;&lt;&#x2F;svg&gt;
+" data-check-icon="&lt;svg xmlns=&quot;http:&#x2F;&#x2F;www.w3.org&#x2F;2000&#x2F;svg&quot; viewBox=&quot;0 0 24 24&quot; width=&quot;18&quot; height=&quot;18&quot;&gt;&lt;path d=&quot;M10.0007 15.1709L19.1931 5.97852L20.6073 7.39273L10.0007 17.9993L3.63672 11.6354L5.05093 10.2212L10.0007 15.1709Z&quot; fill=&quot;currentColor&quot;&gt;&lt;&#x2F;path&gt;&lt;&#x2F;svg&gt;
+" >
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18"><path d="M6.9998 6V3C6.9998 2.44772 7.44752 2 7.9998 2H19.9998C20.5521 2 20.9998 2.44772 20.9998 3V17C20.9998 17.5523 20.5521 18 19.9998 18H16.9998V20.9991C16.9998 21.5519 16.5499 22 15.993 22H4.00666C3.45059 22 3 21.5554 3 20.9991L3.0026 7.00087C3.0027 6.44811 3.45264 6 4.00942 6H6.9998ZM5.00242 8L5.00019 20H14.9998V8H5.00242ZM8.9998 6H16.9998V16H18.9998V4H8.9998V6Z" fill="currentColor"></path></svg>
+
+    </button>
+  </div>
+</dialog>
+
+
+
+  </main>
+</div>
+
+  
+<script src="/js/lightense.min.js"></script>
+
+
+  <script src="https://ew-git.github.io/js/main.js"></script>
+</body>
+
+</html>

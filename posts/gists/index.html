@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
+  
+  
+    
+  
+  <meta name="description" content="Some R-related gists">
+
+  <title>Some R-related gists</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="https://ew-git.github.io/img/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://ew-git.github.io/img/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="https://ew-git.github.io/img/apple-touch-icon.png">
+  
+  <style>
+
+  /* light mode colors */
+  body {
+    --primary-color: #5871a2;
+    --primary-pale-color: #5871a233;
+    --primary-decoration-color: #5871a210;
+    --bg-color: #ffffff;
+    --text-color: #2f3030;
+    --text-pale-color: #767676;
+    --text-decoration-color: #a9a9a9;
+    --highlight-mark-color: #5f75b020;
+
+    --callout-note-color: #5871a2;
+    --callout-tip-color: #268556;
+    --callout-important-color: #885fc9;
+    --callout-warning-color: #ab6632;
+    --callout-caution-color: #c64e4e;
+  }
+
+  /* dark mode colors */
+  body.dark {
+    --primary-color: #6f8fd1;
+    --primary-pale-color: #6f8fd166;
+    --primary-decoration-color: #6f8fd112;
+    --bg-color: #1c1c1c;
+    --text-color: #c1c1c1;
+    --text-pale-color: #848484;
+    --text-decoration-color: #5f5f5f;
+    --highlight-mark-color: #8296cb3b;
+
+    --callout-note-color: #6f8fd1;
+    --callout-tip-color: #47976f;
+    --callout-important-color: #9776cd;
+    --callout-warning-color: #ad7a52;
+    --callout-caution-color: #d06161;
+  }
+
+  /* typography */
+  body {
+    --main-font: ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+    --code-font: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+    --homepage-max-width: 768px;
+    --main-max-width: 768px;
+    --avatar-size: 60px;
+    --font-size: 16px;
+    --line-height: 1.75;
+    --img-border-radius: 0px;
+    --detail-border-radius: 0px;
+    --dark-mode-img-brightness: 0.75;
+    --dark-mode-chart-brightness: 0.75;
+    --inline-code-border-radius: 2px;
+    --inline-code-bg-color: var(--primary-decoration-color);
+    --block-code-border-radius: 0px;
+    --block-code-border-color: var(--primary-color);
+    --detail-border-color: var(--primary-color);
+  }
+
+</style>
+
+  <link rel="stylesheet" href="https://ew-git.github.io/main.css">
+  
+
+<link id="hl" rel="stylesheet" type="text/css" href="/giallo-light.css" />
+
+
+
+  
+</head>
+
+<body class="post">
+  
+  <script>
+    const theme = sessionStorage.getItem('theme');
+    const match = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    if ((theme && theme == 'dark') || (!theme && match)) {
+      document.body.classList.add('dark');
+      const hl = document.querySelector('link#hl');
+      if (hl) hl.href = 'https://ew-git.github.io/giallo-dark.css';
+    }
+  </script>
+  
+  
+<div id="wrapper">
+  <div id="blank"></div>
+  <aside>
+    
+    
+    <nav>
+      <ul>
+        
+        <li>
+          <a class="h2" href="#pdf-merge-text-r">pdf-merge-text.r</a>
+          
+        </li>
+        
+        <li>
+          <a class="h2" href="#image-greyer-r">image-greyer.r</a>
+          
+        </li>
+        
+        <li>
+          <a class="h2" href="#npp-r-function-parser-xml">npp-r-function-parser.xml</a>
+          
+        </li>
+        
+      </ul>
+    </nav>
+    
+    
+    <button id="back-to-top" aria-label="back to top">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-up"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>
+
+    </button>
+    
+  </aside>
+  <main>
+    
+<header>
+  <nav>
+    <a id="back-link" href="https:&#x2F;&#x2F;ew-git.github.io&#x2F;posts">← Back</a>
+  </nav>
+</header>
+
+
+    <div>
+      
+      
+      
+      
+      <div id="copy-cfg" style="display: none;" data-copy-icon="&lt;svg xmlns=&quot;http:&#x2F;&#x2F;www.w3.org&#x2F;2000&#x2F;svg&quot; viewBox=&quot;0 0 24 24&quot; width=&quot;18&quot; height=&quot;18&quot;&gt;&lt;path d=&quot;M6.9998 6V3C6.9998 2.44772 7.44752 2 7.9998 2H19.9998C20.5521 2 20.9998 2.44772 20.9998 3V17C20.9998 17.5523 20.5521 18 19.9998 18H16.9998V20.9991C16.9998 21.5519 16.5499 22 15.993 22H4.00666C3.45059 22 3 21.5554 3 20.9991L3.0026 7.00087C3.0027 6.44811 3.45264 6 4.00942 6H6.9998ZM5.00242 8L5.00019 20H14.9998V8H5.00242ZM8.9998 6H16.9998V16H18.9998V4H8.9998V6Z&quot; fill=&quot;currentColor&quot;&gt;&lt;&#x2F;path&gt;&lt;&#x2F;svg&gt;
+" data-check-icon="&lt;svg xmlns=&quot;http:&#x2F;&#x2F;www.w3.org&#x2F;2000&#x2F;svg&quot; viewBox=&quot;0 0 24 24&quot; width=&quot;18&quot; height=&quot;18&quot;&gt;&lt;path d=&quot;M10.0007 15.1709L19.1931 5.97852L20.6073 7.39273L10.0007 17.9993L3.63672 11.6354L5.05093 10.2212L10.0007 15.1709Z&quot; fill=&quot;currentColor&quot;&gt;&lt;&#x2F;path&gt;&lt;&#x2F;svg&gt;
+"></div>
+      
+      <article class="prose">
+        <h1>Some R-related gists</h1>
+        <div id="post-info">
+          <div id="date">
+            <span id="publish">Mar 5, 2019</span>
+            </div>
+
+          
+          <div id="tags">
+            <a class="instant" href="https://ew-git.github.io/tags/r"><span>#</span>r</a>
+          </div>
+          
+        </div>
+
+        
+        
+
+        <blockquote id="outdate_alert" class="callout caution hidden" data-days="900"
+          data-alert-text-before="This article was last updated "
+          data-alert-text-after=" days ago and may be out of date.">
+          <div class="content"></div>
+        </blockquote>
+        
+
+        <h2 id="pdf-merge-text-r"><a rel="nofollow noreferrer external" href="https://gist.github.com/ew-git/b03b11eb625e801d4dc63bec3303fd7e">pdf-merge-text.r</a><a class="zola-anchor" href="#pdf-merge-text-r" aria-label="Anchor link for: pdf-merge-text-r" style="visibility: hidden;"></a>
+</h2>
+<p>A common problem when scanning using a one-sided scanner with a document feeder is ending up with two PDFs: one for the front of each page and one for the back. This script writes LaTeX which combines those two PDFs, so that you end up with front1, back1, front2, back2, etc.</p>
+<p>The resulting pdfmergetex.tex file looks like the following:</p>
+<pre class="giallo z-code"><code data-lang="latex"><span class="giallo-l"><span class="z-support">\</span><span class="z-support">includepdf</span><span>[</span><span>pages=1</span><span>]</span><span>{file1.pdf}</span></span>
+<span class="giallo-l"><span class="z-support">\</span><span class="z-support">includepdf</span><span>[</span><span>pages=12</span><span>]</span><span>{file2.pdf}</span></span>
+<span class="giallo-l"><span class="z-support">\</span><span class="z-support">includepdf</span><span>[</span><span>pages=2</span><span>]</span><span>{file1.pdf}</span></span>
+<span class="giallo-l"><span class="z-support">\</span><span class="z-support">includepdf</span><span>[</span><span>pages=11</span><span>]</span><span>{file2.pdf}</span></span></code></pre>
+<p>which may be input to a LaTeX document like so:</p>
+<pre class="giallo z-code"><code data-lang="latex"><span class="giallo-l"><span class="z-keyword">\</span><span class="z-keyword">documentclass</span><span>[</span><span class="z-variable z-parameter z-function">12pt,letterpaper</span><span>]</span><span>{</span><span class="z-support">article</span><span>}</span></span>
+<span class="giallo-l"><span class="z-keyword">\</span><span class="z-keyword">usepackage</span><span>[</span><span class="z-variable z-parameter z-function">utf8</span><span>]</span><span>{</span><span class="z-support">inputenc</span><span>}</span></span>
+<span class="giallo-l"><span class="z-keyword">\</span><span class="z-keyword">usepackage</span><span>{</span><span class="z-support">graphicx</span><span>}</span></span>
+<span class="giallo-l"><span class="z-keyword">\</span><span class="z-keyword">usepackage</span><span>[</span><span class="z-variable z-parameter z-function">left=1in,right=1in,top=1in,bottom=1in</span><span>]</span><span>{</span><span class="z-support">geometry</span><span>}</span></span>
+<span class="giallo-l"><span class="z-keyword">\</span><span class="z-keyword">usepackage</span><span>{</span><span class="z-support">pdfpages</span><span>}</span></span>
+<span class="giallo-l"><span class="z-support">\</span><span class="z-support">begin</span><span>{</span><span class="z-variable z-parameter z-function">document</span><span>}</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span class="z-keyword">\</span><span class="z-keyword">input</span><span>{</span><span>pdfmergetex.tex</span><span>}</span><span class="z-punctuation z-definition z-comment"> %</span><span class="z-comment"> Input the .tex generated by R here</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span class="z-support">\</span><span class="z-support">end</span><span>{</span><span class="z-variable z-parameter z-function">document</span><span>}</span></span></code></pre>
+<p>When compiled, the latter should produce a single, properly collated PDF. If the "backs" are in reverse order from what you expected, then try <code>reverse = FALSE</code> in the <code>inclpdf</code> call.</p>
+<pre class="giallo z-code"><code data-lang="r"><span class="giallo-l"><span class="z-variable">inclpdf</span><span class="z-keyword"> &lt;-</span><span class="z-keyword"> function</span><span>(</span><span class="z-variable">fronts</span><span class="z-keyword">,</span><span class="z-variable"> backs</span><span class="z-keyword">,</span><span class="z-variable"> npages</span><span class="z-keyword">,</span><span class="z-variable"> reverse</span><span class="z-keyword"> =</span><span class="z-constant"> FALSE</span><span>)</span><span>{</span></span>
+<span class="giallo-l"><span class="z-keyword">  if</span><span> (</span><span class="z-variable">reverse</span><span>)</span><span>{</span></span>
+<span class="giallo-l"><span class="z-keyword">    for</span><span> (</span><span class="z-variable">i</span><span class="z-keyword"> in</span><span class="z-constant"> 1</span><span class="z-keyword">:</span><span class="z-variable">npages</span><span>)</span><span>{</span></span>
+<span class="giallo-l"><span class="z-entity z-name">      cat</span><span>(</span><span class="z-string">&quot;</span><span class="z-constant">\\</span><span class="z-string">includepdf[pages=</span><span class="z-string">&quot;</span><span class="z-keyword">,</span><span class="z-variable"> i</span><span class="z-keyword">,</span><span class="z-string"> &quot;</span><span class="z-string">]{</span><span class="z-string">&quot;</span><span class="z-keyword">,</span><span class="z-variable"> fronts</span><span class="z-keyword">,</span><span class="z-string"> &quot;</span><span class="z-string">}</span><span class="z-constant">\n</span><span class="z-string">&quot;</span><span class="z-keyword">,</span></span>
+<span class="giallo-l"><span class="z-string">          &quot;</span><span class="z-constant">\\</span><span class="z-string">includepdf[pages=</span><span class="z-string">&quot;</span><span class="z-keyword">,</span><span class="z-variable"> npages</span><span class="z-keyword"> -</span><span class="z-variable"> i</span><span class="z-keyword"> +</span><span class="z-constant"> 1</span><span class="z-keyword">,</span><span class="z-string"> &quot;</span><span class="z-string">]{</span><span class="z-string">&quot;</span><span class="z-keyword">,</span><span class="z-variable"> backs</span><span class="z-keyword">,</span><span class="z-string"> &quot;</span><span class="z-string">}</span><span class="z-constant">\n</span><span class="z-string">&quot;</span><span class="z-keyword">,</span></span>
+<span class="giallo-l"><span class="z-variable">          sep</span><span class="z-keyword"> =</span><span class="z-string"> &quot;</span><span class="z-string">&quot;</span><span>)</span></span>
+<span class="giallo-l"><span>    }</span></span>
+<span class="giallo-l"><span>  }</span><span class="z-keyword"> else</span><span> {</span></span>
+<span class="giallo-l"><span class="z-keyword">    for</span><span> (</span><span class="z-variable">i</span><span class="z-keyword"> in</span><span class="z-constant"> 1</span><span class="z-keyword">:</span><span class="z-variable">npages</span><span>)</span><span>{</span></span>
+<span class="giallo-l"><span class="z-entity z-name">    cat</span><span>(</span><span class="z-string">&quot;</span><span class="z-constant">\\</span><span class="z-string">includepdf[pages=</span><span class="z-string">&quot;</span><span class="z-keyword">,</span><span class="z-variable"> i</span><span class="z-keyword">,</span><span class="z-string"> &quot;</span><span class="z-string">]{</span><span class="z-string">&quot;</span><span class="z-keyword">,</span><span class="z-variable"> fronts</span><span class="z-keyword">,</span><span class="z-string"> &quot;</span><span class="z-string">}</span><span class="z-constant">\n</span><span class="z-string">&quot;</span><span class="z-keyword">,</span></span>
+<span class="giallo-l"><span class="z-string">           &quot;</span><span class="z-constant">\\</span><span class="z-string">includepdf[pages=</span><span class="z-string">&quot;</span><span class="z-keyword">,</span><span class="z-variable"> i</span><span class="z-keyword">,</span><span class="z-string"> &quot;</span><span class="z-string">]{</span><span class="z-string">&quot;</span><span class="z-keyword">,</span><span class="z-variable"> backs</span><span class="z-keyword">,</span><span class="z-string"> &quot;</span><span class="z-string">}</span><span class="z-constant">\n</span><span class="z-string">&quot;</span><span class="z-keyword">,</span></span>
+<span class="giallo-l"><span class="z-variable">        sep</span><span class="z-keyword"> =</span><span class="z-string"> &quot;</span><span class="z-string">&quot;</span><span>)</span></span>
+<span class="giallo-l"><span>    }</span></span>
+<span class="giallo-l"><span>  }</span></span>
+<span class="giallo-l"><span>  </span></span>
+<span class="giallo-l"><span>}</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span class="z-entity z-name">sink</span><span>(</span><span class="z-string">&quot;</span><span class="z-string">C:/OCR/pdfmergetex.tex</span><span class="z-string">&quot;</span><span>)</span></span>
+<span class="giallo-l"><span class="z-entity z-name">inclpdf</span><span>(</span><span class="z-string">&quot;</span><span class="z-string">file1.pdf</span><span class="z-string">&quot;</span><span class="z-keyword">,</span><span class="z-string"> &quot;</span><span class="z-string">file2.pdf</span><span class="z-string">&quot;</span><span class="z-keyword">,</span><span class="z-variable"> npages</span><span class="z-keyword"> =</span><span class="z-constant"> 12</span><span class="z-keyword">,</span><span class="z-variable"> reverse</span><span class="z-keyword"> =</span><span class="z-constant"> TRUE</span><span>)</span></span>
+<span class="giallo-l"><span class="z-entity z-name">sink</span><span>(</span><span>)</span></span></code></pre><h2 id="image-greyer-r"><a rel="nofollow noreferrer external" href="https://gist.github.com/ew-git/87260f9c7851d84f6ab28775a5e113f5">image-greyer.r</a><a class="zola-anchor" href="#image-greyer-r" aria-label="Anchor link for: image-greyer-r" style="visibility: hidden;"></a>
+</h2>
+<p>For every file ending in <code>.png</code>, <code>.jpg</code>, or <code>.jpeg</code> (and <em>not</em> beginning with <code>blank-</code>) in the current working directory, the script will generate a grey image of the same dimensions with text of the image name.
+The resulting images are named <code>blank-&lt;file name&gt;</code>. For example, if the original image name is <code>e.png</code>, then the script will create the above image named <code>blank-e.png</code>.
+The script may be useful for generating lightweight placeholders for images in other documents, such as a LaTeX article.</p>
+<p>In the preamble of a LaTeX document, one could put</p>
+<pre class="giallo z-code"><code data-lang="latex"><span class="giallo-l"><span class="z-keyword">\</span><span class="z-keyword">usepackage</span><span>{</span><span class="z-support">etoolbox</span><span>}</span></span>
+<span class="giallo-l"><span class="z-support">\</span><span class="z-support">newtoggle</span><span>{blank_images}</span></span>
+<span class="giallo-l"><span class="z-support">\</span><span class="z-support">toggletrue</span><span>{blank_images}</span></span>
+<span class="giallo-l"><span class="z-punctuation z-definition z-comment">%</span><span class="z-comment">\togglefalse{blank_images}</span></span></code></pre>
+<p>and in the body where one wishes to include the image</p>
+<pre class="giallo z-code"><code data-lang="latex"><span class="giallo-l"><span class="z-support">\</span><span class="z-support">iftoggle</span><span>{blank_images}{</span><span class="z-punctuation z-definition z-comment">%</span></span>
+<span class="giallo-l"><span class="z-support">	\</span><span class="z-support">includegraphics</span><span>[</span><span>scale=1</span><span>]</span><span>{blank-e.png}</span></span>
+<span class="giallo-l"><span>}{</span><span class="z-punctuation z-definition z-comment">%</span></span>
+<span class="giallo-l"><span class="z-support">	\</span><span class="z-support">includegraphics</span><span>[</span><span>scale=1</span><span>]</span><span>{e.png}</span></span>
+<span class="giallo-l"><span>}</span></span></code></pre>
+<p>As written, the above document will use the blank version <code>blank-e.png</code>. If <code>\togglefalse{blank_images}</code> is uncommented, then it will use the original <code>e.png</code>.</p>
+<pre class="giallo z-code"><code data-lang="r"><span class="giallo-l"><span class="z-keyword">library</span><span>(</span><span class="z-variable">magick</span><span>)</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span class="z-variable">imagefiles</span><span class="z-keyword"> &lt;-</span><span class="z-entity z-name"> list.files</span><span>(</span><span class="z-variable">pattern</span><span class="z-keyword"> =</span><span class="z-string"> &quot;</span><span class="z-string">(</span><span class="z-constant">\\</span><span class="z-string">.png|</span><span class="z-constant">\\</span><span class="z-string">.jpg|</span><span class="z-constant">\\</span><span class="z-string">.jpeg)</span><span class="z-string">&quot;</span><span>)</span></span>
+<span class="giallo-l"><span class="z-variable">imagefiles</span><span class="z-keyword"> &lt;-</span><span class="z-variable"> imagefiles</span><span>[</span><span class="z-keyword">!</span><span class="z-entity z-name">grepl</span><span>(</span><span class="z-string">&quot;</span><span class="z-string">blank-</span><span class="z-string">&quot;</span><span class="z-keyword">,</span><span class="z-variable"> imagefiles</span><span>)</span><span>]</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span class="z-keyword">for</span><span> (</span><span class="z-variable">imgname</span><span class="z-keyword"> in</span><span class="z-variable"> imagefiles</span><span>)</span><span>{</span></span>
+<span class="giallo-l"><span class="z-variable">  img</span><span class="z-keyword"> &lt;-</span><span class="z-entity z-name"> image_read</span><span>(</span><span class="z-variable">imgname</span><span>)</span></span>
+<span class="giallo-l"><span class="z-variable">  img</span><span class="z-keyword"> &lt;-</span><span class="z-entity z-name"> image_fill</span><span>(</span><span class="z-variable">img</span><span class="z-keyword">,</span><span class="z-string"> &quot;</span><span class="z-string">lightgray</span><span class="z-string">&quot;</span><span class="z-keyword">,</span><span class="z-variable"> fuzz</span><span class="z-keyword"> =</span><span class="z-constant"> 100</span><span>)</span></span>
+<span class="giallo-l"><span class="z-variable">  img</span><span class="z-keyword"> &lt;-</span><span class="z-entity z-name"> image_annotate</span><span>(</span><span class="z-variable">img</span><span class="z-keyword">,</span><span class="z-variable"> imgname</span><span>)</span></span>
+<span class="giallo-l"><span>  </span></span>
+<span class="giallo-l"><span class="z-entity z-name">  image_write</span><span>(</span><span class="z-variable">img</span><span class="z-keyword">,</span><span class="z-variable"> path</span><span class="z-keyword"> =</span><span class="z-entity z-name"> paste0</span><span>(</span><span class="z-string">&quot;</span><span class="z-string">blank-</span><span class="z-string">&quot;</span><span class="z-keyword">,</span><span class="z-variable"> imgname</span><span>)</span><span>)</span></span>
+<span class="giallo-l"><span>}</span></span></code></pre><h2 id="npp-r-function-parser-xml"><a rel="nofollow noreferrer external" href="https://gist.github.com/ew-git/87506a02b226e7a6d740dd36c936171a">npp-r-function-parser.xml</a><a class="zola-anchor" href="#npp-r-function-parser-xml" aria-label="Anchor link for: npp-r-function-parser-xml" style="visibility: hidden;"></a>
+</h2>
+<p>Notepad++ has a <a rel="nofollow noreferrer external" href="https://notepad-plus-plus.org/features/function-list.html">Function List Panel</a> which, by default, lists the functions defined in the current document for common languages, including C and Python. This Gist provides a simple parser to provide the same functionality for R.</p>
+<p><code>functionList.xml</code>, found in %APPDATA%\Notepad++\ or in the Notepad++ install directory must be edited to include the Gist code.</p>
+<p>First, add the association in <code>&lt;associationMap&gt;...&lt;/associationMap&gt;</code> next to the similar looking lines:</p>
+<pre class="giallo z-code"><code data-lang="xml"><span class="giallo-l"><span>&lt;</span><span class="z-entity z-name z-tag">association</span><span class="z-entity"> langID</span><span>=</span><span class="z-punctuation z-definition z-string">&quot;</span><span class="z-string">54</span><span class="z-punctuation z-definition z-string">&quot;</span><span class="z-entity"> id</span><span>=</span><span class="z-punctuation z-definition z-string">&quot;</span><span class="z-string">r_function</span><span class="z-punctuation z-definition z-string">&quot;</span><span>/&gt;</span></span></code></pre>
+<p>Second, add the parser code from the Gist (lines 5 through 13) in <code>&lt;parsers&gt;...&lt;/parsers&gt;</code>. Again, one should be able to infer the location based on the other parsers defined in the file.</p>
+<p>The parser is quite simplistic and will not capture every possible way of defining an R function. However, it should capture the most common syntax. It may also include unwanted leading whitespace in the function's name in the Function List.</p>
+<pre class="giallo z-code"><code data-lang="xml"><span class="giallo-l"><span class="z-punctuation z-definition z-comment">&lt;!--</span><span class="z-comment">Put this in associationMap</span><span class="z-punctuation z-definition z-comment">--&gt;</span></span>
+<span class="giallo-l"><span>&lt;</span><span class="z-entity z-name z-tag">association</span><span class="z-entity"> langID</span><span>=</span><span class="z-punctuation z-definition z-string">&quot;</span><span class="z-string">54</span><span class="z-punctuation z-definition z-string">&quot;</span><span class="z-entity"> id</span><span>=</span><span class="z-punctuation z-definition z-string">&quot;</span><span class="z-string">r_function</span><span class="z-punctuation z-definition z-string">&quot;</span><span>/&gt;</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span class="z-punctuation z-definition z-comment">&lt;!--</span><span class="z-comment">Put this in parsers</span><span class="z-punctuation z-definition z-comment">--&gt;</span></span>
+<span class="giallo-l"><span>&lt;</span><span class="z-entity z-name z-tag">parser</span><span class="z-entity"> id</span><span>=</span><span class="z-punctuation z-definition z-string">&quot;</span><span class="z-string">r_function</span><span class="z-punctuation z-definition z-string">&quot;</span><span class="z-entity"> displayName</span><span>=</span><span class="z-punctuation z-definition z-string">&quot;</span><span class="z-string">R function</span><span class="z-punctuation z-definition z-string">&quot;</span><span class="z-entity"> commentExpr</span><span>=</span><span class="z-punctuation z-definition z-string">&quot;</span><span class="z-string">(#.*?$)</span><span class="z-punctuation z-definition z-string">&quot;</span><span>&gt;</span></span>
+<span class="giallo-l"><span>  &lt;</span><span class="z-entity z-name z-tag">function</span></span>
+<span class="giallo-l"><span class="z-entity">    mainExpr</span><span>=</span><span class="z-punctuation z-definition z-string">&quot;</span><span class="z-string">(^\s*[a-zA-Z0-9_\.\$]+[\s&lt;\-=]+function\s*\()</span><span class="z-punctuation z-definition z-string">&quot;</span></span>
+<span class="giallo-l"><span class="z-entity">    displayMode</span><span>=</span><span class="z-punctuation z-definition z-string">&quot;</span><span class="z-string">$functionName</span><span class="z-punctuation z-definition z-string">&quot;</span><span>&gt;</span></span>
+<span class="giallo-l"><span>    &lt;</span><span class="z-entity z-name z-tag">functionName</span><span>&gt;</span></span>
+<span class="giallo-l"><span>      &lt;</span><span class="z-entity z-name z-tag">nameExpr</span><span class="z-entity"> expr</span><span>=</span><span class="z-punctuation z-definition z-string">&quot;</span><span class="z-string">^\s*([a-zA-Z0-9_\.\$]+)</span><span class="z-punctuation z-definition z-string">&quot;</span><span>/&gt;</span></span>
+<span class="giallo-l"><span>    &lt;/</span><span class="z-entity z-name z-tag">functionName</span><span>&gt;</span></span>
+<span class="giallo-l"><span>  &lt;/</span><span class="z-entity z-name z-tag">function</span><span>&gt;</span></span>
+<span class="giallo-l"><span>&lt;/</span><span class="z-entity z-name z-tag">parser</span><span>&gt;</span></span></code></pre>
+      </article>
+
+      
+      
+
+      
+      
+    </div>
+
+    
+
+
+<footer>
+  <div class="left">
+    <div class="copyright">
+      © 2026 Evan Wright, CC BY-NC-SA 4.0
+      
+    </div>
+  </div>
+
+  <div class="right">
+    
+    
+      
+    
+    
+    <a id="rss-btn" href="https://ew-git.github.io/posts/feed.xml">RSS</a>
+    
+    
+
+    
+    
+    
+    <button id="theme-toggle" aria-label="theme switch">
+      <span class="moon-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18"><path d="M10 7C10 10.866 13.134 14 17 14C18.9584 14 20.729 13.1957 21.9995 11.8995C22 11.933 22 11.9665 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C12.0335 2 12.067 2 12.1005 2.00049C10.8043 3.27098 10 5.04157 10 7ZM4 12C4 16.4183 7.58172 20 12 20C15.0583 20 17.7158 18.2839 19.062 15.7621C18.3945 15.9187 17.7035 16 17 16C12.0294 16 8 11.9706 8 7C8 6.29648 8.08133 5.60547 8.2379 4.938C5.71611 6.28423 4 8.9417 4 12Z" fill="currentColor"></path></svg>
+</span>
+      <span class="sun-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18"><path d="M12 18C8.68629 18 6 15.3137 6 12C6 8.68629 8.68629 6 12 6C15.3137 6 18 8.68629 18 12C18 15.3137 15.3137 18 12 18ZM12 16C14.2091 16 16 14.2091 16 12C16 9.79086 14.2091 8 12 8C9.79086 8 8 9.79086 8 12C8 14.2091 9.79086 16 12 16ZM11 1H13V4H11V1ZM11 20H13V23H11V20ZM3.51472 4.92893L4.92893 3.51472L7.05025 5.63604L5.63604 7.05025L3.51472 4.92893ZM16.9497 18.364L18.364 16.9497L20.4853 19.0711L19.0711 20.4853L16.9497 18.364ZM19.0711 3.51472L20.4853 4.92893L18.364 7.05025L16.9497 5.63604L19.0711 3.51472ZM5.63604 16.9497L7.05025 18.364L4.92893 20.4853L3.51472 19.0711L5.63604 16.9497ZM23 11V13H20V11H23ZM4 11V13H1V11H4Z" fill="currentColor"></path></svg>
+</span>
+    </button>
+    
+  </div>
+</footer>
+
+
+
+
+<dialog id="rss-mask">
+  <div>
+    <a href="https:&#x2F;&#x2F;ew-git.github.io&#x2F;posts&#x2F;feed.xml">https:&#x2F;&#x2F;ew-git.github.io&#x2F;posts&#x2F;feed.xml</a>
+    
+    
+    <button autofocus aria-label="copy" data-link="https:&#x2F;&#x2F;ew-git.github.io&#x2F;posts&#x2F;feed.xml" data-copy-icon="&lt;svg xmlns=&quot;http:&#x2F;&#x2F;www.w3.org&#x2F;2000&#x2F;svg&quot; viewBox=&quot;0 0 24 24&quot; width=&quot;18&quot; height=&quot;18&quot;&gt;&lt;path d=&quot;M6.9998 6V3C6.9998 2.44772 7.44752 2 7.9998 2H19.9998C20.5521 2 20.9998 2.44772 20.9998 3V17C20.9998 17.5523 20.5521 18 19.9998 18H16.9998V20.9991C16.9998 21.5519 16.5499 22 15.993 22H4.00666C3.45059 22 3 21.5554 3 20.9991L3.0026 7.00087C3.0027 6.44811 3.45264 6 4.00942 6H6.9998ZM5.00242 8L5.00019 20H14.9998V8H5.00242ZM8.9998 6H16.9998V16H18.9998V4H8.9998V6Z&quot; fill=&quot;currentColor&quot;&gt;&lt;&#x2F;path&gt;&lt;&#x2F;svg&gt;
+" data-check-icon="&lt;svg xmlns=&quot;http:&#x2F;&#x2F;www.w3.org&#x2F;2000&#x2F;svg&quot; viewBox=&quot;0 0 24 24&quot; width=&quot;18&quot; height=&quot;18&quot;&gt;&lt;path d=&quot;M10.0007 15.1709L19.1931 5.97852L20.6073 7.39273L10.0007 17.9993L3.63672 11.6354L5.05093 10.2212L10.0007 15.1709Z&quot; fill=&quot;currentColor&quot;&gt;&lt;&#x2F;path&gt;&lt;&#x2F;svg&gt;
+" >
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18"><path d="M6.9998 6V3C6.9998 2.44772 7.44752 2 7.9998 2H19.9998C20.5521 2 20.9998 2.44772 20.9998 3V17C20.9998 17.5523 20.5521 18 19.9998 18H16.9998V20.9991C16.9998 21.5519 16.5499 22 15.993 22H4.00666C3.45059 22 3 21.5554 3 20.9991L3.0026 7.00087C3.0027 6.44811 3.45264 6 4.00942 6H6.9998ZM5.00242 8L5.00019 20H14.9998V8H5.00242ZM8.9998 6H16.9998V16H18.9998V4H8.9998V6Z" fill="currentColor"></path></svg>
+
+    </button>
+  </div>
+</dialog>
+
+
+
+  </main>
+</div>
+
+  
+<script src="/js/lightense.min.js"></script>
+
+
+  <script src="https://ew-git.github.io/js/main.js"></script>
+</body>
+
+</html>

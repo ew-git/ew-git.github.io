@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
+  
+  
+    
+  
+  <meta name="description" content="Scraping Discord pins">
+
+  <title>Scraping Discord pins</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="https://ew-git.github.io/img/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://ew-git.github.io/img/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="https://ew-git.github.io/img/apple-touch-icon.png">
+  
+  <style>
+
+  /* light mode colors */
+  body {
+    --primary-color: #5871a2;
+    --primary-pale-color: #5871a233;
+    --primary-decoration-color: #5871a210;
+    --bg-color: #ffffff;
+    --text-color: #2f3030;
+    --text-pale-color: #767676;
+    --text-decoration-color: #a9a9a9;
+    --highlight-mark-color: #5f75b020;
+
+    --callout-note-color: #5871a2;
+    --callout-tip-color: #268556;
+    --callout-important-color: #885fc9;
+    --callout-warning-color: #ab6632;
+    --callout-caution-color: #c64e4e;
+  }
+
+  /* dark mode colors */
+  body.dark {
+    --primary-color: #6f8fd1;
+    --primary-pale-color: #6f8fd166;
+    --primary-decoration-color: #6f8fd112;
+    --bg-color: #1c1c1c;
+    --text-color: #c1c1c1;
+    --text-pale-color: #848484;
+    --text-decoration-color: #5f5f5f;
+    --highlight-mark-color: #8296cb3b;
+
+    --callout-note-color: #6f8fd1;
+    --callout-tip-color: #47976f;
+    --callout-important-color: #9776cd;
+    --callout-warning-color: #ad7a52;
+    --callout-caution-color: #d06161;
+  }
+
+  /* typography */
+  body {
+    --main-font: ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+    --code-font: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+    --homepage-max-width: 768px;
+    --main-max-width: 768px;
+    --avatar-size: 60px;
+    --font-size: 16px;
+    --line-height: 1.75;
+    --img-border-radius: 0px;
+    --detail-border-radius: 0px;
+    --dark-mode-img-brightness: 0.75;
+    --dark-mode-chart-brightness: 0.75;
+    --inline-code-border-radius: 2px;
+    --inline-code-bg-color: var(--primary-decoration-color);
+    --block-code-border-radius: 0px;
+    --block-code-border-color: var(--primary-color);
+    --detail-border-color: var(--primary-color);
+  }
+
+</style>
+
+  <link rel="stylesheet" href="https://ew-git.github.io/main.css">
+  
+
+<link id="hl" rel="stylesheet" type="text/css" href="/giallo-light.css" />
+
+
+
+  
+</head>
+
+<body class="post">
+  
+  <script>
+    const theme = sessionStorage.getItem('theme');
+    const match = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    if ((theme && theme == 'dark') || (!theme && match)) {
+      document.body.classList.add('dark');
+      const hl = document.querySelector('link#hl');
+      if (hl) hl.href = 'https://ew-git.github.io/giallo-dark.css';
+    }
+  </script>
+  
+  
+<div id="wrapper">
+  <div id="blank"></div>
+  <aside>
+    
+    
+    
+    <button id="back-to-top" aria-label="back to top">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-up"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>
+
+    </button>
+    
+  </aside>
+  <main>
+    
+<header>
+  <nav>
+    <a id="back-link" href="https:&#x2F;&#x2F;ew-git.github.io&#x2F;posts">← Back</a>
+  </nav>
+</header>
+
+
+    <div>
+      
+      
+      
+      
+      <div id="copy-cfg" style="display: none;" data-copy-icon="&lt;svg xmlns=&quot;http:&#x2F;&#x2F;www.w3.org&#x2F;2000&#x2F;svg&quot; viewBox=&quot;0 0 24 24&quot; width=&quot;18&quot; height=&quot;18&quot;&gt;&lt;path d=&quot;M6.9998 6V3C6.9998 2.44772 7.44752 2 7.9998 2H19.9998C20.5521 2 20.9998 2.44772 20.9998 3V17C20.9998 17.5523 20.5521 18 19.9998 18H16.9998V20.9991C16.9998 21.5519 16.5499 22 15.993 22H4.00666C3.45059 22 3 21.5554 3 20.9991L3.0026 7.00087C3.0027 6.44811 3.45264 6 4.00942 6H6.9998ZM5.00242 8L5.00019 20H14.9998V8H5.00242ZM8.9998 6H16.9998V16H18.9998V4H8.9998V6Z&quot; fill=&quot;currentColor&quot;&gt;&lt;&#x2F;path&gt;&lt;&#x2F;svg&gt;
+" data-check-icon="&lt;svg xmlns=&quot;http:&#x2F;&#x2F;www.w3.org&#x2F;2000&#x2F;svg&quot; viewBox=&quot;0 0 24 24&quot; width=&quot;18&quot; height=&quot;18&quot;&gt;&lt;path d=&quot;M10.0007 15.1709L19.1931 5.97852L20.6073 7.39273L10.0007 17.9993L3.63672 11.6354L5.05093 10.2212L10.0007 15.1709Z&quot; fill=&quot;currentColor&quot;&gt;&lt;&#x2F;path&gt;&lt;&#x2F;svg&gt;
+"></div>
+      
+      <article class="prose">
+        <h1>Scraping Discord pins</h1>
+        <div id="post-info">
+          <div id="date">
+            <span id="publish">Feb 1, 2023</span>
+            </div>
+
+          
+          <div id="tags">
+            
+          </div>
+          
+        </div>
+
+        
+        
+
+        <blockquote id="outdate_alert" class="callout caution hidden" data-days="365"
+          data-alert-text-before="This article was last updated "
+          data-alert-text-after=" days ago and may be out of date.">
+          <div class="content"></div>
+        </blockquote>
+        
+
+        <blockquote class="markdown-alert-warning">
+<p>Discord <a rel="nofollow noreferrer external" href="https://support.discord.com/hc/en-us/articles/115002192352-Automated-user-accounts-self-bots-">doesn't like</a> automation of user accounts, which is the method discussed in this post. Use at your own risk.</p>
+</blockquote>
+<p>As more online communities move to Discord, it's becoming increasingly
+difficult to find coherent information within those communities.
+Often, important findings and frequently asked questions are scattered in
+pinned messages throughout channels in the server.
+Discord search is not great, and navigating through pins is tiresome, so I
+wrote a hacky script to scrape all pinned messages in a server to
+a single Markdown file.</p>
+<p>The script grabs the user's authentication token from the browser to
+call Discord's API. A bot would be more convenient and maintainable,
+but bots need approval by server admins, which is yet another step of friction.
+Instead, we may run this script directly in Chrome's JavaScript console, for example, which is
+good enough for my purposes. <em>If you don't know what it means to use the JS console,
+you shouldn't be copying and pasting code you found on the internet. Please do some
+searching to learn before coming back here; <a rel="nofollow noreferrer external" href="https://developer.chrome.com/docs/devtools/console/">this</a> is
+a good resource from the Chrome team.</em></p>
+<p>The only manual input for the script is the guild ID (guilds are also called servers).
+To get the ID, open Discord, go to Settings &gt; Advanced and enable developer mode. Then, right-click on the server title and select "Copy ID" to get the guild ID.</p>
+<p>The script grabs the user authentication token from the app's storage.
+The code here is copied from Stack Overflow; refer to the linked question if it stops working.
+Maybe someone has found a new method.
+Next, we use the API endpoint <a rel="nofollow noreferrer external" href="https://discord.com/developers/docs/resources/guild#get-guild-channels"><code>/guilds/{guild.id}/channels</code></a> to get a list of
+channels in the server and sort by display position.
+Then, we loop through the channels to get pinned message content with
+<a rel="nofollow noreferrer external" href="https://discord.com/developers/docs/resources/channel#get-pinned-messages"><code>/channels/{channel.id}/pins</code></a>.
+Images are attachments to messages, so they require some special handling.
+Instead of downloading the images, we create hotlinks to the Discord CDN—which, by the way, requires no authentication.
+This may or may not work for your use case; one could manually download the images instead.</p>
+<p>Finally, we stuff the channel content and image links into a single <code>&lt;pre&gt;</code> tag, which we
+then display in a new window.
+The Markdown structure is an H1 header of the channel name followed by all pinned message contents.
+The content of the pop-up should be copiable as Markdown.
+Formatting errors aside, one may render the Markdown however one chooses for a single easily searchable and browseable help file.</p>
+<pre class="giallo z-code"><code data-lang="javascript"><span class="giallo-l"><span class="z-punctuation z-definition z-comment">//</span><span class="z-comment"> To get the server ID, open Discord, go to Settings &gt; Advanced and enable developer mode. Then, right-click on the server title and select &quot;Copy ID&quot; to get the guild ID.</span></span>
+<span class="giallo-l"><span class="z-storage z-type">let</span><span class="z-variable z-other z-constant"> GUILDID</span><span class="z-keyword"> =</span><span class="z-punctuation z-definition z-string"> &quot;</span><span class="z-string">1111</span><span class="z-punctuation z-definition z-string">&quot;</span><span>;</span><span class="z-punctuation z-definition z-comment"> //</span><span class="z-comment"> CHANGE ME</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span class="z-punctuation z-definition z-comment">//</span><span class="z-comment"> See https://stackoverflow.com/a/69868564</span></span>
+<span class="giallo-l"><span class="z-storage z-type">let</span><span class="z-variable z-other z-constant"> TOKEN</span><span class="z-keyword"> =</span><span> (</span><span class="z-variable z-other">webpackChunkdiscord_app</span><span>.</span><span class="z-entity z-name">push</span><span>(</span><span>[</span><span>[</span><span class="z-punctuation z-definition z-string">&#39;</span><span class="z-punctuation z-definition z-string">&#39;</span><span>]</span><span>,</span><span>{</span><span>}</span><span>,</span><span class="z-variable">e</span><span class="z-storage z-type">=&gt;</span><span>{</span><span class="z-variable z-other">m</span><span class="z-keyword">=</span><span>[</span><span>]</span><span>;</span><span class="z-keyword">for</span><span>(</span><span class="z-storage z-type">let</span><span class="z-variable z-other"> c</span><span class="z-keyword"> in</span><span class="z-variable z-other"> e</span><span>.</span><span class="z-variable z-other">c</span><span>)</span><span class="z-variable z-other">m</span><span>.</span><span class="z-entity z-name">push</span><span>(</span><span class="z-variable z-other">e</span><span>.</span><span class="z-variable z-other">c</span><span>[</span><span class="z-variable z-other">c</span><span>]</span><span>)</span><span>}</span><span>]</span><span>)</span><span>,</span><span class="z-variable z-other">m</span><span>)</span><span>.</span><span class="z-entity z-name">find</span><span>(</span><span class="z-variable">m</span><span class="z-storage z-type">=&gt;</span><span class="z-variable z-other">m</span><span>?.</span><span class="z-variable z-other">exports</span><span>?.</span><span class="z-variable z-other">default</span><span>?.</span><span class="z-variable z-other">getToken</span><span class="z-keyword">!==</span><span class="z-keyword">void</span><span class="z-constant"> 0</span><span>)</span><span>.</span><span class="z-variable z-other">exports</span><span>.</span><span class="z-variable z-other">default</span><span>.</span><span class="z-entity z-name">getToken</span><span>(</span><span>)</span><span>;</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span class="z-storage z-type">let</span><span class="z-variable z-other"> textchannels</span><span class="z-keyword"> =</span><span class="z-keyword"> await</span><span class="z-entity z-name"> fetch</span><span>(</span><span class="z-punctuation z-definition z-string">&quot;</span><span class="z-string">https://discord.com/api/v9/guilds/</span><span class="z-punctuation z-definition z-string">&quot;</span><span class="z-keyword"> +</span><span class="z-variable z-other z-constant"> GUILDID</span><span class="z-keyword"> +</span><span class="z-punctuation z-definition z-string"> &quot;</span><span class="z-string">/channels</span><span class="z-punctuation z-definition z-string">&quot;</span><span>,</span><span> {</span></span>
+<span class="giallo-l"><span class="z-punctuation z-definition z-string">  &quot;</span><span class="z-string">headers</span><span class="z-punctuation z-definition z-string">&quot;</span><span>:</span><span> {</span></span>
+<span class="giallo-l"><span class="z-punctuation z-definition z-string">    &quot;</span><span class="z-string">accept</span><span class="z-punctuation z-definition z-string">&quot;</span><span>:</span><span class="z-punctuation z-definition z-string"> &quot;</span><span class="z-string">*/*</span><span class="z-punctuation z-definition z-string">&quot;</span><span>,</span></span>
+<span class="giallo-l"><span class="z-punctuation z-definition z-string">    &quot;</span><span class="z-string">authorization</span><span class="z-punctuation z-definition z-string">&quot;</span><span>:</span><span class="z-variable z-other z-constant"> TOKEN</span><span>,</span></span>
+<span class="giallo-l"><span> }</span><span>,</span></span>
+<span class="giallo-l"><span class="z-punctuation z-definition z-string">  &quot;</span><span class="z-string">body</span><span class="z-punctuation z-definition z-string">&quot;</span><span>:</span><span class="z-constant"> null</span><span>,</span></span>
+<span class="giallo-l"><span class="z-punctuation z-definition z-string">  &quot;</span><span class="z-string">method</span><span class="z-punctuation z-definition z-string">&quot;</span><span>:</span><span class="z-punctuation z-definition z-string"> &quot;</span><span class="z-string">GET</span><span class="z-punctuation z-definition z-string">&quot;</span><span>,</span></span>
+<span class="giallo-l"><span class="z-punctuation z-definition z-string">  &quot;</span><span class="z-string">mode</span><span class="z-punctuation z-definition z-string">&quot;</span><span>:</span><span class="z-punctuation z-definition z-string"> &quot;</span><span class="z-string">cors</span><span class="z-punctuation z-definition z-string">&quot;</span><span>,</span></span>
+<span class="giallo-l"><span class="z-punctuation z-definition z-string">  &quot;</span><span class="z-string">credentials</span><span class="z-punctuation z-definition z-string">&quot;</span><span>:</span><span class="z-punctuation z-definition z-string"> &quot;</span><span class="z-string">include</span><span class="z-punctuation z-definition z-string">&quot;</span></span>
+<span class="giallo-l"><span>}</span><span>)</span></span>
+<span class="giallo-l"><span>  .</span><span class="z-entity z-name">then</span><span>(</span><span class="z-variable">response</span><span class="z-storage z-type"> =&gt;</span><span class="z-variable z-other"> response</span><span>.</span><span class="z-entity z-name">json</span><span>(</span><span>)</span><span>)</span></span>
+<span class="giallo-l"><span>  .</span><span class="z-entity z-name">then</span><span>(</span><span class="z-variable">channels</span><span class="z-storage z-type"> =&gt;</span><span> {</span></span>
+<span class="giallo-l"><span class="z-storage z-type">        let</span><span class="z-variable z-other"> result</span><span class="z-keyword"> =</span><span> [</span><span>]</span><span>;</span></span>
+<span class="giallo-l"><span class="z-keyword">        for</span><span> (</span><span class="z-storage z-type">let</span><span class="z-variable z-other"> i</span><span class="z-keyword"> =</span><span class="z-constant"> 0</span><span>;</span><span class="z-variable z-other"> i</span><span class="z-keyword"> &lt;</span><span class="z-variable z-other"> channels</span><span>.</span><span class="z-support z-variable">length</span><span>;</span><span class="z-variable z-other"> i</span><span class="z-keyword">++</span><span>)</span><span> {</span></span>
+<span class="giallo-l"><span class="z-keyword">            if</span><span> (</span><span class="z-variable z-other">channels</span><span>[</span><span class="z-variable z-other">i</span><span>]</span><span>.</span><span class="z-variable z-other">type</span><span class="z-keyword"> ===</span><span class="z-constant"> 0</span><span>)</span><span>{</span></span>
+<span class="giallo-l"><span class="z-variable z-other">            result</span><span>.</span><span class="z-entity z-name">push</span><span>(</span><span class="z-variable z-other">channels</span><span>[</span><span class="z-variable z-other">i</span><span>]</span><span>)</span><span>;</span></span>
+<span class="giallo-l"><span>            }</span></span>
+<span class="giallo-l"><span>        }</span></span>
+<span class="giallo-l"><span class="z-keyword">        return</span><span class="z-variable z-other"> result</span><span>;</span></span>
+<span class="giallo-l"><span>    }</span></span>
+<span class="giallo-l"><span>)</span><span>;</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span class="z-punctuation z-definition z-comment">//</span><span class="z-comment"> https://stackoverflow.com/a/69026789</span></span>
+<span class="giallo-l"><span class="z-variable z-other">textchannels</span><span>.</span><span class="z-entity z-name">sort</span><span>(</span><span>(</span><span class="z-variable">a</span><span>,</span><span class="z-variable"> b</span><span>)</span><span class="z-storage z-type"> =&gt;</span><span> {</span></span>
+<span class="giallo-l"><span class="z-storage z-type">    var</span><span class="z-variable z-other"> ret</span><span>;</span></span>
+<span class="giallo-l"><span class="z-keyword">    if</span><span> (</span><span class="z-variable z-other">a</span><span>.</span><span class="z-variable z-other">position</span><span class="z-keyword"> &lt;</span><span class="z-variable z-other"> b</span><span>.</span><span class="z-variable z-other">position</span><span>)</span><span> {</span></span>
+<span class="giallo-l"><span class="z-variable z-other">        ret</span><span class="z-keyword"> =</span><span class="z-keyword"> -</span><span class="z-constant">1</span><span>;</span></span>
+<span class="giallo-l"><span>    }</span><span class="z-keyword"> else</span><span class="z-keyword"> if</span><span> (</span><span class="z-variable z-other">a</span><span>.</span><span class="z-variable z-other">position</span><span class="z-keyword"> &gt;</span><span class="z-variable z-other"> b</span><span>.</span><span class="z-variable z-other">position</span><span>)</span><span> {</span></span>
+<span class="giallo-l"><span class="z-variable z-other">        ret</span><span class="z-keyword"> =</span><span class="z-constant"> 1</span><span>;</span></span>
+<span class="giallo-l"><span>    }</span><span class="z-keyword"> else</span><span> {</span></span>
+<span class="giallo-l"><span class="z-variable z-other">        ret</span><span class="z-keyword"> =</span><span class="z-constant"> 0</span><span>;</span></span>
+<span class="giallo-l"><span>    }</span></span>
+<span class="giallo-l"><span class="z-keyword">    return</span><span class="z-variable z-other"> ret</span></span>
+<span class="giallo-l"><span>}</span><span>)</span><span>;</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span class="z-storage z-type">let</span><span class="z-variable z-other"> pincontents</span><span class="z-keyword"> =</span><span> [</span><span class="z-punctuation z-definition z-string">&#39;</span><span class="z-string">&lt;pre&gt;</span><span class="z-punctuation z-definition z-string">&#39;</span><span>]</span><span>;</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span class="z-keyword">for</span><span> (</span><span class="z-storage z-type">let</span><span class="z-variable z-other"> i</span><span class="z-keyword"> =</span><span class="z-constant"> 0</span><span>;</span><span class="z-variable z-other"> i</span><span class="z-keyword"> &lt;</span><span class="z-variable z-other"> textchannels</span><span>.</span><span class="z-support z-variable">length</span><span>;</span><span class="z-variable z-other"> i</span><span class="z-keyword">++</span><span>)</span><span>{</span></span>
+<span class="giallo-l"><span class="z-variable z-other">    console</span><span>.</span><span class="z-entity z-name">log</span><span>(</span><span class="z-punctuation z-definition z-string">&quot;</span><span class="z-string">Getting pins for channel = </span><span class="z-punctuation z-definition z-string">&quot;</span><span class="z-keyword"> +</span><span class="z-variable z-other z-constant"> JSON</span><span>.</span><span class="z-entity z-name">stringify</span><span>(</span><span class="z-variable z-other">textchannels</span><span>[</span><span class="z-variable z-other">i</span><span>]</span><span>)</span><span>)</span><span>;</span></span>
+<span class="giallo-l"><span class="z-variable z-other">    pincontents</span><span>.</span><span class="z-entity z-name">push</span><span>(</span><span class="z-punctuation z-definition z-string">&quot;</span><span class="z-string">[//]: # (COMMENT: channel = </span><span class="z-punctuation z-definition z-string">&quot;</span><span class="z-keyword"> +</span><span class="z-variable z-other z-constant"> JSON</span><span>.</span><span class="z-entity z-name">stringify</span><span>(</span><span class="z-variable z-other">textchannels</span><span>[</span><span class="z-variable z-other">i</span><span>]</span><span>)</span><span class="z-keyword"> +</span><span class="z-punctuation z-definition z-string"> &#39;</span><span class="z-string">)</span><span class="z-punctuation z-definition z-string">&#39;</span><span>)</span><span>;</span></span>
+<span class="giallo-l"><span class="z-variable z-other">    pincontents</span><span>.</span><span class="z-entity z-name">push</span><span>(</span><span class="z-punctuation z-definition z-string">&quot;</span><span class="z-string"># </span><span class="z-punctuation z-definition z-string">&quot;</span><span class="z-keyword"> +</span><span class="z-variable z-other"> textchannels</span><span>[</span><span class="z-variable z-other">i</span><span>]</span><span>[</span><span class="z-punctuation z-definition z-string">&#39;</span><span class="z-string">name</span><span class="z-punctuation z-definition z-string">&#39;</span><span>]</span><span>)</span><span>;</span></span>
+<span class="giallo-l"><span class="z-punctuation z-definition z-comment">    //</span><span class="z-comment"> https://stackoverflow.com/a/51939030</span></span>
+<span class="giallo-l"><span class="z-punctuation z-definition z-comment">    //</span><span class="z-comment"> Need to avoid 429</span></span>
+<span class="giallo-l"><span class="z-keyword">    await</span><span class="z-keyword"> new</span><span class="z-support"> Promise</span><span>(</span><span class="z-variable">resolve</span><span class="z-storage z-type"> =&gt;</span><span class="z-entity z-name"> setTimeout</span><span>(</span><span class="z-variable z-other">resolve</span><span>,</span><span class="z-constant"> 2000</span><span>)</span><span>)</span><span>;</span></span>
+<span class="giallo-l"><span class="z-keyword">    await</span><span class="z-entity z-name"> fetch</span><span>(</span><span class="z-punctuation z-definition z-string">&quot;</span><span class="z-string">https://discord.com/api/v9/channels/</span><span class="z-punctuation z-definition z-string">&quot;</span><span class="z-keyword"> +</span><span class="z-variable z-other"> textchannels</span><span>[</span><span class="z-variable z-other">i</span><span>]</span><span>[</span><span class="z-punctuation z-definition z-string">&#39;</span><span class="z-string">id</span><span class="z-punctuation z-definition z-string">&#39;</span><span>]</span><span class="z-keyword"> +</span><span class="z-punctuation z-definition z-string"> &quot;</span><span class="z-string">/pins</span><span class="z-punctuation z-definition z-string">&quot;</span><span>,</span><span> {</span></span>
+<span class="giallo-l"><span class="z-punctuation z-definition z-string">        &quot;</span><span class="z-string">headers</span><span class="z-punctuation z-definition z-string">&quot;</span><span>:</span><span> {</span></span>
+<span class="giallo-l"><span class="z-punctuation z-definition z-string">            &quot;</span><span class="z-string">accept</span><span class="z-punctuation z-definition z-string">&quot;</span><span>:</span><span class="z-punctuation z-definition z-string"> &quot;</span><span class="z-string">*/*</span><span class="z-punctuation z-definition z-string">&quot;</span><span>,</span></span>
+<span class="giallo-l"><span class="z-punctuation z-definition z-string">            &quot;</span><span class="z-string">authorization</span><span class="z-punctuation z-definition z-string">&quot;</span><span>:</span><span class="z-variable z-other z-constant"> TOKEN</span><span>,</span></span>
+<span class="giallo-l"><span>        }</span><span>,</span></span>
+<span class="giallo-l"><span class="z-punctuation z-definition z-string">        &quot;</span><span class="z-string">body</span><span class="z-punctuation z-definition z-string">&quot;</span><span>:</span><span class="z-constant"> null</span><span>,</span></span>
+<span class="giallo-l"><span class="z-punctuation z-definition z-string">        &quot;</span><span class="z-string">method</span><span class="z-punctuation z-definition z-string">&quot;</span><span>:</span><span class="z-punctuation z-definition z-string"> &quot;</span><span class="z-string">GET</span><span class="z-punctuation z-definition z-string">&quot;</span><span>,</span></span>
+<span class="giallo-l"><span class="z-punctuation z-definition z-string">        &quot;</span><span class="z-string">mode</span><span class="z-punctuation z-definition z-string">&quot;</span><span>:</span><span class="z-punctuation z-definition z-string"> &quot;</span><span class="z-string">cors</span><span class="z-punctuation z-definition z-string">&quot;</span><span>,</span></span>
+<span class="giallo-l"><span class="z-punctuation z-definition z-string">        &quot;</span><span class="z-string">credentials</span><span class="z-punctuation z-definition z-string">&quot;</span><span>:</span><span class="z-punctuation z-definition z-string"> &quot;</span><span class="z-string">include</span><span class="z-punctuation z-definition z-string">&quot;</span></span>
+<span class="giallo-l"><span>        }</span><span>)</span></span>
+<span class="giallo-l"><span>        .</span><span class="z-entity z-name">then</span><span>(</span><span class="z-variable">response</span><span class="z-storage z-type"> =&gt;</span><span class="z-variable z-other"> response</span><span>.</span><span class="z-entity z-name">json</span><span>(</span><span>)</span><span>)</span></span>
+<span class="giallo-l"><span>        .</span><span class="z-entity z-name">then</span><span>(</span><span class="z-variable">pins</span><span class="z-storage z-type"> =&gt;</span><span> {</span></span>
+<span class="giallo-l"><span class="z-keyword">                for</span><span> (</span><span class="z-storage z-type">let</span><span class="z-variable z-other"> i</span><span class="z-keyword"> =</span><span class="z-constant"> 0</span><span>;</span><span class="z-variable z-other"> i</span><span class="z-keyword"> &lt;</span><span class="z-variable z-other"> pins</span><span>.</span><span class="z-support z-variable">length</span><span>;</span><span class="z-variable z-other"> i</span><span class="z-keyword">++</span><span>)</span><span> {</span></span>
+<span class="giallo-l"><span class="z-variable z-other">                    pincontents</span><span>.</span><span class="z-entity z-name">push</span><span>(</span><span class="z-variable z-other">pins</span><span>[</span><span class="z-variable z-other">i</span><span>]</span><span>[</span><span class="z-punctuation z-definition z-string">&#39;</span><span class="z-string">content</span><span class="z-punctuation z-definition z-string">&#39;</span><span>]</span><span>)</span><span>;</span></span>
+<span class="giallo-l"><span class="z-keyword">                    for</span><span> (</span><span class="z-storage z-type">let</span><span class="z-variable z-other"> j</span><span class="z-keyword"> =</span><span class="z-constant"> 0</span><span>;</span><span class="z-variable z-other"> j</span><span class="z-keyword"> &lt;</span><span class="z-variable z-other"> pins</span><span>[</span><span class="z-variable z-other">i</span><span>]</span><span>[</span><span class="z-punctuation z-definition z-string">&#39;</span><span class="z-string">attachments</span><span class="z-punctuation z-definition z-string">&#39;</span><span>]</span><span>.</span><span class="z-support z-variable">length</span><span>;</span><span class="z-variable z-other"> j</span><span class="z-keyword">++</span><span>)</span><span> {</span></span>
+<span class="giallo-l"><span class="z-variable z-other">                        pincontents</span><span>.</span><span class="z-entity z-name">push</span><span>(</span><span class="z-punctuation z-definition z-string">&#39;</span><span class="z-constant">\n</span><span class="z-string">![Image](</span><span class="z-punctuation z-definition z-string">&#39;</span><span class="z-keyword"> +</span><span class="z-variable z-other"> pins</span><span>[</span><span class="z-variable z-other">i</span><span>]</span><span>[</span><span class="z-punctuation z-definition z-string">&#39;</span><span class="z-string">attachments</span><span class="z-punctuation z-definition z-string">&#39;</span><span>]</span><span>[</span><span class="z-variable z-other">j</span><span>]</span><span>[</span><span class="z-punctuation z-definition z-string">&#39;</span><span class="z-string">url</span><span class="z-punctuation z-definition z-string">&#39;</span><span>]</span><span class="z-keyword"> +</span><span class="z-punctuation z-definition z-string"> &#39;</span><span class="z-string">)</span><span class="z-constant">\n</span><span class="z-punctuation z-definition z-string">&#39;</span><span>)</span><span>;</span></span>
+<span class="giallo-l"><span>                    }</span></span>
+<span class="giallo-l"><span>                    </span></span>
+<span class="giallo-l"><span>                }</span></span>
+<span class="giallo-l"><span>            }</span></span>
+<span class="giallo-l"><span>        )</span><span>;</span></span>
+<span class="giallo-l"><span>}</span></span>
+<span class="giallo-l"><span class="z-variable z-other">pincontents</span><span>.</span><span class="z-entity z-name">push</span><span>(</span><span class="z-punctuation z-definition z-string">&#39;</span><span class="z-string">&lt;/pre&gt;</span><span class="z-punctuation z-definition z-string">&#39;</span><span>)</span><span>;</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span class="z-variable z-other">console</span><span>.</span><span class="z-entity z-name">log</span><span>(</span><span class="z-variable z-other">pincontents</span><span>.</span><span class="z-entity z-name">join</span><span>(</span><span class="z-punctuation z-definition z-string">&quot;</span><span class="z-constant">\n</span><span class="z-constant">\n</span><span class="z-punctuation z-definition z-string">&quot;</span><span>)</span><span>)</span><span>;</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span class="z-punctuation z-definition z-comment">//</span><span class="z-comment"> May need to allow pop-ups. If it fails, just run these lines again.</span></span>
+<span class="giallo-l"><span class="z-storage z-type">var</span><span class="z-variable z-other"> win</span><span class="z-keyword"> =</span><span class="z-variable z-other"> window</span><span>.</span><span class="z-entity z-name">open</span><span>(</span><span class="z-punctuation z-definition z-string">&quot;</span><span class="z-punctuation z-definition z-string">&quot;</span><span>,</span><span class="z-punctuation z-definition z-string"> &quot;</span><span class="z-string">Pins</span><span class="z-punctuation z-definition z-string">&quot;</span><span>,</span><span class="z-punctuation z-definition z-string"> &quot;</span><span class="z-string">toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=780,height=200,top=</span><span class="z-punctuation z-definition z-string">&quot;</span><span class="z-keyword">+</span><span>(</span><span class="z-variable z-other">screen</span><span>.</span><span class="z-variable z-other">height</span><span class="z-keyword">-</span><span class="z-constant">400</span><span>)</span><span class="z-keyword">+</span><span class="z-punctuation z-definition z-string">&quot;</span><span class="z-string">,left=</span><span class="z-punctuation z-definition z-string">&quot;</span><span class="z-keyword">+</span><span>(</span><span class="z-variable z-other">screen</span><span>.</span><span class="z-variable z-other">width</span><span class="z-keyword">-</span><span class="z-constant">840</span><span>)</span><span>)</span><span>;</span></span>
+<span class="giallo-l"><span class="z-variable z-other">win</span><span>.</span><span class="z-variable z-other">document</span><span>.</span><span class="z-variable z-other">body</span><span>.</span><span class="z-variable z-other">innerHTML</span><span class="z-keyword"> =</span><span class="z-variable z-other"> pincontents</span><span>.</span><span class="z-entity z-name">join</span><span>(</span><span class="z-punctuation z-definition z-string">&quot;</span><span class="z-constant">\n</span><span class="z-constant">\n</span><span class="z-punctuation z-definition z-string">&quot;</span><span>)</span><span>;</span></span></code></pre>
+<p>Sample output (abbreviated):</p>
+<pre class="giallo z-code"><code data-lang="markdown"><span class="giallo-l"></span>
+<span class="giallo-l"><span>[</span><span class="z-constant z-other z-reference z-link">//</span><span>]</span><span>:</span><span> </span><span>#</span><span> </span><span class="z-punctuation z-definition z-string">(</span><span class="z-string z-other z-link">COMMENT: channel = {...&quot;name&quot;:&quot;displayedfirst&quot;,&quot;position&quot;:0,...}</span><span class="z-punctuation z-definition z-string">)</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span class="z-markup z-heading">#</span><span class="z-entity z-name"> displayedfirst</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span>asdf</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span>[</span><span class="z-constant z-other z-reference z-link">//</span><span>]</span><span>:</span><span> </span><span>#</span><span> </span><span class="z-punctuation z-definition z-string">(</span><span class="z-string z-other z-link">COMMENT: channel = {...&quot;name&quot;:&quot;general&quot;,&quot;position&quot;:1...}</span><span class="z-punctuation z-definition z-string">)</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span class="z-markup z-heading">#</span><span class="z-entity z-name"> general</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span>longer message </span></span>
+<span class="giallo-l"><span>😀 </span></span>
+<span class="giallo-l"><span>maybe</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span>![</span><span class="z-string z-other z-link">Image</span><span>]</span><span>(</span><span>https://cdn.discordapp.com/attachments/....png</span><span>)</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span>![</span><span class="z-string z-other z-link">Image</span><span>]</span><span>(</span><span>https://cdn.discordapp.com/attachments/....png</span><span>)</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span>Another pin with bold </span><span class="z-markup z-italic">*</span><span class="z-markup z-italic">asdf</span><span class="z-markup z-italic">*</span><span class="z-markup z-italic"> _</span><span class="z-markup z-italic">bold</span><span class="z-markup z-italic">_</span></span>
+<span class="giallo-l"><span class="z-punctuation z-definition z-list z-begin z-markdown">1.</span><span> 3</span></span>
+<span class="giallo-l"><span class="z-punctuation z-definition z-list z-begin z-markdown">2.</span><span> 6</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span>test pinned</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span>[</span><span class="z-constant z-other z-reference z-link">//</span><span>]</span><span>:</span><span> </span><span>#</span><span> </span><span class="z-punctuation z-definition z-string">(</span><span class="z-string z-other z-link">COMMENT: channel = {...&quot;name&quot;:&quot;otherchannel&quot;,&quot;position&quot;:2,...</span><span class="z-punctuation z-definition z-string">)</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span class="z-markup z-heading">#</span><span class="z-entity z-name"> otherchannel</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span>other chan pin</span></span></code></pre>
+<p>One nagging issue is 429 (Too Many Requests)
+responses when querying each channel. The script simply waits 2 seconds between
+requests to avoid them. For large servers, this may be annoyingly long, but
+retry logic just complicates the script.</p>
+
+      </article>
+
+      
+      
+
+      
+      
+    </div>
+
+    
+
+
+<footer>
+  <div class="left">
+    <div class="copyright">
+      © 2026 Evan Wright, CC BY-NC-SA 4.0
+      
+    </div>
+  </div>
+
+  <div class="right">
+    
+    
+      
+    
+    
+    <a id="rss-btn" href="https://ew-git.github.io/posts/feed.xml">RSS</a>
+    
+    
+
+    
+    
+    
+    <button id="theme-toggle" aria-label="theme switch">
+      <span class="moon-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18"><path d="M10 7C10 10.866 13.134 14 17 14C18.9584 14 20.729 13.1957 21.9995 11.8995C22 11.933 22 11.9665 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C12.0335 2 12.067 2 12.1005 2.00049C10.8043 3.27098 10 5.04157 10 7ZM4 12C4 16.4183 7.58172 20 12 20C15.0583 20 17.7158 18.2839 19.062 15.7621C18.3945 15.9187 17.7035 16 17 16C12.0294 16 8 11.9706 8 7C8 6.29648 8.08133 5.60547 8.2379 4.938C5.71611 6.28423 4 8.9417 4 12Z" fill="currentColor"></path></svg>
+</span>
+      <span class="sun-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18"><path d="M12 18C8.68629 18 6 15.3137 6 12C6 8.68629 8.68629 6 12 6C15.3137 6 18 8.68629 18 12C18 15.3137 15.3137 18 12 18ZM12 16C14.2091 16 16 14.2091 16 12C16 9.79086 14.2091 8 12 8C9.79086 8 8 9.79086 8 12C8 14.2091 9.79086 16 12 16ZM11 1H13V4H11V1ZM11 20H13V23H11V20ZM3.51472 4.92893L4.92893 3.51472L7.05025 5.63604L5.63604 7.05025L3.51472 4.92893ZM16.9497 18.364L18.364 16.9497L20.4853 19.0711L19.0711 20.4853L16.9497 18.364ZM19.0711 3.51472L20.4853 4.92893L18.364 7.05025L16.9497 5.63604L19.0711 3.51472ZM5.63604 16.9497L7.05025 18.364L4.92893 20.4853L3.51472 19.0711L5.63604 16.9497ZM23 11V13H20V11H23ZM4 11V13H1V11H4Z" fill="currentColor"></path></svg>
+</span>
+    </button>
+    
+  </div>
+</footer>
+
+
+
+
+<dialog id="rss-mask">
+  <div>
+    <a href="https:&#x2F;&#x2F;ew-git.github.io&#x2F;posts&#x2F;feed.xml">https:&#x2F;&#x2F;ew-git.github.io&#x2F;posts&#x2F;feed.xml</a>
+    
+    
+    <button autofocus aria-label="copy" data-link="https:&#x2F;&#x2F;ew-git.github.io&#x2F;posts&#x2F;feed.xml" data-copy-icon="&lt;svg xmlns=&quot;http:&#x2F;&#x2F;www.w3.org&#x2F;2000&#x2F;svg&quot; viewBox=&quot;0 0 24 24&quot; width=&quot;18&quot; height=&quot;18&quot;&gt;&lt;path d=&quot;M6.9998 6V3C6.9998 2.44772 7.44752 2 7.9998 2H19.9998C20.5521 2 20.9998 2.44772 20.9998 3V17C20.9998 17.5523 20.5521 18 19.9998 18H16.9998V20.9991C16.9998 21.5519 16.5499 22 15.993 22H4.00666C3.45059 22 3 21.5554 3 20.9991L3.0026 7.00087C3.0027 6.44811 3.45264 6 4.00942 6H6.9998ZM5.00242 8L5.00019 20H14.9998V8H5.00242ZM8.9998 6H16.9998V16H18.9998V4H8.9998V6Z&quot; fill=&quot;currentColor&quot;&gt;&lt;&#x2F;path&gt;&lt;&#x2F;svg&gt;
+" data-check-icon="&lt;svg xmlns=&quot;http:&#x2F;&#x2F;www.w3.org&#x2F;2000&#x2F;svg&quot; viewBox=&quot;0 0 24 24&quot; width=&quot;18&quot; height=&quot;18&quot;&gt;&lt;path d=&quot;M10.0007 15.1709L19.1931 5.97852L20.6073 7.39273L10.0007 17.9993L3.63672 11.6354L5.05093 10.2212L10.0007 15.1709Z&quot; fill=&quot;currentColor&quot;&gt;&lt;&#x2F;path&gt;&lt;&#x2F;svg&gt;
+" >
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18"><path d="M6.9998 6V3C6.9998 2.44772 7.44752 2 7.9998 2H19.9998C20.5521 2 20.9998 2.44772 20.9998 3V17C20.9998 17.5523 20.5521 18 19.9998 18H16.9998V20.9991C16.9998 21.5519 16.5499 22 15.993 22H4.00666C3.45059 22 3 21.5554 3 20.9991L3.0026 7.00087C3.0027 6.44811 3.45264 6 4.00942 6H6.9998ZM5.00242 8L5.00019 20H14.9998V8H5.00242ZM8.9998 6H16.9998V16H18.9998V4H8.9998V6Z" fill="currentColor"></path></svg>
+
+    </button>
+  </div>
+</dialog>
+
+
+
+  </main>
+</div>
+
+  
+<script src="/js/lightense.min.js"></script>
+
+
+  <script src="https://ew-git.github.io/js/main.js"></script>
+</body>
+
+</html>

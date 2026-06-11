@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
+  
+  
+    
+  
+  <meta name="description" content="A key benefit of Julia">
+
+  <title>A key benefit of Julia</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="https://ew-git.github.io/img/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://ew-git.github.io/img/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="https://ew-git.github.io/img/apple-touch-icon.png">
+  
+  <style>
+
+  /* light mode colors */
+  body {
+    --primary-color: #5871a2;
+    --primary-pale-color: #5871a233;
+    --primary-decoration-color: #5871a210;
+    --bg-color: #ffffff;
+    --text-color: #2f3030;
+    --text-pale-color: #767676;
+    --text-decoration-color: #a9a9a9;
+    --highlight-mark-color: #5f75b020;
+
+    --callout-note-color: #5871a2;
+    --callout-tip-color: #268556;
+    --callout-important-color: #885fc9;
+    --callout-warning-color: #ab6632;
+    --callout-caution-color: #c64e4e;
+  }
+
+  /* dark mode colors */
+  body.dark {
+    --primary-color: #6f8fd1;
+    --primary-pale-color: #6f8fd166;
+    --primary-decoration-color: #6f8fd112;
+    --bg-color: #1c1c1c;
+    --text-color: #c1c1c1;
+    --text-pale-color: #848484;
+    --text-decoration-color: #5f5f5f;
+    --highlight-mark-color: #8296cb3b;
+
+    --callout-note-color: #6f8fd1;
+    --callout-tip-color: #47976f;
+    --callout-important-color: #9776cd;
+    --callout-warning-color: #ad7a52;
+    --callout-caution-color: #d06161;
+  }
+
+  /* typography */
+  body {
+    --main-font: ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+    --code-font: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+    --homepage-max-width: 768px;
+    --main-max-width: 768px;
+    --avatar-size: 60px;
+    --font-size: 16px;
+    --line-height: 1.75;
+    --img-border-radius: 0px;
+    --detail-border-radius: 0px;
+    --dark-mode-img-brightness: 0.75;
+    --dark-mode-chart-brightness: 0.75;
+    --inline-code-border-radius: 2px;
+    --inline-code-bg-color: var(--primary-decoration-color);
+    --block-code-border-radius: 0px;
+    --block-code-border-color: var(--primary-color);
+    --detail-border-color: var(--primary-color);
+  }
+
+</style>
+
+  <link rel="stylesheet" href="https://ew-git.github.io/main.css">
+  
+
+<link id="hl" rel="stylesheet" type="text/css" href="/giallo-light.css" />
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" integrity="sha384-nB0miv6/jRmo5UMMR1wu3Gz6NLsoTkbqJghGIsx//Rlm+ZU03BU6SQNC66uf4l5+" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" integrity="sha384-7zkQWkzuo3B5mTepMUcHkMB5jZaolc2xDwL6VFqjFALcbeS9Ggm/Yr2r3Dy4lfFg" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" integrity="sha384-43gviWU0YVjaDtb/GhzOouOXtZMP/7XUzwPTstBeZFe/+rCMvRwr4yROQP43s0Xk" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/copy-tex.min.js" integrity="sha384-HORx6nWi8j5/mYA+y57/9/CZc5z8HnEw4WUZWy5yOn9ToKBv1l58vJaufFAn9Zzi" crossorigin="anonymous"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        renderMathInElement(document.body, {
+            delimiters: [
+                { left: '$$', right: '$$', display: true },
+                { left: '$', right: '$', display: false },
+                { left: '\\(', right: '\\)', display: false },
+                { left: '\\[', right: '\\]', display: true }
+            ],
+            throwOnError: false
+        });
+    });
+</script>
+
+
+  
+</head>
+
+<body class="post">
+  
+  <script>
+    const theme = sessionStorage.getItem('theme');
+    const match = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    if ((theme && theme == 'dark') || (!theme && match)) {
+      document.body.classList.add('dark');
+      const hl = document.querySelector('link#hl');
+      if (hl) hl.href = 'https://ew-git.github.io/giallo-dark.css';
+    }
+  </script>
+  
+  
+<div id="wrapper">
+  <div id="blank"></div>
+  <aside>
+    
+    
+    
+    <button id="back-to-top" aria-label="back to top">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-up"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>
+
+    </button>
+    
+  </aside>
+  <main>
+    
+<header>
+  <nav>
+    <a id="back-link" href="https:&#x2F;&#x2F;ew-git.github.io&#x2F;posts">← Back</a>
+  </nav>
+</header>
+
+
+    <div>
+      
+      
+      
+      
+      <div id="copy-cfg" style="display: none;" data-copy-icon="&lt;svg xmlns=&quot;http:&#x2F;&#x2F;www.w3.org&#x2F;2000&#x2F;svg&quot; viewBox=&quot;0 0 24 24&quot; width=&quot;18&quot; height=&quot;18&quot;&gt;&lt;path d=&quot;M6.9998 6V3C6.9998 2.44772 7.44752 2 7.9998 2H19.9998C20.5521 2 20.9998 2.44772 20.9998 3V17C20.9998 17.5523 20.5521 18 19.9998 18H16.9998V20.9991C16.9998 21.5519 16.5499 22 15.993 22H4.00666C3.45059 22 3 21.5554 3 20.9991L3.0026 7.00087C3.0027 6.44811 3.45264 6 4.00942 6H6.9998ZM5.00242 8L5.00019 20H14.9998V8H5.00242ZM8.9998 6H16.9998V16H18.9998V4H8.9998V6Z&quot; fill=&quot;currentColor&quot;&gt;&lt;&#x2F;path&gt;&lt;&#x2F;svg&gt;
+" data-check-icon="&lt;svg xmlns=&quot;http:&#x2F;&#x2F;www.w3.org&#x2F;2000&#x2F;svg&quot; viewBox=&quot;0 0 24 24&quot; width=&quot;18&quot; height=&quot;18&quot;&gt;&lt;path d=&quot;M10.0007 15.1709L19.1931 5.97852L20.6073 7.39273L10.0007 17.9993L3.63672 11.6354L5.05093 10.2212L10.0007 15.1709Z&quot; fill=&quot;currentColor&quot;&gt;&lt;&#x2F;path&gt;&lt;&#x2F;svg&gt;
+"></div>
+      
+      <article class="prose">
+        <h1>A key benefit of Julia</h1>
+        <div id="post-info">
+          <div id="date">
+            <span id="publish">Jan 15, 2019</span>
+            <span>Updated on <span id="updated">Jun 10, 2026</span></span>
+            </div>
+
+          
+          <div id="tags">
+            <a class="instant" href="https://ew-git.github.io/tags/julia"><span>#</span>julia</a>
+          </div>
+          
+        </div>
+
+        
+        
+
+        
+
+        <p><em>Notice: this post relies on Unicode characters which may not be included in the font(s) on your current platform, especially mobile. Therefore, you may see empty boxes or question marks for certain characters.</em></p>
+<p>A key benefit of <a rel="nofollow noreferrer external" href="https://julialang.org/">Julia</a> is the ability to write code which looks similar to the mathematical representation of an algorithm, with simple and expressive syntax, while still being performant.
+Additionally, Julia accepts UTF-8 encoded Unicode characters as variable names, so if a paper defines some quantity,
+$\mu_i$, then essentially the same Unicode representation, 𝛍ᵢ, could be used in the code.<sup class="footnote-reference"><a href="#1">1</a></sup>
+Although it may seem minor, there's a certain pedagogical advantage to having such a close match.
+When reading through the code of a package for computing a statistical estimator, it's easier to parse<br />
+<code>𝚲ᵢ' * 𝐖ᵢ * 𝐮ᵢ * 𝐮ᵢ' * 𝐖ᵢ * 𝚲ᵢ</code> than<br />
+<code>t(Lambda_i) %*% W_i %*% u_i %*% t(u_i) %*% W_i %*% Lambda_i</code><br />
+when the equivalent equation in the accompanying paper is<br />
+$$ \Lambda_i' W_i u_i u_i' W_i \Lambda_i $$</p>
+<p>Now, I don't recommend replacing all your descriptive variable and function names with fancy Unicode characters, but sometimes it does make sense to use the same mathematical symbols.
+The Julia code below demonstrates this point by defining a function to compute standard errors and a hypothesis test from <a rel="nofollow noreferrer external" href="https://doi.org/10.1016/S0304-4076%2898%2900033-5">Wooldridge (1999)</a>.
+The comments provide a mapping to definitions in the paper which share notation with the code.</p>
+<pre class="giallo z-code"><code data-lang="julia"><span class="giallo-l"><span class="z-keyword">import</span><span> StatsFuns</span><span class="z-keyword">.</span><span>chisqcdf</span><span>;</span><span class="z-punctuation z-definition z-comment"> #</span><span class="z-comment"> Run the following to install: import Pkg; Pkg.add(&quot;StatsFuns&quot;)</span></span>
+<span class="giallo-l"><span class="z-keyword">using</span><span> LinearAlgebra</span><span>;</span></span>
+<span class="giallo-l"><span>poisfe_test </span><span class="z-keyword">=</span><span class="z-keyword"> function</span><span>(</span><span>y</span><span>,</span><span> id</span><span>,</span><span> X</span><span>,</span><span> qcmle_coefs</span><span>)</span></span>
+<span class="giallo-l"><span class="z-punctuation z-definition z-comment">    #</span><span class="z-comment"> No &quot;hats&quot; on variables are used for brevity.</span></span>
+<span class="giallo-l"><span class="z-punctuation z-definition z-comment">    #</span><span class="z-comment"> We are already dealing with estimated quantities.</span></span>
+<span class="giallo-l"><span>    β </span><span class="z-keyword">=</span><span> qcmle_coefs </span><span class="z-punctuation z-definition z-comment">#</span><span class="z-comment"> Estimated parameters, p.79</span></span>
+<span class="giallo-l"><span>    K </span><span class="z-keyword">=</span><span class="z-support"> length</span><span>(</span><span>β</span><span>)</span><span class="z-punctuation z-definition z-comment"> #</span><span class="z-comment"> Number of parameters, p.79</span></span>
+<span class="giallo-l"><span>    all_ids </span><span class="z-keyword">=</span><span class="z-support"> unique</span><span>(</span><span>id</span><span>)</span></span>
+<span class="giallo-l"><span>    N </span><span class="z-keyword">=</span><span class="z-support"> length</span><span>(</span><span>all_ids</span><span>)</span><span class="z-punctuation z-definition z-comment"> #</span><span class="z-comment"> Number of groups, p.83</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span class="z-punctuation z-definition z-comment">    #</span><span class="z-comment"> Initialize arrays described later</span></span>
+<span class="giallo-l"><span>    𝐊 </span><span class="z-keyword">=</span><span class="z-support"> zeros</span><span>(</span><span>Float64</span><span>,</span><span> K</span><span>,</span><span> K</span><span>)</span></span>
+<span class="giallo-l"><span>    𝐀 </span><span class="z-keyword">=</span><span class="z-support"> zeros</span><span>(</span><span>Float64</span><span>,</span><span> K</span><span>,</span><span> K</span><span>)</span></span>
+<span class="giallo-l"><span>    𝐁 </span><span class="z-keyword">=</span><span class="z-support"> zeros</span><span>(</span><span>Float64</span><span>,</span><span> K</span><span>,</span><span> K</span><span>)</span></span>
+<span class="giallo-l"><span>    𝚲 </span><span class="z-keyword">=</span><span class="z-support"> Array</span><span class="z-support">{Array{Float64}}</span><span>(</span><span>undef</span><span>,</span><span> N</span><span>)</span></span>
+<span class="giallo-l"><span>    𝐖 </span><span class="z-keyword">=</span><span class="z-support"> Array</span><span class="z-support">{Array{Float64}}</span><span>(</span><span>undef</span><span>,</span><span> N</span><span>)</span></span>
+<span class="giallo-l"><span>    𝐮 </span><span class="z-keyword">=</span><span class="z-support"> Array</span><span class="z-support">{Array{Float64}}</span><span>(</span><span>undef</span><span>,</span><span> N</span><span>)</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span class="z-punctuation z-definition z-comment">    #</span><span class="z-comment"> Particular functional form (Poisson), p.79</span></span>
+<span class="giallo-l"><span>    μ </span><span class="z-keyword">=</span><span class="z-keyword"> function</span><span>(</span><span>𝐱ᵢₜ</span><span>,</span><span> β</span><span>)</span></span>
+<span class="giallo-l"><span class="z-keyword">        return</span><span class="z-support"> exp</span><span>(</span><span>𝐱ᵢₜ </span><span class="z-keyword">⋅</span><span> β</span><span>)</span></span>
+<span class="giallo-l"><span class="z-keyword">    end</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span class="z-keyword">    for</span><span> i</span><span class="z-keyword">=</span><span class="z-constant">1</span><span class="z-keyword">:</span><span>N</span></span>
+<span class="giallo-l"><span>        this_index </span><span class="z-keyword">=</span><span class="z-support"> searchsorted</span><span>(</span><span>id</span><span>,</span><span> all_ids</span><span>[</span><span>i</span><span>]</span><span>)</span></span>
+<span class="giallo-l"><span>        T </span><span class="z-keyword">=</span><span class="z-support"> length</span><span>(</span><span>this_index</span><span>)</span></span>
+<span class="giallo-l"><span>        yᵢ </span><span class="z-keyword">=</span><span> y</span><span>[</span><span>this_index</span><span>]</span><span class="z-punctuation z-definition z-comment"> #</span><span class="z-comment"> Tx1 vector of outcomes, p.79</span></span>
+<span class="giallo-l"><span>        𝐱ᵢ </span><span class="z-keyword">=</span><span> X</span><span>[</span><span>this_index</span><span>,</span><span> :</span><span>]</span><span class="z-punctuation z-definition z-comment"> #</span><span class="z-comment"> TxK matrix of indep vars, p.79</span></span>
+<span class="giallo-l"><span>        nᵢ </span><span class="z-keyword">=</span><span class="z-support"> sum</span><span>(</span><span>yᵢ</span><span>)</span><span class="z-punctuation z-definition z-comment"> #</span><span class="z-comment"> Scalar sum of outcomes, p.79</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span>        𝛍ᵢ </span><span class="z-keyword">=</span><span class="z-support"> similar</span><span>(</span><span>yᵢ</span><span>)</span><span class="z-punctuation z-definition z-comment"> #</span><span class="z-comment"> Tx1 vector of conditional means, p.82</span></span>
+<span class="giallo-l"><span class="z-keyword">        for</span><span> t </span><span class="z-keyword">in</span><span class="z-constant"> 1</span><span class="z-keyword">:</span><span>T</span></span>
+<span class="giallo-l"><span>            𝛍ᵢ</span><span>[</span><span>t</span><span>]</span><span class="z-keyword"> =</span><span class="z-support"> μ</span><span>(</span><span>𝐱ᵢ</span><span>[</span><span>t</span><span>,</span><span> :</span><span>]</span><span>,</span><span> β</span><span>)</span></span>
+<span class="giallo-l"><span class="z-keyword">        end</span></span>
+<span class="giallo-l"><span>        Σ𝛍ᵢ </span><span class="z-keyword">=</span><span class="z-support"> sum</span><span>(</span><span>𝛍ᵢ</span><span>)</span><span class="z-punctuation z-definition z-comment"> #</span><span class="z-comment"> Scalar sum of conditional means, p.82</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span>        𝐩 </span><span class="z-keyword">=</span><span> 𝛍ᵢ </span><span class="z-keyword">/</span><span> Σ𝛍ᵢ </span><span class="z-punctuation z-definition z-comment">#</span><span class="z-comment"> Tx1 vector of &quot;choice probabilities,&quot; p.79 (2.5)</span></span>
+<span class="giallo-l"><span class="z-punctuation z-definition z-comment">        #</span><span class="z-comment"> 𝚲ᵢ (TxK) is the derivative of 𝐩 wrt β; p.86</span></span>
+<span class="giallo-l"><span>        𝚲ᵢ </span><span class="z-keyword">=</span><span class="z-support"> similar</span><span>(</span><span>𝐱ᵢ</span><span>)</span></span>
+<span class="giallo-l"><span class="z-keyword">        for</span><span> k </span><span class="z-keyword">in</span><span class="z-constant"> 1</span><span class="z-keyword">:</span><span>K</span></span>
+<span class="giallo-l"><span>            last_term </span><span class="z-keyword">=</span><span class="z-constant"> 0</span></span>
+<span class="giallo-l"><span class="z-keyword">            for</span><span> s </span><span class="z-keyword">in</span><span class="z-constant"> 1</span><span class="z-keyword">:</span><span>T</span></span>
+<span class="giallo-l"><span>                last_term </span><span class="z-keyword">+=</span><span> 𝐱ᵢ</span><span>[</span><span>s</span><span>,</span><span> k</span><span>]</span><span class="z-keyword"> *</span><span> 𝐩</span><span>[</span><span>s</span><span>]</span></span>
+<span class="giallo-l"><span class="z-keyword">            end</span></span>
+<span class="giallo-l"><span class="z-keyword">            for</span><span> t </span><span class="z-keyword">in</span><span class="z-constant"> 1</span><span class="z-keyword">:</span><span>T</span></span>
+<span class="giallo-l"><span>                𝚲ᵢ</span><span>[</span><span>t</span><span>,</span><span> k</span><span>]</span><span class="z-keyword"> =</span><span> 𝐩</span><span>[</span><span>t</span><span>]</span><span class="z-keyword"> *</span><span> (</span><span>𝐱ᵢ</span><span>[</span><span>t</span><span>,</span><span> k</span><span>]</span><span class="z-keyword"> -</span><span> last_term</span><span>)</span></span>
+<span class="giallo-l"><span class="z-keyword">            end</span></span>
+<span class="giallo-l"><span class="z-keyword">        end</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span>        𝐖ᵢ </span><span class="z-keyword">=</span><span class="z-support"> Diagonal</span><span>(</span><span>(</span><span class="z-constant">1</span><span class="z-keyword"> ./</span><span> 𝐩</span><span>)</span><span>)</span><span class="z-punctuation z-definition z-comment">  #</span><span class="z-comment"> TxT, p.82</span></span>
+<span class="giallo-l"><span>        𝐮ᵢ </span><span class="z-keyword">=</span><span> yᵢ </span><span class="z-keyword">-</span><span> nᵢ </span><span class="z-keyword">*</span><span> 𝐩 </span><span class="z-punctuation z-definition z-comment">#</span><span class="z-comment"> Tx1, p.82</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span class="z-punctuation z-definition z-comment">        #</span><span class="z-comment"> Each group&#39;s 𝚲ᵢ, 𝐖ᵢ, and 𝐮ᵢ are stored in an array of arrays for</span></span>
+<span class="giallo-l"><span class="z-punctuation z-definition z-comment">        #</span><span class="z-comment"> later computation of a hypothesis test, p.86</span></span>
+<span class="giallo-l"><span>        𝚲</span><span>[</span><span>i</span><span>]</span><span class="z-keyword"> =</span><span> 𝚲ᵢ</span></span>
+<span class="giallo-l"><span>        𝐖</span><span>[</span><span>i</span><span>]</span><span class="z-keyword"> =</span><span> 𝐖ᵢ</span></span>
+<span class="giallo-l"><span>        𝐮</span><span>[</span><span>i</span><span>]</span><span class="z-keyword"> =</span><span> 𝐮ᵢ</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span>        𝐊 </span><span class="z-keyword">+=</span><span class="z-constant"> 1</span><span class="z-keyword">/</span><span>N </span><span class="z-keyword">*</span><span> 𝚲ᵢ</span><span class="z-keyword">&#39;</span><span class="z-keyword"> *</span><span> (</span><span>nᵢ </span><span class="z-keyword">*</span><span> 𝚲ᵢ</span><span>)</span><span class="z-punctuation z-definition z-comment"> #</span><span class="z-comment"> p.86 (3.16)</span></span>
+<span class="giallo-l"><span>        𝐀 </span><span class="z-keyword">+=</span><span class="z-constant"> 1</span><span class="z-keyword">/</span><span>N </span><span class="z-keyword">*</span><span> nᵢ </span><span class="z-keyword">*</span><span> (</span><span>𝚲ᵢ</span><span class="z-keyword">&#39;</span><span class="z-keyword"> *</span><span> 𝐖ᵢ </span><span class="z-keyword">*</span><span> 𝚲ᵢ</span><span>)</span><span class="z-punctuation z-definition z-comment"> #</span><span class="z-comment"> p.83 (3.9)</span></span>
+<span class="giallo-l"><span>        𝐁 </span><span class="z-keyword">+=</span><span class="z-constant"> 1</span><span class="z-keyword">/</span><span>N </span><span class="z-keyword">*</span><span> 𝚲ᵢ</span><span class="z-keyword">&#39;</span><span class="z-keyword"> *</span><span> 𝐖ᵢ </span><span class="z-keyword">*</span><span> 𝐮ᵢ </span><span class="z-keyword">*</span><span> 𝐮ᵢ</span><span class="z-keyword">&#39;</span><span class="z-keyword"> *</span><span> 𝐖ᵢ </span><span class="z-keyword">*</span><span> 𝚲ᵢ </span><span class="z-punctuation z-definition z-comment">#</span><span class="z-comment"> p.83 (3.10)</span></span>
+<span class="giallo-l"><span class="z-keyword">    end</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span>    𝐀⁻¹ </span><span class="z-keyword">=</span><span class="z-support"> inv</span><span>(</span><span>𝐀</span><span>)</span></span>
+<span class="giallo-l"><span>    se_rob </span><span class="z-keyword">=</span><span class="z-support"> broadcast</span><span>(</span><span>sqrt</span><span>,</span><span class="z-support"> diag</span><span>(</span><span>(</span><span>𝐀⁻¹ </span><span class="z-keyword">*</span><span> 𝐁 </span><span class="z-keyword">*</span><span> 𝐀⁻¹</span><span>)</span><span class="z-keyword"> /</span><span> N </span><span>)</span><span>)</span><span class="z-punctuation z-definition z-comment"> #</span><span class="z-comment"> p.83, (3.11)</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span class="z-punctuation z-definition z-comment">    #</span><span class="z-comment"> Test of the conditional mean specification (3.1) with the null</span></span>
+<span class="giallo-l"><span class="z-punctuation z-definition z-comment">    #</span><span class="z-comment"> hypothesis (3.14), p.85</span></span>
+<span class="giallo-l"><span>    𝐫 </span><span class="z-keyword">=</span><span class="z-support"> Array</span><span class="z-support">{Float64, 2}</span><span>(</span><span>undef</span><span>,</span><span> N</span><span>,</span><span> K</span><span>)</span><span class="z-punctuation z-definition z-comment"> #</span><span class="z-comment"> p.86, (3.17)</span></span>
+<span class="giallo-l"><span class="z-keyword">    for</span><span> i</span><span class="z-keyword">=</span><span class="z-constant">1</span><span class="z-keyword">:</span><span>N</span></span>
+<span class="giallo-l"><span>        𝐫</span><span>[</span><span>i</span><span>,</span><span>:</span><span>]</span><span class="z-keyword"> =</span><span> 𝐮</span><span>[</span><span>i</span><span>]</span><span class="z-keyword">&#39;</span><span class="z-keyword"> *</span><span> (</span><span>𝚲</span><span>[</span><span>i</span><span>]</span><span class="z-keyword"> -</span><span> 𝐖</span><span>[</span><span>i</span><span>]</span><span class="z-keyword"> *</span><span> 𝚲</span><span>[</span><span>i</span><span>]</span><span class="z-keyword"> *</span><span> 𝐀⁻¹ </span><span class="z-keyword">*</span><span> 𝐊</span><span class="z-keyword">&#39;</span><span>)</span></span>
+<span class="giallo-l"><span class="z-keyword">    end</span></span>
+<span class="giallo-l"><span>    ssr </span><span class="z-keyword">=</span><span class="z-support"> sum</span><span>(</span><span>(</span><span class="z-support">ones</span><span>(</span><span>N</span><span>)</span><span class="z-keyword"> -</span><span> 𝐫 </span><span class="z-keyword">*</span><span> (</span><span>𝐫 </span><span class="z-keyword">\</span><span class="z-support"> ones</span><span>(</span><span>N</span><span>)</span><span>)</span><span>)</span><span class="z-keyword"> .^</span><span class="z-constant"> 2</span><span>)</span><span class="z-punctuation z-definition z-comment"> #</span><span class="z-comment"> p.86 (3.18)</span></span>
+<span class="giallo-l"><span>    p_value </span><span class="z-keyword">=</span><span class="z-constant"> 1</span><span class="z-keyword"> -</span><span class="z-support"> chisqcdf</span><span>(</span><span>K</span><span>,</span><span> N </span><span class="z-keyword">-</span><span> ssr</span><span>)</span><span class="z-punctuation z-definition z-comment"> #</span><span class="z-comment"> p.86</span></span>
+<span class="giallo-l"><span class="z-keyword">    return</span><span> se_rob</span><span>,</span><span> p_value</span></span>
+<span class="giallo-l"><span class="z-keyword">end</span></span></code></pre>
+<p>The function may be tested with some synthetic data like the example below.</p>
+<pre class="giallo z-code"><code data-lang="julia"><span class="giallo-l"><span>y </span><span class="z-keyword">=</span><span> [</span><span class="z-constant">1.0</span><span>,</span><span class="z-constant"> 0.0</span><span>,</span><span class="z-constant"> 0.0</span><span>,</span><span class="z-constant"> 0.0</span><span>,</span><span class="z-constant"> 7.0</span><span>,</span><span class="z-constant"> 1.0</span><span>,</span><span class="z-constant"> 0.0</span><span>,</span><span class="z-constant"> 1.0</span><span>,</span><span class="z-constant"> 0.0</span><span>,</span><span class="z-constant"> 0.0</span><span>,</span><span class="z-constant"> 6.0</span><span>,</span></span>
+<span class="giallo-l"><span class="z-constant">     2.0</span><span>,</span><span class="z-constant"> 3.0</span><span>,</span><span class="z-constant"> 0.0</span><span>,</span><span class="z-constant"> 1.0</span><span>,</span><span class="z-constant"> 6.0</span><span>,</span><span class="z-constant"> 0.0</span><span>,</span><span class="z-constant"> 7.0</span><span>,</span><span class="z-constant"> 0.0</span><span>,</span><span class="z-constant"> 21.0</span><span>]</span></span>
+<span class="giallo-l"><span>id </span><span class="z-keyword">=</span><span> [</span><span class="z-constant">1</span><span>,</span><span class="z-constant"> 1</span><span>,</span><span class="z-constant"> 1</span><span>,</span><span class="z-constant"> 1</span><span>,</span><span class="z-constant"> 1</span><span>,</span><span class="z-constant"> 1</span><span>,</span><span class="z-constant"> 1</span><span>,</span><span class="z-constant"> 1</span><span>,</span><span class="z-constant"> 1</span><span>,</span><span class="z-constant"> 1</span><span>,</span><span class="z-constant"> 2</span><span>,</span><span class="z-constant"> 2</span><span>,</span><span class="z-constant"> 2</span><span>,</span><span class="z-constant"> 2</span><span>,</span><span class="z-constant"> 2</span><span>,</span><span class="z-constant"> 2</span><span>,</span><span class="z-constant"> 2</span><span>,</span><span class="z-constant"> 2</span><span>,</span><span class="z-constant"> 2</span><span>,</span><span class="z-constant"> 2</span><span>]</span></span>
+<span class="giallo-l"><span>X </span><span class="z-keyword">=</span><span> [</span><span class="z-constant">0.398106</span><span class="z-constant"> 0.496961</span><span>;</span><span class="z-keyword"> -</span><span class="z-constant">0.612026</span><span class="z-keyword"> -</span><span class="z-constant">0.224875</span><span>;</span><span class="z-constant"> 0.34112</span><span class="z-keyword"> -</span><span class="z-constant">1.11714</span><span>;</span></span>
+<span class="giallo-l"><span class="z-keyword">     -</span><span class="z-constant">1.12936</span><span class="z-keyword"> -</span><span class="z-constant">0.394995</span><span>;</span><span class="z-constant"> 1.43302</span><span class="z-constant"> 1.54983</span><span>;</span><span class="z-constant"> 1.9804</span><span class="z-keyword"> -</span><span class="z-constant">0.743514</span><span>;</span><span class="z-keyword"> -</span><span class="z-constant">0.367221</span><span class="z-keyword"> -</span><span class="z-constant">2.33171</span><span>;</span></span>
+<span class="giallo-l"><span class="z-keyword">     -</span><span class="z-constant">1.04413</span><span class="z-constant"> 0.812245</span><span>;</span><span class="z-constant"> 0.56972</span><span class="z-keyword"> -</span><span class="z-constant">0.501311</span><span>;</span><span class="z-keyword"> -</span><span class="z-constant">0.135055</span><span class="z-keyword"> -</span><span class="z-constant">0.510887</span><span>;</span></span>
+<span class="giallo-l"><span class="z-constant">     2.40162</span><span class="z-keyword"> -</span><span class="z-constant">1.21536</span><span>;</span><span class="z-keyword"> -</span><span class="z-constant">0.03924</span><span class="z-keyword"> -</span><span class="z-constant">0.0225586</span><span>;</span><span class="z-constant"> 0.689739</span><span class="z-constant"> 0.701239</span><span>;</span></span>
+<span class="giallo-l"><span class="z-constant">     0.0280022</span><span class="z-keyword"> -</span><span class="z-constant">0.587482</span><span>;</span><span class="z-keyword"> -</span><span class="z-constant">0.743273</span><span class="z-keyword"> -</span><span class="z-constant">0.606728</span><span>;</span><span class="z-constant"> 0.188792</span><span class="z-constant"> 1.09664</span><span>;</span></span>
+<span class="giallo-l"><span class="z-keyword">     -</span><span class="z-constant">1.80496</span><span class="z-keyword"> -</span><span class="z-constant">0.24751</span><span>;</span><span class="z-constant"> 1.46555</span><span class="z-keyword"> -</span><span class="z-constant">0.159902</span><span>;</span><span class="z-constant"> 0.153253</span><span class="z-keyword"> -</span><span class="z-constant">0.625778</span><span>;</span></span>
+<span class="giallo-l"><span class="z-constant">     2.17261</span><span class="z-constant"> 0.900435</span><span>]</span></span>
+<span class="giallo-l"><span>qcmle_coefs </span><span class="z-keyword">=</span><span> [</span><span class="z-constant">0.924499</span><span>;</span><span class="z-constant"> 0.869371</span><span>]</span></span>
+<span class="giallo-l"><span class="z-support">show</span><span>(</span><span class="z-support">poisfe_test</span><span>(</span><span>y</span><span>,</span><span> id</span><span>,</span><span> X</span><span>,</span><span> qcmle_coefs</span><span>)</span><span>)</span></span></code></pre><pre class="giallo z-code"><code data-lang="plain"><span class="giallo-l"><span>([0.013508, 0.12758], 0.36787944117144233)</span></span></code></pre>
+<p>Despite many optimizations left on the table, the code above is still going to be blazing fast.
+An equivalent in a low-level language is likely to be more verbose and difficult for non-experts to parse---especially those from the social sciences, the audience of the paper.
+A high level language like R can be written in a more understandable way (see <a rel="nofollow noreferrer external" href="https://bitbucket.org/ew-btb/poisson-fe-robust">here</a>), but achieving high performance requires either vectorization (sometimes difficult, sometimes impossible) or dropping back down to a low-level language.
+Julia seems to hit the sweet spot.</p>
+<h3 id="references">References<a class="zola-anchor" href="#references" aria-label="Anchor link for: references" style="visibility: hidden;"></a>
+</h3>
+<p>Wooldridge, Jeffrey M. (1999): "Distribution-free estimation of some nonlinear panel data models," <em>Journal of Econometrics</em>, 90, 77-97. <a rel="nofollow noreferrer external" href="https://doi.org/10.1016/S0304-4076%2898%2900033-5">https://doi.org/10.1016/S0304-4076%2898%2900033-5</a></p>
+<div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
+<p>Many other languages will technically allow Unicode characters in variable names, but based on personal experience there's typically some type of extra configuration or risk of errors across platforms. Julia is more accommodating, and most Julia development environments---including the REPL---support tab completion of common Unicode characters, e.g. <code>\alpha&lt;tab&gt;</code> becomes α.</p>
+</div>
+
+      </article>
+
+      
+      
+
+      
+      
+    </div>
+
+    
+
+
+<footer>
+  <div class="left">
+    <div class="copyright">
+      © 2026 Evan Wright, CC BY-NC-SA 4.0
+      
+    </div>
+  </div>
+
+  <div class="right">
+    
+    
+      
+    
+    
+    <a id="rss-btn" href="https://ew-git.github.io/posts/feed.xml">RSS</a>
+    
+    
+
+    
+    
+    
+    <button id="theme-toggle" aria-label="theme switch">
+      <span class="moon-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18"><path d="M10 7C10 10.866 13.134 14 17 14C18.9584 14 20.729 13.1957 21.9995 11.8995C22 11.933 22 11.9665 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C12.0335 2 12.067 2 12.1005 2.00049C10.8043 3.27098 10 5.04157 10 7ZM4 12C4 16.4183 7.58172 20 12 20C15.0583 20 17.7158 18.2839 19.062 15.7621C18.3945 15.9187 17.7035 16 17 16C12.0294 16 8 11.9706 8 7C8 6.29648 8.08133 5.60547 8.2379 4.938C5.71611 6.28423 4 8.9417 4 12Z" fill="currentColor"></path></svg>
+</span>
+      <span class="sun-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18"><path d="M12 18C8.68629 18 6 15.3137 6 12C6 8.68629 8.68629 6 12 6C15.3137 6 18 8.68629 18 12C18 15.3137 15.3137 18 12 18ZM12 16C14.2091 16 16 14.2091 16 12C16 9.79086 14.2091 8 12 8C9.79086 8 8 9.79086 8 12C8 14.2091 9.79086 16 12 16ZM11 1H13V4H11V1ZM11 20H13V23H11V20ZM3.51472 4.92893L4.92893 3.51472L7.05025 5.63604L5.63604 7.05025L3.51472 4.92893ZM16.9497 18.364L18.364 16.9497L20.4853 19.0711L19.0711 20.4853L16.9497 18.364ZM19.0711 3.51472L20.4853 4.92893L18.364 7.05025L16.9497 5.63604L19.0711 3.51472ZM5.63604 16.9497L7.05025 18.364L4.92893 20.4853L3.51472 19.0711L5.63604 16.9497ZM23 11V13H20V11H23ZM4 11V13H1V11H4Z" fill="currentColor"></path></svg>
+</span>
+    </button>
+    
+  </div>
+</footer>
+
+
+
+
+<dialog id="rss-mask">
+  <div>
+    <a href="https:&#x2F;&#x2F;ew-git.github.io&#x2F;posts&#x2F;feed.xml">https:&#x2F;&#x2F;ew-git.github.io&#x2F;posts&#x2F;feed.xml</a>
+    
+    
+    <button autofocus aria-label="copy" data-link="https:&#x2F;&#x2F;ew-git.github.io&#x2F;posts&#x2F;feed.xml" data-copy-icon="&lt;svg xmlns=&quot;http:&#x2F;&#x2F;www.w3.org&#x2F;2000&#x2F;svg&quot; viewBox=&quot;0 0 24 24&quot; width=&quot;18&quot; height=&quot;18&quot;&gt;&lt;path d=&quot;M6.9998 6V3C6.9998 2.44772 7.44752 2 7.9998 2H19.9998C20.5521 2 20.9998 2.44772 20.9998 3V17C20.9998 17.5523 20.5521 18 19.9998 18H16.9998V20.9991C16.9998 21.5519 16.5499 22 15.993 22H4.00666C3.45059 22 3 21.5554 3 20.9991L3.0026 7.00087C3.0027 6.44811 3.45264 6 4.00942 6H6.9998ZM5.00242 8L5.00019 20H14.9998V8H5.00242ZM8.9998 6H16.9998V16H18.9998V4H8.9998V6Z&quot; fill=&quot;currentColor&quot;&gt;&lt;&#x2F;path&gt;&lt;&#x2F;svg&gt;
+" data-check-icon="&lt;svg xmlns=&quot;http:&#x2F;&#x2F;www.w3.org&#x2F;2000&#x2F;svg&quot; viewBox=&quot;0 0 24 24&quot; width=&quot;18&quot; height=&quot;18&quot;&gt;&lt;path d=&quot;M10.0007 15.1709L19.1931 5.97852L20.6073 7.39273L10.0007 17.9993L3.63672 11.6354L5.05093 10.2212L10.0007 15.1709Z&quot; fill=&quot;currentColor&quot;&gt;&lt;&#x2F;path&gt;&lt;&#x2F;svg&gt;
+" >
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18"><path d="M6.9998 6V3C6.9998 2.44772 7.44752 2 7.9998 2H19.9998C20.5521 2 20.9998 2.44772 20.9998 3V17C20.9998 17.5523 20.5521 18 19.9998 18H16.9998V20.9991C16.9998 21.5519 16.5499 22 15.993 22H4.00666C3.45059 22 3 21.5554 3 20.9991L3.0026 7.00087C3.0027 6.44811 3.45264 6 4.00942 6H6.9998ZM5.00242 8L5.00019 20H14.9998V8H5.00242ZM8.9998 6H16.9998V16H18.9998V4H8.9998V6Z" fill="currentColor"></path></svg>
+
+    </button>
+  </div>
+</dialog>
+
+
+
+  </main>
+</div>
+
+  
+<script src="/js/lightense.min.js"></script>
+
+
+  <script src="https://ew-git.github.io/js/main.js"></script>
+</body>
+
+</html>
