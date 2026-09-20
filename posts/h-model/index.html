@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 
 <html lang="en">
@@ -7,10 +8,27 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="color-scheme" content="light dark">
   
-  
     
-  
   <meta name="description" content="Derivation of the H-model dividend discount formula">
+<link rel="canonical" href="https://ew-git.github.io/posts/h-model/">
+<meta property="og:site_name" content="Evan Wright">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Derivation of the H-model dividend discount formula">
+<meta property="og:description" content="Derivation of the H-model dividend discount formula">
+<meta property="og:url" content="https://ew-git.github.io/posts/h-model/">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://ew-git.github.io/img/apple-touch-icon.png">
+
+<meta property="article:published_time" content="2021-11-02">
+<meta property="article:modified_time" content="2021-11-02">
+<meta property="article:tag" content="r">
+
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Derivation of the H-model dividend discount formula">
+<meta name="twitter:description" content="Derivation of the H-model dividend discount formula">
+<meta name="twitter:image" content="https://ew-git.github.io/img/apple-touch-icon.png">
+
 
   <title>Derivation of the H-model dividend discount formula</title>
   <link rel="icon" type="image/png" sizes="32x32" href="https://ew-git.github.io/img/favicon-32x32.png">
@@ -83,10 +101,11 @@
 <link id="hl" rel="stylesheet" type="text/css" href="/giallo-light.css" />
 
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" integrity="sha384-nB0miv6/jRmo5UMMR1wu3Gz6NLsoTkbqJghGIsx//Rlm+ZU03BU6SQNC66uf4l5+" crossorigin="anonymous">
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" integrity="sha384-7zkQWkzuo3B5mTepMUcHkMB5jZaolc2xDwL6VFqjFALcbeS9Ggm/Yr2r3Dy4lfFg" crossorigin="anonymous"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" integrity="sha384-43gviWU0YVjaDtb/GhzOouOXtZMP/7XUzwPTstBeZFe/+rCMvRwr4yROQP43s0Xk" crossorigin="anonymous"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/copy-tex.min.js" integrity="sha384-HORx6nWi8j5/mYA+y57/9/CZc5z8HnEw4WUZWy5yOn9ToKBv1l58vJaufFAn9Zzi" crossorigin="anonymous"></script>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.18.6/dist/katex.min.css" integrity="sha384-M59ezskvvpvT+a+C1x088YJ3DVmK+wZdX0UkVKalOI4Qi5Nwv0WrvpqHcfa2HQqB" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.18.6/dist/katex.min.js" integrity="sha384-7jGyG5zFwmEamqNWdCbpsPn+GTWEis3lnV7X/jXHyhFpJG7ExABLyMapabg8F4+p" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.18.6/dist/contrib/auto-render.min.js" integrity="sha384-bjyGPfbij8/NDKJhSGZNP/khQVgtHUE5exjm4Ydllo42FwIgYsdLO2lXGmRBf5Mz" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.18.6/dist/contrib/copy-tex.min.js" integrity="sha384-Pe2JWbaShhSRT0SESJ9XLPeAsi4yrNi7r/CiH0Coq7giBjK5a6Ae7XcybE8rNlQP" crossorigin="anonymous"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         renderMathInElement(document.body, {
@@ -162,18 +181,12 @@
     </nav>
     
     
-    <button id="back-to-top" aria-label="back to top">
-      
-      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-up"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>
-
-    </button>
-    
   </aside>
   <main>
     
 <header>
   <nav>
-    <a id="back-link" href="https:&#x2F;&#x2F;ew-git.github.io&#x2F;posts">← Back</a>
+    <a id="back-link" href="https://ew-git.github.io/posts">← Back</a>
   </nav>
 </header>
 
@@ -181,8 +194,15 @@
     <div>
       
       
+      
+      
+      <div id="copy-cfg" style="display: none;" data-copy-icon="&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 24 24&quot; width=&quot;18&quot; height=&quot;18&quot;&gt;&lt;path d=&quot;M6.9998 6V3C6.9998 2.44772 7.44752 2 7.9998 2H19.9998C20.5521 2 20.9998 2.44772 20.9998 3V17C20.9998 17.5523 20.5521 18 19.9998 18H16.9998V20.9991C16.9998 21.5519 16.5499 22 15.993 22H4.00666C3.45059 22 3 21.5554 3 20.9991L3.0026 7.00087C3.0027 6.44811 3.45264 6 4.00942 6H6.9998ZM5.00242 8L5.00019 20H14.9998V8H5.00242ZM8.9998 6H16.9998V16H18.9998V4H8.9998V6Z&quot; fill=&quot;currentColor&quot;&gt;&lt;/path&gt;&lt;/svg&gt;
+" data-check-icon="&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 24 24&quot; width=&quot;18&quot; height=&quot;18&quot;&gt;&lt;path d=&quot;M10.0007 15.1709L19.1931 5.97852L20.6073 7.39273L10.0007 17.9993L3.63672 11.6354L5.05093 10.2212L10.0007 15.1709Z&quot; fill=&quot;currentColor&quot;&gt;&lt;/path&gt;&lt;/svg&gt;
+"></div>
+      
       <article class="prose">
         <h1>Derivation of the H-model dividend discount formula</h1>
+        
         <div id="post-info">
           <div id="date">
             <span id="publish">Nov 2, 2021</span>
@@ -190,7 +210,7 @@
 
           
           <div id="tags">
-            <a class="instant" href="https://ew-git.github.io/tags/r"><span>#</span>r</a>
+            <a class="instant" href="https://ew-git.github.io/tags/r/"><span>#</span>r</a>
           </div>
           
         </div>
@@ -339,20 +359,10 @@ The three-step approximation does not improve the accuracy of the H-model, altho
 The lines intersect at the points used to create the approximation—that is, where $g_a=g_\infty$ and $g_a=r$.
 Interestingly, for reasonable parameter values ($g_\infty&lt;g_a&lt;r$), the approximation always overstates the present value.</p>
 <figure>
-    <img
-        src="&#x2F;img&#x2F;h-model-two-step-1.png"
-         alt="H-model two step approximation"
-         height="600"
-        
-    >
-    
-    <figcaption><p>H-model two step approximation</p>
-</figcaption>
-    
-</figure>
+<img src="/img/h-model-two-step-1.png" alt="H-model two step approximation" height="600"><figcaption><p>H-model two step approximation</p></figcaption></figure>
 <!-- 
 Figure generated with https://webr.sh
-```r
+
 exact2 <- function(D, a, A, inf, r){
   term1 <- D*sum(rep((1+a)/(1+r), A)^(1:A))
   term2 <- D*((1+a)/(1+r))^A*(1+inf)/(r-inf)
@@ -380,7 +390,7 @@ plot_two_step <- function(D, A, inf, r){
 }
 
 plot_two_step(1, 5, 0.01, 0.15)
-``` -->
+-->
 <h3 id="three-step">Three-step<a class="zola-anchor" href="#three-step" aria-label="Anchor link for: three-step" style="visibility: hidden;"></a>
 </h3>
 <p>The three-step model is a bit harder to visualize, with present value now a function of the growth rates of the first two periods, $g_a$ and $g_b$.
@@ -388,17 +398,7 @@ The approximate present value is a plane in 3D space, and the exact present valu
 The figure below shows the difference between the two (error) with the following parameters: $A=3,B=6,g_\infty=0.01,r=0.15$.
 Again, for typical parameters ($g_\infty &lt; g_a, g_b &lt; r$), the approximation overstates the present value.</p>
 <figure>
-    <img
-        src="&#x2F;img&#x2F;h-model-three-step-1.png"
-         alt="H-model three step approximation"
-         height="600"
-        
-    >
-    
-    <figcaption><p>H-model three step approximation</p>
-</figcaption>
-    
-</figure>
+<img src="/img/h-model-three-step-1.png" alt="H-model three step approximation" height="600"><figcaption><p>H-model three step approximation</p></figcaption></figure>
 <!-- 
 Figure generated with https://webr.sh
 ```r
@@ -469,45 +469,12 @@ plot_three_step_base(3, 6, 0.01, 0.15)
 <p>Lastly, let us compare the H-model itself to the intended underlying assumption of linearly declining growth rate over $2H$ periods.
 Similar to the two-step model, the approximation is exact when $g_a=g_\infty$, but the upper intersection point now depends on $H$.
 Larger values of $H$ tend to result in overstating the present value, while lower values the opposite.</p>
-<p><figure>
-    <img
-        src="&#x2F;img&#x2F;h-model-two-step-h2.png"
-         alt="H-model exact linear decline approximation, H=2"
-         height="600"
-        
-    >
-    
-    <figcaption><p>H-model exact linear decline approximation, H=2</p>
-</figcaption>
-    
-</figure>
-
 <figure>
-    <img
-        src="&#x2F;img&#x2F;h-model-two-step-h5.png"
-         alt="H-model exact linear decline approximation, H=5"
-         height="600"
-        
-    >
-    
-    <figcaption><p>H-model exact linear decline approximation, H=5</p>
-</figcaption>
-    
-</figure>
-
+<img src="/img/h-model-two-step-h2.png" alt="H-model exact linear decline approximation, H=2" height="600"><figcaption><p>H-model exact linear decline approximation, H=2</p></figcaption></figure>
 <figure>
-    <img
-        src="&#x2F;img&#x2F;h-model-two-step-h10.png"
-         alt="H-model exact linear decline approximation, H=10"
-         height="600"
-        
-    >
-    
-    <figcaption><p>H-model exact linear decline approximation, H=10</p>
-</figcaption>
-    
-</figure>
-</p>
+<img src="/img/h-model-two-step-h5.png" alt="H-model exact linear decline approximation, H=5" height="600"><figcaption><p>H-model exact linear decline approximation, H=5</p></figcaption></figure>
+<figure>
+<img src="/img/h-model-two-step-h10.png" alt="H-model exact linear decline approximation, H=10" height="600"><figcaption><p>H-model exact linear decline approximation, H=10</p></figcaption></figure>
 <!-- 
 Figure generated with https://webr.sh
 ```r
@@ -576,23 +543,23 @@ The two-step model eventually worked out nicely, but the three-step (or n-step) 
 
     
 
+  
+  
 
 <footer>
   <div class="left">
     <div class="copyright">
       © 2026 Evan Wright, CC BY-NC-SA 4.0
       
+      <span>|</span>
+      Built with <a href="https://www.getzola.org" rel="noreferrer" target="_blank">zola</a> and <a href="https://github.com/isunjn/serene" rel="noreferrer" target="_blank">serene</a>
+      
     </div>
   </div>
 
   <div class="right">
     
-    
-      
-    
-    
     <a id="rss-btn" href="https://ew-git.github.io/posts/feed.xml">RSS</a>
-    
     
 
     
@@ -610,14 +577,13 @@ The two-step model eventually worked out nicely, but the three-step (or n-step) 
 
 
 
-
 <dialog id="rss-mask">
   <div>
-    <a href="https:&#x2F;&#x2F;ew-git.github.io&#x2F;posts&#x2F;feed.xml">https:&#x2F;&#x2F;ew-git.github.io&#x2F;posts&#x2F;feed.xml</a>
+    <a href="https://ew-git.github.io/posts/feed.xml">https://ew-git.github.io/posts/feed.xml</a>
     
     
-    <button autofocus aria-label="copy" data-link="https:&#x2F;&#x2F;ew-git.github.io&#x2F;posts&#x2F;feed.xml" data-copy-icon="&lt;svg xmlns=&quot;http:&#x2F;&#x2F;www.w3.org&#x2F;2000&#x2F;svg&quot; viewBox=&quot;0 0 24 24&quot; width=&quot;18&quot; height=&quot;18&quot;&gt;&lt;path d=&quot;M6.9998 6V3C6.9998 2.44772 7.44752 2 7.9998 2H19.9998C20.5521 2 20.9998 2.44772 20.9998 3V17C20.9998 17.5523 20.5521 18 19.9998 18H16.9998V20.9991C16.9998 21.5519 16.5499 22 15.993 22H4.00666C3.45059 22 3 21.5554 3 20.9991L3.0026 7.00087C3.0027 6.44811 3.45264 6 4.00942 6H6.9998ZM5.00242 8L5.00019 20H14.9998V8H5.00242ZM8.9998 6H16.9998V16H18.9998V4H8.9998V6Z&quot; fill=&quot;currentColor&quot;&gt;&lt;&#x2F;path&gt;&lt;&#x2F;svg&gt;
-" data-check-icon="&lt;svg xmlns=&quot;http:&#x2F;&#x2F;www.w3.org&#x2F;2000&#x2F;svg&quot; viewBox=&quot;0 0 24 24&quot; width=&quot;18&quot; height=&quot;18&quot;&gt;&lt;path d=&quot;M10.0007 15.1709L19.1931 5.97852L20.6073 7.39273L10.0007 17.9993L3.63672 11.6354L5.05093 10.2212L10.0007 15.1709Z&quot; fill=&quot;currentColor&quot;&gt;&lt;&#x2F;path&gt;&lt;&#x2F;svg&gt;
+    <button autofocus aria-label="copy" data-link="https://ew-git.github.io/posts/feed.xml" data-copy-icon="&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 24 24&quot; width=&quot;18&quot; height=&quot;18&quot;&gt;&lt;path d=&quot;M6.9998 6V3C6.9998 2.44772 7.44752 2 7.9998 2H19.9998C20.5521 2 20.9998 2.44772 20.9998 3V17C20.9998 17.5523 20.5521 18 19.9998 18H16.9998V20.9991C16.9998 21.5519 16.5499 22 15.993 22H4.00666C3.45059 22 3 21.5554 3 20.9991L3.0026 7.00087C3.0027 6.44811 3.45264 6 4.00942 6H6.9998ZM5.00242 8L5.00019 20H14.9998V8H5.00242ZM8.9998 6H16.9998V16H18.9998V4H8.9998V6Z&quot; fill=&quot;currentColor&quot;&gt;&lt;/path&gt;&lt;/svg&gt;
+" data-check-icon="&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 24 24&quot; width=&quot;18&quot; height=&quot;18&quot;&gt;&lt;path d=&quot;M10.0007 15.1709L19.1931 5.97852L20.6073 7.39273L10.0007 17.9993L3.63672 11.6354L5.05093 10.2212L10.0007 15.1709Z&quot; fill=&quot;currentColor&quot;&gt;&lt;/path&gt;&lt;/svg&gt;
 " >
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18"><path d="M6.9998 6V3C6.9998 2.44772 7.44752 2 7.9998 2H19.9998C20.5521 2 20.9998 2.44772 20.9998 3V17C20.9998 17.5523 20.5521 18 19.9998 18H16.9998V20.9991C16.9998 21.5519 16.5499 22 15.993 22H4.00666C3.45059 22 3 21.5554 3 20.9991L3.0026 7.00087C3.0027 6.44811 3.45264 6 4.00942 6H6.9998ZM5.00242 8L5.00019 20H14.9998V8H5.00242ZM8.9998 6H16.9998V16H18.9998V4H8.9998V6Z" fill="currentColor"></path></svg>
 
@@ -626,12 +592,12 @@ The two-step model eventually worked out nicely, but the three-step (or n-step) 
 </dialog>
 
 
-
   </main>
 </div>
 
   
 <script src="/js/lightense.min.js"></script>
+
 
 
   <script src="https://ew-git.github.io/js/main.js"></script>
