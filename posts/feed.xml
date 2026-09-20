@@ -961,7 +961,6 @@ Interestingly, for reasonable parameter values ($g_\infty&amp;lt;g_a&amp;lt;r$),
 &lt;img src=&quot;/img/h-model-two-step-1.png&quot; alt=&quot;H-model two step approximation&quot; height=&quot;600&quot;&gt;&lt;figcaption&gt;&lt;p&gt;H-model two step approximation&lt;/p&gt;&lt;/figcaption&gt;&lt;/figure&gt;
 &lt;!-- 
 Figure generated with https://webr.sh
-
 exact2 &lt;- function(D, a, A, inf, r){
   term1 &lt;- D*sum(rep((1+a)/(1+r), A)^(1:A))
   term2 &lt;- D*((1+a)/(1+r))^A*(1+inf)/(r-inf)
