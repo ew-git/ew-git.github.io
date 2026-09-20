@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 
 <html lang="en">
@@ -7,10 +8,27 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="color-scheme" content="light dark">
   
-  
     
-  
   <meta name="description" content="Solving Peg Solitaire with Julia">
+<link rel="canonical" href="https://ew-git.github.io/posts/pegsolitaire-julia/">
+<meta property="og:site_name" content="Evan Wright">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Solving Peg Solitaire with Julia">
+<meta property="og:description" content="Solving Peg Solitaire with Julia">
+<meta property="og:url" content="https://ew-git.github.io/posts/pegsolitaire-julia/">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://ew-git.github.io/img/apple-touch-icon.png">
+
+<meta property="article:published_time" content="2022-06-18">
+<meta property="article:modified_time" content="2022-06-18">
+<meta property="article:tag" content="julia">
+
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Solving Peg Solitaire with Julia">
+<meta name="twitter:description" content="Solving Peg Solitaire with Julia">
+<meta name="twitter:image" content="https://ew-git.github.io/img/apple-touch-icon.png">
+
 
   <title>Solving Peg Solitaire with Julia</title>
   <link rel="icon" type="image/png" sizes="32x32" href="https://ew-git.github.io/img/favicon-32x32.png">
@@ -84,6 +102,7 @@
 
 
 
+
   
 </head>
 
@@ -106,18 +125,12 @@
     
     
     
-    <button id="back-to-top" aria-label="back to top">
-      
-      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-up"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>
-
-    </button>
-    
   </aside>
   <main>
     
 <header>
   <nav>
-    <a id="back-link" href="https:&#x2F;&#x2F;ew-git.github.io&#x2F;posts">← Back</a>
+    <a id="back-link" href="https://ew-git.github.io/posts">← Back</a>
   </nav>
 </header>
 
@@ -127,12 +140,13 @@
       
       
       
-      <div id="copy-cfg" style="display: none;" data-copy-icon="&lt;svg xmlns=&quot;http:&#x2F;&#x2F;www.w3.org&#x2F;2000&#x2F;svg&quot; viewBox=&quot;0 0 24 24&quot; width=&quot;18&quot; height=&quot;18&quot;&gt;&lt;path d=&quot;M6.9998 6V3C6.9998 2.44772 7.44752 2 7.9998 2H19.9998C20.5521 2 20.9998 2.44772 20.9998 3V17C20.9998 17.5523 20.5521 18 19.9998 18H16.9998V20.9991C16.9998 21.5519 16.5499 22 15.993 22H4.00666C3.45059 22 3 21.5554 3 20.9991L3.0026 7.00087C3.0027 6.44811 3.45264 6 4.00942 6H6.9998ZM5.00242 8L5.00019 20H14.9998V8H5.00242ZM8.9998 6H16.9998V16H18.9998V4H8.9998V6Z&quot; fill=&quot;currentColor&quot;&gt;&lt;&#x2F;path&gt;&lt;&#x2F;svg&gt;
-" data-check-icon="&lt;svg xmlns=&quot;http:&#x2F;&#x2F;www.w3.org&#x2F;2000&#x2F;svg&quot; viewBox=&quot;0 0 24 24&quot; width=&quot;18&quot; height=&quot;18&quot;&gt;&lt;path d=&quot;M10.0007 15.1709L19.1931 5.97852L20.6073 7.39273L10.0007 17.9993L3.63672 11.6354L5.05093 10.2212L10.0007 15.1709Z&quot; fill=&quot;currentColor&quot;&gt;&lt;&#x2F;path&gt;&lt;&#x2F;svg&gt;
+      <div id="copy-cfg" style="display: none;" data-copy-icon="&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 24 24&quot; width=&quot;18&quot; height=&quot;18&quot;&gt;&lt;path d=&quot;M6.9998 6V3C6.9998 2.44772 7.44752 2 7.9998 2H19.9998C20.5521 2 20.9998 2.44772 20.9998 3V17C20.9998 17.5523 20.5521 18 19.9998 18H16.9998V20.9991C16.9998 21.5519 16.5499 22 15.993 22H4.00666C3.45059 22 3 21.5554 3 20.9991L3.0026 7.00087C3.0027 6.44811 3.45264 6 4.00942 6H6.9998ZM5.00242 8L5.00019 20H14.9998V8H5.00242ZM8.9998 6H16.9998V16H18.9998V4H8.9998V6Z&quot; fill=&quot;currentColor&quot;&gt;&lt;/path&gt;&lt;/svg&gt;
+" data-check-icon="&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 24 24&quot; width=&quot;18&quot; height=&quot;18&quot;&gt;&lt;path d=&quot;M10.0007 15.1709L19.1931 5.97852L20.6073 7.39273L10.0007 17.9993L3.63672 11.6354L5.05093 10.2212L10.0007 15.1709Z&quot; fill=&quot;currentColor&quot;&gt;&lt;/path&gt;&lt;/svg&gt;
 "></div>
       
       <article class="prose">
         <h1>Solving Peg Solitaire with Julia</h1>
+        
         <div id="post-info">
           <div id="date">
             <span id="publish">Jun 18, 2022</span>
@@ -140,7 +154,7 @@
 
           
           <div id="tags">
-            <a class="instant" href="https://ew-git.github.io/tags/julia"><span>#</span>julia</a>
+            <a class="instant" href="https://ew-git.github.io/tags/julia/"><span>#</span>julia</a>
           </div>
           
         </div>
@@ -156,21 +170,21 @@ The 15-hole triangular variant is commonly found in <a rel="nofollow noreferrer 
 We will solve this variant with Julia.</p>
 <p>The triangular board is laid out as a hexagonal grid, so jumps can occur by moving northwest, northeast, east, southeast, southwest, or west.
 To simplify our code, we will represent the board as a BitMatrix, a 2d array of 1s and 0s, and restrict moves to valid indices.</p>
-<pre class="giallo z-code"><code data-lang="julia"><span class="giallo-l"><span>INDICES </span><span class="z-keyword">=</span><span class="z-support"> Vector</span><span class="z-support">{Tuple{Int, Int}}</span><span>(</span><span>)</span></span>
-<span class="giallo-l"><span>board </span><span class="z-keyword">=</span><span class="z-support"> falses</span><span>(</span><span class="z-constant">5</span><span>,</span><span class="z-constant"> 9</span><span>)</span></span>
-<span class="giallo-l"><span class="z-keyword">for</span><span> col </span><span class="z-keyword">in</span><span class="z-support"> axes</span><span>(</span><span>board</span><span>,</span><span class="z-constant"> 2</span><span>)</span></span>
-<span class="giallo-l"><span class="z-keyword">    for</span><span> row </span><span class="z-keyword">in</span><span class="z-support"> axes</span><span>(</span><span>board</span><span>,</span><span class="z-constant"> 1</span><span>)</span></span>
-<span class="giallo-l"><span class="z-keyword">        if</span><span> (</span><span>(</span><span>row </span><span class="z-keyword">%</span><span class="z-constant"> 2</span><span class="z-keyword"> ==</span><span> col </span><span class="z-keyword">%</span><span class="z-constant"> 2</span><span>)</span><span class="z-keyword"> &amp;&amp;</span><span> (</span><span>col </span><span class="z-keyword">&gt;=</span><span> row</span><span>)</span><span class="z-keyword"> &amp;&amp;</span></span>
-<span class="giallo-l"><span>                (</span><span>col </span><span class="z-keyword">&lt;=</span><span class="z-support"> size</span><span>(</span><span>board</span><span>,</span><span class="z-constant"> 2</span><span>)</span><span class="z-keyword"> +</span><span class="z-constant"> 1</span><span class="z-keyword"> -</span><span> row</span><span>)</span><span>)</span></span>
-<span class="giallo-l"><span>            board</span><span>[</span><span>row</span><span>,</span><span> col</span><span>]</span><span class="z-keyword"> =</span><span class="z-constant"> true</span></span>
-<span class="giallo-l"><span class="z-support">            push!</span><span>(</span><span>INDICES</span><span>,</span><span> (</span><span>row</span><span>,</span><span> col</span><span>)</span><span>)</span></span>
-<span class="giallo-l"><span class="z-keyword">        end</span></span>
-<span class="giallo-l"><span class="z-keyword">    end</span></span>
-<span class="giallo-l"><span class="z-keyword">end</span></span>
-<span class="giallo-l"><span class="z-support">println</span><span>(</span><span class="z-punctuation z-definition z-string">&quot;</span><span class="z-string">The board is represented as</span><span class="z-punctuation z-definition z-string">&quot;</span><span>)</span></span>
-<span class="giallo-l"><span class="z-support">display</span><span>(</span><span>board</span><span>)</span></span>
-<span class="giallo-l"><span class="z-support">println</span><span>(</span><span class="z-punctuation z-definition z-string">&quot;</span><span class="z-string">Valid indices are</span><span class="z-punctuation z-definition z-string">&quot;</span><span>)</span></span>
-<span class="giallo-l"><span class="z-support">println</span><span>(</span><span>INDICES</span><span>)</span></span></code></pre><pre class="giallo z-code"><code data-lang="plain"><span class="giallo-l"><span>The board is represented as</span></span>
+<pre class="giallo z-l-code z-d-code" ><code data-lang="julia"><span class="giallo-l"><span>INDICES </span><span class="z-l-8 z-d-10">=</span><span class="z-l-1 z-d-4"> Vector</span><span class="z-l-1 z-d-4">{Tuple{Int, Int}}</span><span>(</span><span>)</span></span>
+<span class="giallo-l"><span>board </span><span class="z-l-8 z-d-10">=</span><span class="z-l-1 z-d-4"> falses</span><span>(</span><span class="z-l-1 z-d-4">5</span><span>,</span><span class="z-l-1 z-d-4"> 9</span><span>)</span></span>
+<span class="giallo-l"><span class="z-l-8 z-d-10">for</span><span> col </span><span class="z-l-8 z-d-10">in</span><span class="z-l-1 z-d-4"> axes</span><span>(</span><span>board</span><span>,</span><span class="z-l-1 z-d-4"> 2</span><span>)</span></span>
+<span class="giallo-l"><span class="z-l-8 z-d-10">    for</span><span> row </span><span class="z-l-8 z-d-10">in</span><span class="z-l-1 z-d-4"> axes</span><span>(</span><span>board</span><span>,</span><span class="z-l-1 z-d-4"> 1</span><span>)</span></span>
+<span class="giallo-l"><span class="z-l-8 z-d-10">        if</span><span> (</span><span>(</span><span>row </span><span class="z-l-8 z-d-10">%</span><span class="z-l-1 z-d-4"> 2</span><span class="z-l-8 z-d-10"> ==</span><span> col </span><span class="z-l-8 z-d-10">%</span><span class="z-l-1 z-d-4"> 2</span><span>)</span><span class="z-l-8 z-d-10"> &amp;&amp;</span><span> (</span><span>col </span><span class="z-l-8 z-d-10">&gt;=</span><span> row</span><span>)</span><span class="z-l-8 z-d-10"> &amp;&amp;</span></span>
+<span class="giallo-l"><span>                (</span><span>col </span><span class="z-l-8 z-d-10">&lt;=</span><span class="z-l-1 z-d-4"> size</span><span>(</span><span>board</span><span>,</span><span class="z-l-1 z-d-4"> 2</span><span>)</span><span class="z-l-8 z-d-10"> +</span><span class="z-l-1 z-d-4"> 1</span><span class="z-l-8 z-d-10"> -</span><span> row</span><span>)</span><span>)</span></span>
+<span class="giallo-l"><span>            board</span><span>[</span><span>row</span><span>,</span><span> col</span><span>]</span><span class="z-l-8 z-d-10"> =</span><span class="z-l-1 z-d-4"> true</span></span>
+<span class="giallo-l"><span class="z-l-1 z-d-4">            push!</span><span>(</span><span>INDICES</span><span>,</span><span> (</span><span>row</span><span>,</span><span> col</span><span>)</span><span>)</span></span>
+<span class="giallo-l"><span class="z-l-8 z-d-10">        end</span></span>
+<span class="giallo-l"><span class="z-l-8 z-d-10">    end</span></span>
+<span class="giallo-l"><span class="z-l-8 z-d-10">end</span></span>
+<span class="giallo-l"><span class="z-l-1 z-d-4">println</span><span>(</span><span class="z-l-2 z-d-6">&quot;</span><span class="z-l-2 z-d-6">The board is represented as</span><span class="z-l-2 z-d-6">&quot;</span><span>)</span></span>
+<span class="giallo-l"><span class="z-l-1 z-d-4">display</span><span>(</span><span>board</span><span>)</span></span>
+<span class="giallo-l"><span class="z-l-1 z-d-4">println</span><span>(</span><span class="z-l-2 z-d-6">&quot;</span><span class="z-l-2 z-d-6">Valid indices are</span><span class="z-l-2 z-d-6">&quot;</span><span>)</span></span>
+<span class="giallo-l"><span class="z-l-1 z-d-4">println</span><span>(</span><span>INDICES</span><span>)</span></span></code></pre><pre class="giallo z-l-code z-d-code" ><code data-lang="plain"><span class="giallo-l"><span>The board is represented as</span></span>
 <span class="giallo-l"><span>5×9 BitMatrix:</span></span>
 <span class="giallo-l"><span> 1  0  1  0  1  0  1  0  1</span></span>
 <span class="giallo-l"><span> 0  1  0  1  0  1  0  1  0</span></span>
@@ -184,32 +198,32 @@ To simplify our code, we will represent the board as a BitMatrix, a 2d array of 
 <p>To make our life a bit easier, let's first write a function to render the board.
 I love <code>printstyled</code> by the way.
 If you use the Julia REPL or a supported terminal, the pegs will be cyan.</p>
-<pre class="giallo z-code"><code data-lang="julia"><span class="giallo-l"><span class="z-keyword">function</span><span class="z-entity z-name"> showboard</span><span>(</span><span>board</span><span>;</span><span> upsidedown</span><span class="z-keyword">=</span><span class="z-constant">false</span><span>)</span></span>
-<span class="giallo-l"><span class="z-keyword">    if</span><span> upsidedown</span></span>
-<span class="giallo-l"><span>        iiter </span><span class="z-keyword">=</span><span class="z-support"> reverse</span><span>(</span><span class="z-support">axes</span><span>(</span><span>board</span><span>,</span><span class="z-constant"> 1</span><span>)</span><span>)</span></span>
-<span class="giallo-l"><span class="z-keyword">    else</span></span>
-<span class="giallo-l"><span>        iiter </span><span class="z-keyword">=</span><span class="z-support"> axes</span><span>(</span><span>board</span><span>,</span><span class="z-constant"> 1</span><span>)</span></span>
-<span class="giallo-l"><span class="z-keyword">    end</span></span>
-<span class="giallo-l"><span class="z-support">    println</span><span>(</span><span class="z-punctuation z-definition z-string">&quot;</span><span class="z-constant">\n</span><span class="z-string">------------------</span><span class="z-punctuation z-definition z-string">&quot;</span><span>)</span></span>
-<span class="giallo-l"><span class="z-keyword">    for</span><span> i </span><span class="z-keyword">in</span><span> iiter</span></span>
-<span class="giallo-l"><span class="z-keyword">        for</span><span> j </span><span class="z-keyword">in</span><span class="z-support"> axes</span><span>(</span><span>board</span><span>,</span><span class="z-constant"> 2</span><span>)</span></span>
-<span class="giallo-l"><span class="z-keyword">            if</span><span> board</span><span>[</span><span>i</span><span>,</span><span> j</span><span>]</span></span>
-<span class="giallo-l"><span class="z-support">                printstyled</span><span>(</span><span class="z-punctuation z-definition z-string">&#39;</span><span class="z-string">█</span><span class="z-punctuation z-definition z-string">&#39;</span><span>;</span><span> color</span><span class="z-keyword">=</span><span class="z-constant">:cyan</span><span>)</span></span>
-<span class="giallo-l"><span class="z-keyword">            elseif</span><span> (</span><span>i </span><span class="z-keyword">%</span><span class="z-constant"> 2</span><span class="z-keyword"> ==</span><span> j </span><span class="z-keyword">%</span><span class="z-constant"> 2</span><span>)</span><span class="z-keyword"> &amp;&amp;</span><span> (</span><span>j </span><span class="z-keyword">&gt;=</span><span> i</span><span>)</span><span class="z-keyword"> &amp;&amp;</span></span>
-<span class="giallo-l"><span>                    (</span><span>j </span><span class="z-keyword">&lt;=</span><span class="z-support"> size</span><span>(</span><span>board</span><span>,</span><span class="z-constant"> 2</span><span>)</span><span class="z-keyword"> +</span><span class="z-constant"> 1</span><span class="z-keyword"> -</span><span> i</span><span>)</span></span>
-<span class="giallo-l"><span class="z-support">                printstyled</span><span>(</span><span class="z-punctuation z-definition z-string">&#39;</span><span class="z-string">o</span><span class="z-punctuation z-definition z-string">&#39;</span><span>;</span><span> color</span><span class="z-keyword">=</span><span class="z-constant">:nothing</span><span>)</span></span>
-<span class="giallo-l"><span class="z-keyword">            else</span></span>
-<span class="giallo-l"><span class="z-support">                printstyled</span><span>(</span><span class="z-punctuation z-definition z-string">&#39;</span><span class="z-string">░</span><span class="z-punctuation z-definition z-string">&#39;</span><span>;</span><span> color</span><span class="z-keyword">=</span><span class="z-constant">:nothing</span><span>)</span></span>
-<span class="giallo-l"><span class="z-keyword">            end</span></span>
-<span class="giallo-l"><span class="z-keyword">        end</span></span>
-<span class="giallo-l"><span class="z-keyword">        if</span><span> i </span><span class="z-keyword">==</span><span class="z-support"> first</span><span>(</span><span>iiter</span><span>)</span><span class="z-keyword"> +</span><span> (</span><span class="z-support">last</span><span>(</span><span>iiter</span><span>)</span><span class="z-keyword"> -</span><span class="z-support"> first</span><span>(</span><span>iiter</span><span>)</span><span>)</span><span class="z-keyword">÷</span><span class="z-constant">2</span></span>
-<span class="giallo-l"><span class="z-support">            print</span><span>(</span><span class="z-punctuation z-definition z-string">&quot;</span><span class="z-string"> pegs: </span><span class="z-variable">$</span><span class="z-variable">(</span><span class="z-support">sum</span><span class="z-variable">(</span><span class="z-variable">board</span><span class="z-variable">)</span><span class="z-variable">)</span><span class="z-punctuation z-definition z-string">&quot;</span><span>)</span></span>
-<span class="giallo-l"><span class="z-keyword">        end</span></span>
-<span class="giallo-l"><span class="z-support">        print</span><span>(</span><span class="z-punctuation z-definition z-string">&quot;</span><span class="z-constant">\n</span><span class="z-punctuation z-definition z-string">&quot;</span><span>)</span></span>
-<span class="giallo-l"><span class="z-keyword">    end</span></span>
-<span class="giallo-l"><span class="z-support">    print</span><span>(</span><span class="z-punctuation z-definition z-string">&quot;</span><span class="z-string">------------------</span><span class="z-constant">\n</span><span class="z-punctuation z-definition z-string">&quot;</span><span>)</span></span>
-<span class="giallo-l"><span class="z-keyword">end</span></span></code></pre><pre class="giallo z-code"><code data-lang="julia"><span class="giallo-l"><span>board</span><span>[</span><span class="z-constant">1</span><span>,</span><span class="z-constant"> 1</span><span>]</span><span class="z-keyword"> =</span><span class="z-constant"> false</span><span class="z-punctuation z-definition z-comment"> #</span><span class="z-comment"> remove a peg for illustration</span></span>
-<span class="giallo-l"><span class="z-support">showboard</span><span>(</span><span>board</span><span>)</span></span></code></pre><pre class="giallo z-code"><code data-lang="plain"><span class="giallo-l"><span>------------------</span></span>
+<pre class="giallo z-l-code z-d-code" ><code data-lang="julia"><span class="giallo-l"><span class="z-l-8 z-d-10">function</span><span class="z-l-6 z-d-7"> showboard</span><span>(</span><span>board</span><span>;</span><span> upsidedown</span><span class="z-l-8 z-d-10">=</span><span class="z-l-1 z-d-4">false</span><span>)</span></span>
+<span class="giallo-l"><span class="z-l-8 z-d-10">    if</span><span> upsidedown</span></span>
+<span class="giallo-l"><span>        iiter </span><span class="z-l-8 z-d-10">=</span><span class="z-l-1 z-d-4"> reverse</span><span>(</span><span class="z-l-1 z-d-4">axes</span><span>(</span><span>board</span><span>,</span><span class="z-l-1 z-d-4"> 1</span><span>)</span><span>)</span></span>
+<span class="giallo-l"><span class="z-l-8 z-d-10">    else</span></span>
+<span class="giallo-l"><span>        iiter </span><span class="z-l-8 z-d-10">=</span><span class="z-l-1 z-d-4"> axes</span><span>(</span><span>board</span><span>,</span><span class="z-l-1 z-d-4"> 1</span><span>)</span></span>
+<span class="giallo-l"><span class="z-l-8 z-d-10">    end</span></span>
+<span class="giallo-l"><span class="z-l-1 z-d-4">    println</span><span>(</span><span class="z-l-2 z-d-6">&quot;</span><span class="z-l-1 z-d-4">\n</span><span class="z-l-2 z-d-6">------------------</span><span class="z-l-2 z-d-6">&quot;</span><span>)</span></span>
+<span class="giallo-l"><span class="z-l-8 z-d-10">    for</span><span> i </span><span class="z-l-8 z-d-10">in</span><span> iiter</span></span>
+<span class="giallo-l"><span class="z-l-8 z-d-10">        for</span><span> j </span><span class="z-l-8 z-d-10">in</span><span class="z-l-1 z-d-4"> axes</span><span>(</span><span>board</span><span>,</span><span class="z-l-1 z-d-4"> 2</span><span>)</span></span>
+<span class="giallo-l"><span class="z-l-8 z-d-10">            if</span><span> board</span><span>[</span><span>i</span><span>,</span><span> j</span><span>]</span></span>
+<span class="giallo-l"><span class="z-l-1 z-d-4">                printstyled</span><span>(</span><span class="z-l-2 z-d-6">&#39;</span><span class="z-l-2 z-d-6">█</span><span class="z-l-2 z-d-6">&#39;</span><span>;</span><span> color</span><span class="z-l-8 z-d-10">=</span><span class="z-l-1 z-d-4">:cyan</span><span>)</span></span>
+<span class="giallo-l"><span class="z-l-8 z-d-10">            elseif</span><span> (</span><span>i </span><span class="z-l-8 z-d-10">%</span><span class="z-l-1 z-d-4"> 2</span><span class="z-l-8 z-d-10"> ==</span><span> j </span><span class="z-l-8 z-d-10">%</span><span class="z-l-1 z-d-4"> 2</span><span>)</span><span class="z-l-8 z-d-10"> &amp;&amp;</span><span> (</span><span>j </span><span class="z-l-8 z-d-10">&gt;=</span><span> i</span><span>)</span><span class="z-l-8 z-d-10"> &amp;&amp;</span></span>
+<span class="giallo-l"><span>                    (</span><span>j </span><span class="z-l-8 z-d-10">&lt;=</span><span class="z-l-1 z-d-4"> size</span><span>(</span><span>board</span><span>,</span><span class="z-l-1 z-d-4"> 2</span><span>)</span><span class="z-l-8 z-d-10"> +</span><span class="z-l-1 z-d-4"> 1</span><span class="z-l-8 z-d-10"> -</span><span> i</span><span>)</span></span>
+<span class="giallo-l"><span class="z-l-1 z-d-4">                printstyled</span><span>(</span><span class="z-l-2 z-d-6">&#39;</span><span class="z-l-2 z-d-6">o</span><span class="z-l-2 z-d-6">&#39;</span><span>;</span><span> color</span><span class="z-l-8 z-d-10">=</span><span class="z-l-1 z-d-4">:nothing</span><span>)</span></span>
+<span class="giallo-l"><span class="z-l-8 z-d-10">            else</span></span>
+<span class="giallo-l"><span class="z-l-1 z-d-4">                printstyled</span><span>(</span><span class="z-l-2 z-d-6">&#39;</span><span class="z-l-2 z-d-6">░</span><span class="z-l-2 z-d-6">&#39;</span><span>;</span><span> color</span><span class="z-l-8 z-d-10">=</span><span class="z-l-1 z-d-4">:nothing</span><span>)</span></span>
+<span class="giallo-l"><span class="z-l-8 z-d-10">            end</span></span>
+<span class="giallo-l"><span class="z-l-8 z-d-10">        end</span></span>
+<span class="giallo-l"><span class="z-l-8 z-d-10">        if</span><span> i </span><span class="z-l-8 z-d-10">==</span><span class="z-l-1 z-d-4"> first</span><span>(</span><span>iiter</span><span>)</span><span class="z-l-8 z-d-10"> +</span><span> (</span><span class="z-l-1 z-d-4">last</span><span>(</span><span>iiter</span><span>)</span><span class="z-l-8 z-d-10"> -</span><span class="z-l-1 z-d-4"> first</span><span>(</span><span>iiter</span><span>)</span><span>)</span><span class="z-l-8 z-d-10">÷</span><span class="z-l-1 z-d-4">2</span></span>
+<span class="giallo-l"><span class="z-l-1 z-d-4">            print</span><span>(</span><span class="z-l-2 z-d-6">&quot;</span><span class="z-l-2 z-d-6"> pegs: </span><span class="z-l-1 z-d-4">$</span><span class="z-l-1 z-d-4">(</span><span class="z-l-1 z-d-4">sum</span><span class="z-l-1 z-d-4">(</span><span class="z-l-1 z-d-4">board</span><span class="z-l-1 z-d-4">)</span><span class="z-l-1 z-d-4">)</span><span class="z-l-2 z-d-6">&quot;</span><span>)</span></span>
+<span class="giallo-l"><span class="z-l-8 z-d-10">        end</span></span>
+<span class="giallo-l"><span class="z-l-1 z-d-4">        print</span><span>(</span><span class="z-l-2 z-d-6">&quot;</span><span class="z-l-1 z-d-4">\n</span><span class="z-l-2 z-d-6">&quot;</span><span>)</span></span>
+<span class="giallo-l"><span class="z-l-8 z-d-10">    end</span></span>
+<span class="giallo-l"><span class="z-l-1 z-d-4">    print</span><span>(</span><span class="z-l-2 z-d-6">&quot;</span><span class="z-l-2 z-d-6">------------------</span><span class="z-l-1 z-d-4">\n</span><span class="z-l-2 z-d-6">&quot;</span><span>)</span></span>
+<span class="giallo-l"><span class="z-l-8 z-d-10">end</span></span></code></pre><pre class="giallo z-l-code z-d-code" ><code data-lang="julia"><span class="giallo-l"><span>board</span><span>[</span><span class="z-l-1 z-d-4">1</span><span>,</span><span class="z-l-1 z-d-4"> 1</span><span>]</span><span class="z-l-8 z-d-10"> =</span><span class="z-l-1 z-d-4"> false</span><span class="z-l-5 z-d-3"> #</span><span class="z-l-5 z-d-3"> remove a peg for illustration</span></span>
+<span class="giallo-l"><span class="z-l-1 z-d-4">showboard</span><span>(</span><span>board</span><span>)</span></span></code></pre><pre class="giallo z-l-code z-d-code" ><code data-lang="plain"><span class="giallo-l"><span>------------------</span></span>
 <span class="giallo-l"><span>o░█░█░█░█</span></span>
 <span class="giallo-l"><span>░█░█░█░█░</span></span>
 <span class="giallo-l"><span>░░█░█░█░░ pegs: 14</span></span>
@@ -231,7 +245,7 @@ Then, locations marked <code>n</code> are its neighbors, and <code>n2</code> are
 There are two potential moves: (1) jump from 3,5 to 1,3 and remove the peg at 2,4, and (2)
 jump from 3,5 to 1,7 and remove the peg at 2,6.
 As long as the applicable neighbor positions have a peg and the neighbors' neighbors are empty, these moves are valid.</p>
-<pre class="giallo z-code"><code data-lang="plain"><span class="giallo-l"><span>  1  2  3  4  5  6  7  8  9 </span></span>
+<pre class="giallo z-l-code z-d-code" ><code data-lang="plain"><span class="giallo-l"><span>  1  2  3  4  5  6  7  8  9 </span></span>
 <span class="giallo-l"><span>1       n2          n2   </span></span>
 <span class="giallo-l"><span>2          n     n    </span></span>
 <span class="giallo-l"><span>3       n     i     n   </span></span>
@@ -243,44 +257,44 @@ move from the current board state (an input BitMatrix).
 The input <code>indices</code> is a vector of tuples representing valid indices for peg locations, so
 we don't have to compute them for each call of the function.
 <code>mdist</code> is a helper function to find valid neighbor locations.</p>
-<pre class="giallo z-code"><code data-lang="julia"><span class="giallo-l"><span class="z-keyword">function</span><span class="z-entity z-name"> mdist</span><span>(</span><span>a</span><span>,</span><span> b</span><span>)</span></span>
-<span class="giallo-l"><span class="z-keyword">    return</span><span class="z-support"> abs</span><span>(</span><span>a</span><span>[</span><span class="z-constant">1</span><span>]</span><span class="z-keyword"> -</span><span> b</span><span>[</span><span class="z-constant">1</span><span>]</span><span>)</span><span class="z-keyword"> +</span><span class="z-support"> abs</span><span>(</span><span>a</span><span>[</span><span class="z-constant">2</span><span>]</span><span class="z-keyword"> -</span><span> b</span><span>[</span><span class="z-constant">2</span><span>]</span><span>)</span></span>
-<span class="giallo-l"><span class="z-keyword">end</span></span>
+<pre class="giallo z-l-code z-d-code" ><code data-lang="julia"><span class="giallo-l"><span class="z-l-8 z-d-10">function</span><span class="z-l-6 z-d-7"> mdist</span><span>(</span><span>a</span><span>,</span><span> b</span><span>)</span></span>
+<span class="giallo-l"><span class="z-l-8 z-d-10">    return</span><span class="z-l-1 z-d-4"> abs</span><span>(</span><span>a</span><span>[</span><span class="z-l-1 z-d-4">1</span><span>]</span><span class="z-l-8 z-d-10"> -</span><span> b</span><span>[</span><span class="z-l-1 z-d-4">1</span><span>]</span><span>)</span><span class="z-l-8 z-d-10"> +</span><span class="z-l-1 z-d-4"> abs</span><span>(</span><span>a</span><span>[</span><span class="z-l-1 z-d-4">2</span><span>]</span><span class="z-l-8 z-d-10"> -</span><span> b</span><span>[</span><span class="z-l-1 z-d-4">2</span><span>]</span><span>)</span></span>
+<span class="giallo-l"><span class="z-l-8 z-d-10">end</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-keyword">function</span><span class="z-entity z-name"> getnextstates</span><span>(</span><span>board</span><span>,</span><span> indices</span><span>)</span></span>
-<span class="giallo-l"><span>    nextstates </span><span class="z-keyword">=</span><span class="z-support"> Vector</span><span class="z-support">{BitMatrix}</span><span>(</span><span>)</span></span>
-<span class="giallo-l"><span class="z-keyword">    for</span><span> ind </span><span class="z-keyword">in</span><span> indices</span></span>
-<span class="giallo-l"><span class="z-punctuation z-definition z-comment">        #</span><span class="z-comment"> (1) there must be a peg to use to jump</span></span>
-<span class="giallo-l"><span class="z-keyword">        if</span><span class="z-keyword"> !</span><span>board</span><span>[</span><span>ind</span><span class="z-keyword">...</span><span>]</span></span>
-<span class="giallo-l"><span class="z-keyword">            continue</span></span>
-<span class="giallo-l"><span class="z-keyword">        end</span></span>
-<span class="giallo-l"><span>        neighbors </span><span class="z-keyword">=</span><span> (</span><span>n </span><span class="z-keyword">for</span><span> n </span><span class="z-keyword">in</span><span> indices </span><span class="z-keyword">if</span><span> ind</span><span>[</span><span class="z-constant">2</span><span>]</span><span class="z-keyword"> !=</span><span> n</span><span>[</span><span class="z-constant">2</span><span>]</span><span class="z-keyword"> &amp;&amp;</span></span>
-<span class="giallo-l"><span class="z-support">                                           mdist</span><span>(</span><span>ind</span><span>,</span><span> n</span><span>)</span><span class="z-keyword"> &lt;=</span><span class="z-constant"> 2</span><span>)</span></span>
-<span class="giallo-l"><span class="z-keyword">        for</span><span> n </span><span class="z-keyword">in</span><span> neighbors</span></span>
-<span class="giallo-l"><span class="z-punctuation z-definition z-comment">            #</span><span class="z-comment"> (2) the neighbor location must contain a peg</span></span>
-<span class="giallo-l"><span class="z-keyword">            if</span><span class="z-keyword"> !</span><span>board</span><span>[</span><span>n</span><span class="z-keyword">...</span><span>]</span></span>
-<span class="giallo-l"><span class="z-keyword">                continue</span></span>
-<span class="giallo-l"><span class="z-keyword">            end</span></span>
-<span class="giallo-l"><span>            n2 </span><span class="z-keyword">=</span><span> (</span><span>n</span><span>[</span><span class="z-constant">1</span><span>]</span><span class="z-keyword"> -</span><span> (</span><span>ind</span><span>[</span><span class="z-constant">1</span><span>]</span><span class="z-keyword"> -</span><span> n</span><span>[</span><span class="z-constant">1</span><span>]</span><span>)</span><span>,</span><span> n</span><span>[</span><span class="z-constant">2</span><span>]</span><span class="z-keyword"> -</span><span> (</span><span>ind</span><span>[</span><span class="z-constant">2</span><span>]</span><span class="z-keyword"> -</span><span> n</span><span>[</span><span class="z-constant">2</span><span>]</span><span>)</span><span>)</span></span>
-<span class="giallo-l"><span class="z-punctuation z-definition z-comment">            #</span><span class="z-comment"> (3) the neighbor&#39;s neighbor in the same direction</span></span>
-<span class="giallo-l"><span class="z-punctuation z-definition z-comment">            #</span><span class="z-comment"> must be a valid location and empty</span></span>
-<span class="giallo-l"><span class="z-keyword">            if</span><span> n2 </span><span class="z-keyword">in</span><span> indices </span><span class="z-keyword">&amp;&amp;</span><span class="z-keyword"> !</span><span>board</span><span>[</span><span>n2</span><span class="z-keyword">...</span><span>]</span></span>
-<span class="giallo-l"><span class="z-punctuation z-definition z-comment">                #</span><span class="z-comment"> If (1), (2), and (3) are satisfied,</span></span>
-<span class="giallo-l"><span class="z-punctuation z-definition z-comment">                #</span><span class="z-comment"> make a copy of the current board.</span></span>
-<span class="giallo-l"><span>                newboard </span><span class="z-keyword">=</span><span class="z-support"> copy</span><span>(</span><span>board</span><span>)</span></span>
-<span class="giallo-l"><span class="z-punctuation z-definition z-comment">                #</span><span class="z-comment"> Remove the jumping peg from its current location.</span></span>
-<span class="giallo-l"><span>                newboard</span><span>[</span><span>ind</span><span class="z-keyword">...</span><span>]</span><span class="z-keyword"> =</span><span class="z-constant"> false</span></span>
-<span class="giallo-l"><span class="z-punctuation z-definition z-comment">                #</span><span class="z-comment"> Remove the jumped peg.</span></span>
-<span class="giallo-l"><span>                newboard</span><span>[</span><span>n</span><span class="z-keyword">...</span><span>]</span><span class="z-keyword"> =</span><span class="z-constant"> false</span></span>
-<span class="giallo-l"><span class="z-punctuation z-definition z-comment">                #</span><span class="z-comment"> Place the jumping peg in its new location.</span></span>
-<span class="giallo-l"><span>                newboard</span><span>[</span><span>n2</span><span class="z-keyword">...</span><span>]</span><span class="z-keyword"> =</span><span class="z-constant"> true</span></span>
-<span class="giallo-l"><span class="z-punctuation z-definition z-comment">                #</span><span class="z-comment"> Save the new board state.</span></span>
-<span class="giallo-l"><span class="z-support">                push!</span><span>(</span><span>nextstates</span><span>,</span><span> newboard</span><span>)</span></span>
-<span class="giallo-l"><span class="z-keyword">            end</span></span>
-<span class="giallo-l"><span class="z-keyword">        end</span></span>
-<span class="giallo-l"><span class="z-keyword">    end</span></span>
-<span class="giallo-l"><span class="z-keyword">    return</span><span> nextstates</span></span>
-<span class="giallo-l"><span class="z-keyword">end</span></span></code></pre>
+<span class="giallo-l"><span class="z-l-8 z-d-10">function</span><span class="z-l-6 z-d-7"> getnextstates</span><span>(</span><span>board</span><span>,</span><span> indices</span><span>)</span></span>
+<span class="giallo-l"><span>    nextstates </span><span class="z-l-8 z-d-10">=</span><span class="z-l-1 z-d-4"> Vector</span><span class="z-l-1 z-d-4">{BitMatrix}</span><span>(</span><span>)</span></span>
+<span class="giallo-l"><span class="z-l-8 z-d-10">    for</span><span> ind </span><span class="z-l-8 z-d-10">in</span><span> indices</span></span>
+<span class="giallo-l"><span class="z-l-5 z-d-3">        #</span><span class="z-l-5 z-d-3"> (1) there must be a peg to use to jump</span></span>
+<span class="giallo-l"><span class="z-l-8 z-d-10">        if</span><span class="z-l-8 z-d-10"> !</span><span>board</span><span>[</span><span>ind</span><span class="z-l-8 z-d-10">...</span><span>]</span></span>
+<span class="giallo-l"><span class="z-l-8 z-d-10">            continue</span></span>
+<span class="giallo-l"><span class="z-l-8 z-d-10">        end</span></span>
+<span class="giallo-l"><span>        neighbors </span><span class="z-l-8 z-d-10">=</span><span> (</span><span>n </span><span class="z-l-8 z-d-10">for</span><span> n </span><span class="z-l-8 z-d-10">in</span><span> indices </span><span class="z-l-8 z-d-10">if</span><span> ind</span><span>[</span><span class="z-l-1 z-d-4">2</span><span>]</span><span class="z-l-8 z-d-10"> !=</span><span> n</span><span>[</span><span class="z-l-1 z-d-4">2</span><span>]</span><span class="z-l-8 z-d-10"> &amp;&amp;</span></span>
+<span class="giallo-l"><span class="z-l-1 z-d-4">                                           mdist</span><span>(</span><span>ind</span><span>,</span><span> n</span><span>)</span><span class="z-l-8 z-d-10"> &lt;=</span><span class="z-l-1 z-d-4"> 2</span><span>)</span></span>
+<span class="giallo-l"><span class="z-l-8 z-d-10">        for</span><span> n </span><span class="z-l-8 z-d-10">in</span><span> neighbors</span></span>
+<span class="giallo-l"><span class="z-l-5 z-d-3">            #</span><span class="z-l-5 z-d-3"> (2) the neighbor location must contain a peg</span></span>
+<span class="giallo-l"><span class="z-l-8 z-d-10">            if</span><span class="z-l-8 z-d-10"> !</span><span>board</span><span>[</span><span>n</span><span class="z-l-8 z-d-10">...</span><span>]</span></span>
+<span class="giallo-l"><span class="z-l-8 z-d-10">                continue</span></span>
+<span class="giallo-l"><span class="z-l-8 z-d-10">            end</span></span>
+<span class="giallo-l"><span>            n2 </span><span class="z-l-8 z-d-10">=</span><span> (</span><span>n</span><span>[</span><span class="z-l-1 z-d-4">1</span><span>]</span><span class="z-l-8 z-d-10"> -</span><span> (</span><span>ind</span><span>[</span><span class="z-l-1 z-d-4">1</span><span>]</span><span class="z-l-8 z-d-10"> -</span><span> n</span><span>[</span><span class="z-l-1 z-d-4">1</span><span>]</span><span>)</span><span>,</span><span> n</span><span>[</span><span class="z-l-1 z-d-4">2</span><span>]</span><span class="z-l-8 z-d-10"> -</span><span> (</span><span>ind</span><span>[</span><span class="z-l-1 z-d-4">2</span><span>]</span><span class="z-l-8 z-d-10"> -</span><span> n</span><span>[</span><span class="z-l-1 z-d-4">2</span><span>]</span><span>)</span><span>)</span></span>
+<span class="giallo-l"><span class="z-l-5 z-d-3">            #</span><span class="z-l-5 z-d-3"> (3) the neighbor&#39;s neighbor in the same direction</span></span>
+<span class="giallo-l"><span class="z-l-5 z-d-3">            #</span><span class="z-l-5 z-d-3"> must be a valid location and empty</span></span>
+<span class="giallo-l"><span class="z-l-8 z-d-10">            if</span><span> n2 </span><span class="z-l-8 z-d-10">in</span><span> indices </span><span class="z-l-8 z-d-10">&amp;&amp;</span><span class="z-l-8 z-d-10"> !</span><span>board</span><span>[</span><span>n2</span><span class="z-l-8 z-d-10">...</span><span>]</span></span>
+<span class="giallo-l"><span class="z-l-5 z-d-3">                #</span><span class="z-l-5 z-d-3"> If (1), (2), and (3) are satisfied,</span></span>
+<span class="giallo-l"><span class="z-l-5 z-d-3">                #</span><span class="z-l-5 z-d-3"> make a copy of the current board.</span></span>
+<span class="giallo-l"><span>                newboard </span><span class="z-l-8 z-d-10">=</span><span class="z-l-1 z-d-4"> copy</span><span>(</span><span>board</span><span>)</span></span>
+<span class="giallo-l"><span class="z-l-5 z-d-3">                #</span><span class="z-l-5 z-d-3"> Remove the jumping peg from its current location.</span></span>
+<span class="giallo-l"><span>                newboard</span><span>[</span><span>ind</span><span class="z-l-8 z-d-10">...</span><span>]</span><span class="z-l-8 z-d-10"> =</span><span class="z-l-1 z-d-4"> false</span></span>
+<span class="giallo-l"><span class="z-l-5 z-d-3">                #</span><span class="z-l-5 z-d-3"> Remove the jumped peg.</span></span>
+<span class="giallo-l"><span>                newboard</span><span>[</span><span>n</span><span class="z-l-8 z-d-10">...</span><span>]</span><span class="z-l-8 z-d-10"> =</span><span class="z-l-1 z-d-4"> false</span></span>
+<span class="giallo-l"><span class="z-l-5 z-d-3">                #</span><span class="z-l-5 z-d-3"> Place the jumping peg in its new location.</span></span>
+<span class="giallo-l"><span>                newboard</span><span>[</span><span>n2</span><span class="z-l-8 z-d-10">...</span><span>]</span><span class="z-l-8 z-d-10"> =</span><span class="z-l-1 z-d-4"> true</span></span>
+<span class="giallo-l"><span class="z-l-5 z-d-3">                #</span><span class="z-l-5 z-d-3"> Save the new board state.</span></span>
+<span class="giallo-l"><span class="z-l-1 z-d-4">                push!</span><span>(</span><span>nextstates</span><span>,</span><span> newboard</span><span>)</span></span>
+<span class="giallo-l"><span class="z-l-8 z-d-10">            end</span></span>
+<span class="giallo-l"><span class="z-l-8 z-d-10">        end</span></span>
+<span class="giallo-l"><span class="z-l-8 z-d-10">    end</span></span>
+<span class="giallo-l"><span class="z-l-8 z-d-10">    return</span><span> nextstates</span></span>
+<span class="giallo-l"><span class="z-l-8 z-d-10">end</span></span></code></pre>
 <p>Now that we have a way to compute the states reachable from the current state,
 we can apply <a rel="nofollow noreferrer external" href="https://en.wikipedia.org/wiki/Depth-first_search">depth-first search</a>
 (DFS) to find a solution.
@@ -305,64 +319,64 @@ Initialize an empty vector of states representing the path to the current state 
 <p>Go to 2.</p>
 </li>
 </ol>
-<pre class="giallo z-code"><code data-lang="julia"><span class="giallo-l"><span class="z-keyword">function</span><span class="z-entity z-name"> findsolution</span><span>(</span><span>board</span><span>,</span><span> indices</span><span>)</span></span>
-<span class="giallo-l"><span>    states </span><span class="z-keyword">=</span><span> [</span><span class="z-support">copy</span><span>(</span><span>board</span><span>)</span><span>]</span></span>
-<span class="giallo-l"><span>    pathtocurrentstate </span><span class="z-keyword">=</span><span> [</span><span class="z-support">copy</span><span>(</span><span>board</span><span>)</span><span>]</span></span>
-<span class="giallo-l"><span class="z-support">    pop!</span><span>(</span><span>pathtocurrentstate</span><span>)</span></span>
-<span class="giallo-l"><span class="z-keyword">    while</span><span class="z-keyword"> !</span><span class="z-support">isempty</span><span>(</span><span>states</span><span>)</span></span>
-<span class="giallo-l"><span>        currentstate </span><span class="z-keyword">=</span><span class="z-support"> pop!</span><span>(</span><span>states</span><span>)</span></span>
-<span class="giallo-l"><span class="z-keyword">        while</span><span> (</span><span class="z-support">length</span><span>(</span><span>pathtocurrentstate</span><span>)</span><span class="z-keyword"> &gt;</span><span class="z-constant"> 0</span><span class="z-keyword"> &amp;&amp;</span></span>
-<span class="giallo-l"><span class="z-support">               sum</span><span>(</span><span>pathtocurrentstate</span><span>[</span><span class="z-constant">end</span><span>]</span><span>)</span><span class="z-keyword"> &lt;=</span><span class="z-support"> sum</span><span>(</span><span>currentstate</span><span>)</span><span>)</span></span>
-<span class="giallo-l"><span class="z-punctuation z-definition z-comment">            #</span><span class="z-comment"> Use the sum as a measure of depth.</span></span>
-<span class="giallo-l"><span class="z-punctuation z-definition z-comment">            #</span><span class="z-comment"> Remove any same or lower depth states before pushing</span></span>
-<span class="giallo-l"><span class="z-punctuation z-definition z-comment">            #</span><span class="z-comment"> the current state to the path.</span></span>
-<span class="giallo-l"><span class="z-punctuation z-definition z-comment">            #</span><span class="z-comment"> This is necessary when we recurse &quot;up&quot;.</span></span>
-<span class="giallo-l"><span class="z-support">            pop!</span><span>(</span><span>pathtocurrentstate</span><span>)</span></span>
-<span class="giallo-l"><span class="z-keyword">        end</span></span>
-<span class="giallo-l"><span class="z-support">        push!</span><span>(</span><span>pathtocurrentstate</span><span>,</span><span> currentstate</span><span>)</span></span>
-<span class="giallo-l"><span class="z-keyword">        if</span><span class="z-support"> sum</span><span>(</span><span>currentstate</span><span>)</span><span class="z-keyword"> &lt;=</span><span class="z-constant"> 1</span></span>
-<span class="giallo-l"><span class="z-punctuation z-definition z-comment">            #</span><span class="z-comment"> This is the winning state</span></span>
-<span class="giallo-l"><span class="z-keyword">            return</span><span> pathtocurrentstate</span></span>
-<span class="giallo-l"><span class="z-keyword">        end</span></span>
-<span class="giallo-l"><span>        nextstates </span><span class="z-keyword">=</span><span class="z-support"> getnextstates</span><span>(</span><span>currentstate</span><span>,</span><span> indices</span><span>)</span></span>
-<span class="giallo-l"><span class="z-keyword">        if</span><span class="z-keyword"> !</span><span class="z-support">isempty</span><span>(</span><span>nextstates</span><span>)</span></span>
-<span class="giallo-l"><span class="z-punctuation z-definition z-comment">            #</span><span class="z-comment"> If there are moves available from current_state,</span></span>
-<span class="giallo-l"><span class="z-punctuation z-definition z-comment">            #</span><span class="z-comment"> push them to states (recursing down)</span></span>
-<span class="giallo-l"><span class="z-support">            append!</span><span>(</span><span>states</span><span>,</span><span> nextstates</span><span>)</span></span>
-<span class="giallo-l"><span class="z-keyword">        end</span></span>
-<span class="giallo-l"><span class="z-keyword">    end</span></span>
-<span class="giallo-l"><span class="z-keyword">    return</span><span class="z-constant"> nothing</span></span>
-<span class="giallo-l"><span class="z-keyword">end</span></span></code></pre>
+<pre class="giallo z-l-code z-d-code" ><code data-lang="julia"><span class="giallo-l"><span class="z-l-8 z-d-10">function</span><span class="z-l-6 z-d-7"> findsolution</span><span>(</span><span>board</span><span>,</span><span> indices</span><span>)</span></span>
+<span class="giallo-l"><span>    states </span><span class="z-l-8 z-d-10">=</span><span> [</span><span class="z-l-1 z-d-4">copy</span><span>(</span><span>board</span><span>)</span><span>]</span></span>
+<span class="giallo-l"><span>    pathtocurrentstate </span><span class="z-l-8 z-d-10">=</span><span> [</span><span class="z-l-1 z-d-4">copy</span><span>(</span><span>board</span><span>)</span><span>]</span></span>
+<span class="giallo-l"><span class="z-l-1 z-d-4">    pop!</span><span>(</span><span>pathtocurrentstate</span><span>)</span></span>
+<span class="giallo-l"><span class="z-l-8 z-d-10">    while</span><span class="z-l-8 z-d-10"> !</span><span class="z-l-1 z-d-4">isempty</span><span>(</span><span>states</span><span>)</span></span>
+<span class="giallo-l"><span>        currentstate </span><span class="z-l-8 z-d-10">=</span><span class="z-l-1 z-d-4"> pop!</span><span>(</span><span>states</span><span>)</span></span>
+<span class="giallo-l"><span class="z-l-8 z-d-10">        while</span><span> (</span><span class="z-l-1 z-d-4">length</span><span>(</span><span>pathtocurrentstate</span><span>)</span><span class="z-l-8 z-d-10"> &gt;</span><span class="z-l-1 z-d-4"> 0</span><span class="z-l-8 z-d-10"> &amp;&amp;</span></span>
+<span class="giallo-l"><span class="z-l-1 z-d-4">               sum</span><span>(</span><span>pathtocurrentstate</span><span>[</span><span class="z-l-1 z-d-4">end</span><span>]</span><span>)</span><span class="z-l-8 z-d-10"> &lt;=</span><span class="z-l-1 z-d-4"> sum</span><span>(</span><span>currentstate</span><span>)</span><span>)</span></span>
+<span class="giallo-l"><span class="z-l-5 z-d-3">            #</span><span class="z-l-5 z-d-3"> Use the sum as a measure of depth.</span></span>
+<span class="giallo-l"><span class="z-l-5 z-d-3">            #</span><span class="z-l-5 z-d-3"> Remove any same or lower depth states before pushing</span></span>
+<span class="giallo-l"><span class="z-l-5 z-d-3">            #</span><span class="z-l-5 z-d-3"> the current state to the path.</span></span>
+<span class="giallo-l"><span class="z-l-5 z-d-3">            #</span><span class="z-l-5 z-d-3"> This is necessary when we recurse &quot;up&quot;.</span></span>
+<span class="giallo-l"><span class="z-l-1 z-d-4">            pop!</span><span>(</span><span>pathtocurrentstate</span><span>)</span></span>
+<span class="giallo-l"><span class="z-l-8 z-d-10">        end</span></span>
+<span class="giallo-l"><span class="z-l-1 z-d-4">        push!</span><span>(</span><span>pathtocurrentstate</span><span>,</span><span> currentstate</span><span>)</span></span>
+<span class="giallo-l"><span class="z-l-8 z-d-10">        if</span><span class="z-l-1 z-d-4"> sum</span><span>(</span><span>currentstate</span><span>)</span><span class="z-l-8 z-d-10"> &lt;=</span><span class="z-l-1 z-d-4"> 1</span></span>
+<span class="giallo-l"><span class="z-l-5 z-d-3">            #</span><span class="z-l-5 z-d-3"> This is the winning state</span></span>
+<span class="giallo-l"><span class="z-l-8 z-d-10">            return</span><span> pathtocurrentstate</span></span>
+<span class="giallo-l"><span class="z-l-8 z-d-10">        end</span></span>
+<span class="giallo-l"><span>        nextstates </span><span class="z-l-8 z-d-10">=</span><span class="z-l-1 z-d-4"> getnextstates</span><span>(</span><span>currentstate</span><span>,</span><span> indices</span><span>)</span></span>
+<span class="giallo-l"><span class="z-l-8 z-d-10">        if</span><span class="z-l-8 z-d-10"> !</span><span class="z-l-1 z-d-4">isempty</span><span>(</span><span>nextstates</span><span>)</span></span>
+<span class="giallo-l"><span class="z-l-5 z-d-3">            #</span><span class="z-l-5 z-d-3"> If there are moves available from current_state,</span></span>
+<span class="giallo-l"><span class="z-l-5 z-d-3">            #</span><span class="z-l-5 z-d-3"> push them to states (recursing down)</span></span>
+<span class="giallo-l"><span class="z-l-1 z-d-4">            append!</span><span>(</span><span>states</span><span>,</span><span> nextstates</span><span>)</span></span>
+<span class="giallo-l"><span class="z-l-8 z-d-10">        end</span></span>
+<span class="giallo-l"><span class="z-l-8 z-d-10">    end</span></span>
+<span class="giallo-l"><span class="z-l-8 z-d-10">    return</span><span class="z-l-1 z-d-4"> nothing</span></span>
+<span class="giallo-l"><span class="z-l-8 z-d-10">end</span></span></code></pre>
 <p>Now that we have a way to find a solution, let's write a single function to
 tie everything together.</p>
-<pre class="giallo z-code"><code data-lang="julia"><span class="giallo-l"><span class="z-keyword">function</span><span class="z-entity z-name"> main</span><span>(</span><span>printsolution</span><span class="z-keyword">=</span><span class="z-constant">true</span><span>)</span></span>
-<span class="giallo-l"><span class="z-punctuation z-definition z-comment">    #</span><span class="z-comment"> Initialize board</span></span>
-<span class="giallo-l"><span>    INDICES </span><span class="z-keyword">=</span><span class="z-support"> Vector</span><span class="z-support">{Tuple{Int, Int}}</span><span>(</span><span>)</span></span>
-<span class="giallo-l"><span>    board </span><span class="z-keyword">=</span><span class="z-support"> falses</span><span>(</span><span class="z-constant">5</span><span>,</span><span class="z-constant"> 9</span><span>)</span></span>
-<span class="giallo-l"><span class="z-keyword">    for</span><span> col </span><span class="z-keyword">in</span><span class="z-support"> axes</span><span>(</span><span>board</span><span>,</span><span class="z-constant"> 2</span><span>)</span></span>
-<span class="giallo-l"><span class="z-keyword">        for</span><span> row </span><span class="z-keyword">in</span><span class="z-support"> axes</span><span>(</span><span>board</span><span>,</span><span class="z-constant"> 1</span><span>)</span></span>
-<span class="giallo-l"><span class="z-keyword">            if</span><span> (</span><span>(</span><span>row </span><span class="z-keyword">%</span><span class="z-constant"> 2</span><span class="z-keyword"> ==</span><span> col </span><span class="z-keyword">%</span><span class="z-constant"> 2</span><span>)</span><span class="z-keyword"> &amp;&amp;</span><span> (</span><span>col </span><span class="z-keyword">&gt;=</span><span> row</span><span>)</span><span class="z-keyword"> &amp;&amp;</span></span>
-<span class="giallo-l"><span>                (</span><span>col </span><span class="z-keyword">&lt;=</span><span class="z-support"> size</span><span>(</span><span>board</span><span>,</span><span class="z-constant"> 2</span><span>)</span><span class="z-keyword"> +</span><span class="z-constant"> 1</span><span class="z-keyword"> -</span><span> row</span><span>)</span><span>)</span></span>
-<span class="giallo-l"><span>                board</span><span>[</span><span>row</span><span>,</span><span> col</span><span>]</span><span class="z-keyword"> =</span><span class="z-constant"> true</span></span>
-<span class="giallo-l"><span class="z-support">                push!</span><span>(</span><span>INDICES</span><span>,</span><span> (</span><span>row</span><span>,</span><span> col</span><span>)</span><span>)</span></span>
-<span class="giallo-l"><span class="z-keyword">            end</span></span>
-<span class="giallo-l"><span class="z-keyword">        end</span></span>
-<span class="giallo-l"><span class="z-keyword">    end</span></span>
+<pre class="giallo z-l-code z-d-code" ><code data-lang="julia"><span class="giallo-l"><span class="z-l-8 z-d-10">function</span><span class="z-l-6 z-d-7"> main</span><span>(</span><span>printsolution</span><span class="z-l-8 z-d-10">=</span><span class="z-l-1 z-d-4">true</span><span>)</span></span>
+<span class="giallo-l"><span class="z-l-5 z-d-3">    #</span><span class="z-l-5 z-d-3"> Initialize board</span></span>
+<span class="giallo-l"><span>    INDICES </span><span class="z-l-8 z-d-10">=</span><span class="z-l-1 z-d-4"> Vector</span><span class="z-l-1 z-d-4">{Tuple{Int, Int}}</span><span>(</span><span>)</span></span>
+<span class="giallo-l"><span>    board </span><span class="z-l-8 z-d-10">=</span><span class="z-l-1 z-d-4"> falses</span><span>(</span><span class="z-l-1 z-d-4">5</span><span>,</span><span class="z-l-1 z-d-4"> 9</span><span>)</span></span>
+<span class="giallo-l"><span class="z-l-8 z-d-10">    for</span><span> col </span><span class="z-l-8 z-d-10">in</span><span class="z-l-1 z-d-4"> axes</span><span>(</span><span>board</span><span>,</span><span class="z-l-1 z-d-4"> 2</span><span>)</span></span>
+<span class="giallo-l"><span class="z-l-8 z-d-10">        for</span><span> row </span><span class="z-l-8 z-d-10">in</span><span class="z-l-1 z-d-4"> axes</span><span>(</span><span>board</span><span>,</span><span class="z-l-1 z-d-4"> 1</span><span>)</span></span>
+<span class="giallo-l"><span class="z-l-8 z-d-10">            if</span><span> (</span><span>(</span><span>row </span><span class="z-l-8 z-d-10">%</span><span class="z-l-1 z-d-4"> 2</span><span class="z-l-8 z-d-10"> ==</span><span> col </span><span class="z-l-8 z-d-10">%</span><span class="z-l-1 z-d-4"> 2</span><span>)</span><span class="z-l-8 z-d-10"> &amp;&amp;</span><span> (</span><span>col </span><span class="z-l-8 z-d-10">&gt;=</span><span> row</span><span>)</span><span class="z-l-8 z-d-10"> &amp;&amp;</span></span>
+<span class="giallo-l"><span>                (</span><span>col </span><span class="z-l-8 z-d-10">&lt;=</span><span class="z-l-1 z-d-4"> size</span><span>(</span><span>board</span><span>,</span><span class="z-l-1 z-d-4"> 2</span><span>)</span><span class="z-l-8 z-d-10"> +</span><span class="z-l-1 z-d-4"> 1</span><span class="z-l-8 z-d-10"> -</span><span> row</span><span>)</span><span>)</span></span>
+<span class="giallo-l"><span>                board</span><span>[</span><span>row</span><span>,</span><span> col</span><span>]</span><span class="z-l-8 z-d-10"> =</span><span class="z-l-1 z-d-4"> true</span></span>
+<span class="giallo-l"><span class="z-l-1 z-d-4">                push!</span><span>(</span><span>INDICES</span><span>,</span><span> (</span><span>row</span><span>,</span><span> col</span><span>)</span><span>)</span></span>
+<span class="giallo-l"><span class="z-l-8 z-d-10">            end</span></span>
+<span class="giallo-l"><span class="z-l-8 z-d-10">        end</span></span>
+<span class="giallo-l"><span class="z-l-8 z-d-10">    end</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span>    board</span><span>[</span><span class="z-constant">1</span><span>,</span><span class="z-constant">1</span><span>]</span><span class="z-keyword"> =</span><span class="z-constant"> false</span></span>
-<span class="giallo-l"><span>    solution </span><span class="z-keyword">=</span><span class="z-support">  findsolution</span><span>(</span><span>board</span><span>,</span><span> INDICES</span><span>)</span></span>
-<span class="giallo-l"><span class="z-keyword">    if</span><span> printsolution</span></span>
-<span class="giallo-l"><span class="z-keyword">        if</span><span class="z-support"> isnothing</span><span>(</span><span>solution</span><span>)</span></span>
-<span class="giallo-l"><span class="z-support">            println</span><span>(</span><span class="z-punctuation z-definition z-string">&quot;</span><span class="z-string">We didn&#39;t find any solution.</span><span class="z-punctuation z-definition z-string">&quot;</span><span>)</span></span>
-<span class="giallo-l"><span class="z-keyword">        else</span></span>
-<span class="giallo-l"><span class="z-support">            println</span><span>(</span><span class="z-punctuation z-definition z-string">&quot;</span><span class="z-string">Found the following solution:</span><span class="z-punctuation z-definition z-string">&quot;</span><span>)</span></span>
-<span class="giallo-l"><span class="z-keyword">            for</span><span> state </span><span class="z-keyword">in</span><span> solution</span></span>
-<span class="giallo-l"><span class="z-support">                showboard</span><span>(</span><span>state</span><span>)</span></span>
-<span class="giallo-l"><span class="z-keyword">            end</span></span>
-<span class="giallo-l"><span class="z-keyword">        end</span></span>
-<span class="giallo-l"><span class="z-keyword">    end</span></span>
-<span class="giallo-l"><span class="z-keyword">    return</span><span> solution</span></span>
-<span class="giallo-l"><span class="z-keyword">end</span></span></code></pre><pre class="giallo z-code"><code data-lang="julia"><span class="giallo-l"><span class="z-support">main</span><span>(</span><span>)</span></span></code></pre><pre class="giallo z-code"><code data-lang="plain"><span class="giallo-l"><span>Found the following solution:</span></span>
+<span class="giallo-l"><span>    board</span><span>[</span><span class="z-l-1 z-d-4">1</span><span>,</span><span class="z-l-1 z-d-4">1</span><span>]</span><span class="z-l-8 z-d-10"> =</span><span class="z-l-1 z-d-4"> false</span></span>
+<span class="giallo-l"><span>    solution </span><span class="z-l-8 z-d-10">=</span><span class="z-l-1 z-d-4">  findsolution</span><span>(</span><span>board</span><span>,</span><span> INDICES</span><span>)</span></span>
+<span class="giallo-l"><span class="z-l-8 z-d-10">    if</span><span> printsolution</span></span>
+<span class="giallo-l"><span class="z-l-8 z-d-10">        if</span><span class="z-l-1 z-d-4"> isnothing</span><span>(</span><span>solution</span><span>)</span></span>
+<span class="giallo-l"><span class="z-l-1 z-d-4">            println</span><span>(</span><span class="z-l-2 z-d-6">&quot;</span><span class="z-l-2 z-d-6">We didn&#39;t find any solution.</span><span class="z-l-2 z-d-6">&quot;</span><span>)</span></span>
+<span class="giallo-l"><span class="z-l-8 z-d-10">        else</span></span>
+<span class="giallo-l"><span class="z-l-1 z-d-4">            println</span><span>(</span><span class="z-l-2 z-d-6">&quot;</span><span class="z-l-2 z-d-6">Found the following solution:</span><span class="z-l-2 z-d-6">&quot;</span><span>)</span></span>
+<span class="giallo-l"><span class="z-l-8 z-d-10">            for</span><span> state </span><span class="z-l-8 z-d-10">in</span><span> solution</span></span>
+<span class="giallo-l"><span class="z-l-1 z-d-4">                showboard</span><span>(</span><span>state</span><span>)</span></span>
+<span class="giallo-l"><span class="z-l-8 z-d-10">            end</span></span>
+<span class="giallo-l"><span class="z-l-8 z-d-10">        end</span></span>
+<span class="giallo-l"><span class="z-l-8 z-d-10">    end</span></span>
+<span class="giallo-l"><span class="z-l-8 z-d-10">    return</span><span> solution</span></span>
+<span class="giallo-l"><span class="z-l-8 z-d-10">end</span></span></code></pre><pre class="giallo z-l-code z-d-code" ><code data-lang="julia"><span class="giallo-l"><span class="z-l-1 z-d-4">main</span><span>(</span><span>)</span></span></code></pre><pre class="giallo z-l-code z-d-code" ><code data-lang="plain"><span class="giallo-l"><span>Found the following solution:</span></span>
 <span class="giallo-l"></span>
 <span class="giallo-l"><span>------------------</span></span>
 <span class="giallo-l"><span>o░█░█░█░█</span></span>
@@ -399,8 +413,8 @@ tie everything together.</p>
 <span class="giallo-l"><span>------------------</span></span></code></pre>
 <p>You'll have to run the code yourself if you want the full solution 😀.</p>
 <p>Our method is reasonably fast,</p>
-<pre class="giallo z-code"><code data-lang="julia"><span class="giallo-l"><span class="z-support">@time</span><span class="z-support"> main</span><span>(</span><span class="z-constant">false</span><span>)</span></span>
-<span class="giallo-l"><span class="z-constant">  0.003810</span><span> seconds </span><span>(</span><span class="z-constant">32.42</span><span> k allocations</span><span class="z-keyword">:</span><span class="z-constant"> 1.786</span><span> MiB</span><span>)</span></span></code></pre>
+<pre class="giallo z-l-code z-d-code" ><code data-lang="julia"><span class="giallo-l"><span class="z-l-1 z-d-4">@time</span><span class="z-l-1 z-d-4"> main</span><span>(</span><span class="z-l-1 z-d-4">false</span><span>)</span></span>
+<span class="giallo-l"><span class="z-l-1 z-d-4">  0.003810</span><span> seconds </span><span>(</span><span class="z-l-1 z-d-4">32.42</span><span> k allocations</span><span class="z-l-8 z-d-10">:</span><span class="z-l-1 z-d-4"> 1.786</span><span> MiB</span><span>)</span></span></code></pre>
 <p>but there is quite some room for improvement, especially if we want to find <em>all</em>
 solutions.
 <code>getnextstates</code> copies a lot.
@@ -426,23 +440,23 @@ is just to ensure <code>pathtocurrentstate</code> has the same type as <code>sta
 
     
 
+  
+  
 
 <footer>
   <div class="left">
     <div class="copyright">
       © 2026 Evan Wright, CC BY-NC-SA 4.0
       
+      <span>|</span>
+      Built with <a href="https://www.getzola.org" rel="noreferrer" target="_blank">zola</a> and <a href="https://github.com/isunjn/serene" rel="noreferrer" target="_blank">serene</a>
+      
     </div>
   </div>
 
   <div class="right">
     
-    
-      
-    
-    
     <a id="rss-btn" href="https://ew-git.github.io/posts/feed.xml">RSS</a>
-    
     
 
     
@@ -460,14 +474,13 @@ is just to ensure <code>pathtocurrentstate</code> has the same type as <code>sta
 
 
 
-
 <dialog id="rss-mask">
   <div>
-    <a href="https:&#x2F;&#x2F;ew-git.github.io&#x2F;posts&#x2F;feed.xml">https:&#x2F;&#x2F;ew-git.github.io&#x2F;posts&#x2F;feed.xml</a>
+    <a href="https://ew-git.github.io/posts/feed.xml">https://ew-git.github.io/posts/feed.xml</a>
     
     
-    <button autofocus aria-label="copy" data-link="https:&#x2F;&#x2F;ew-git.github.io&#x2F;posts&#x2F;feed.xml" data-copy-icon="&lt;svg xmlns=&quot;http:&#x2F;&#x2F;www.w3.org&#x2F;2000&#x2F;svg&quot; viewBox=&quot;0 0 24 24&quot; width=&quot;18&quot; height=&quot;18&quot;&gt;&lt;path d=&quot;M6.9998 6V3C6.9998 2.44772 7.44752 2 7.9998 2H19.9998C20.5521 2 20.9998 2.44772 20.9998 3V17C20.9998 17.5523 20.5521 18 19.9998 18H16.9998V20.9991C16.9998 21.5519 16.5499 22 15.993 22H4.00666C3.45059 22 3 21.5554 3 20.9991L3.0026 7.00087C3.0027 6.44811 3.45264 6 4.00942 6H6.9998ZM5.00242 8L5.00019 20H14.9998V8H5.00242ZM8.9998 6H16.9998V16H18.9998V4H8.9998V6Z&quot; fill=&quot;currentColor&quot;&gt;&lt;&#x2F;path&gt;&lt;&#x2F;svg&gt;
-" data-check-icon="&lt;svg xmlns=&quot;http:&#x2F;&#x2F;www.w3.org&#x2F;2000&#x2F;svg&quot; viewBox=&quot;0 0 24 24&quot; width=&quot;18&quot; height=&quot;18&quot;&gt;&lt;path d=&quot;M10.0007 15.1709L19.1931 5.97852L20.6073 7.39273L10.0007 17.9993L3.63672 11.6354L5.05093 10.2212L10.0007 15.1709Z&quot; fill=&quot;currentColor&quot;&gt;&lt;&#x2F;path&gt;&lt;&#x2F;svg&gt;
+    <button autofocus aria-label="copy" data-link="https://ew-git.github.io/posts/feed.xml" data-copy-icon="&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 24 24&quot; width=&quot;18&quot; height=&quot;18&quot;&gt;&lt;path d=&quot;M6.9998 6V3C6.9998 2.44772 7.44752 2 7.9998 2H19.9998C20.5521 2 20.9998 2.44772 20.9998 3V17C20.9998 17.5523 20.5521 18 19.9998 18H16.9998V20.9991C16.9998 21.5519 16.5499 22 15.993 22H4.00666C3.45059 22 3 21.5554 3 20.9991L3.0026 7.00087C3.0027 6.44811 3.45264 6 4.00942 6H6.9998ZM5.00242 8L5.00019 20H14.9998V8H5.00242ZM8.9998 6H16.9998V16H18.9998V4H8.9998V6Z&quot; fill=&quot;currentColor&quot;&gt;&lt;/path&gt;&lt;/svg&gt;
+" data-check-icon="&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 24 24&quot; width=&quot;18&quot; height=&quot;18&quot;&gt;&lt;path d=&quot;M10.0007 15.1709L19.1931 5.97852L20.6073 7.39273L10.0007 17.9993L3.63672 11.6354L5.05093 10.2212L10.0007 15.1709Z&quot; fill=&quot;currentColor&quot;&gt;&lt;/path&gt;&lt;/svg&gt;
 " >
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18"><path d="M6.9998 6V3C6.9998 2.44772 7.44752 2 7.9998 2H19.9998C20.5521 2 20.9998 2.44772 20.9998 3V17C20.9998 17.5523 20.5521 18 19.9998 18H16.9998V20.9991C16.9998 21.5519 16.5499 22 15.993 22H4.00666C3.45059 22 3 21.5554 3 20.9991L3.0026 7.00087C3.0027 6.44811 3.45264 6 4.00942 6H6.9998ZM5.00242 8L5.00019 20H14.9998V8H5.00242ZM8.9998 6H16.9998V16H18.9998V4H8.9998V6Z" fill="currentColor"></path></svg>
 
@@ -476,12 +489,12 @@ is just to ensure <code>pathtocurrentstate</code> has the same type as <code>sta
 </dialog>
 
 
-
   </main>
 </div>
 
   
 <script src="/js/lightense.min.js"></script>
+
 
 
   <script src="https://ew-git.github.io/js/main.js"></script>
